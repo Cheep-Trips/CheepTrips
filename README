@@ -1,0 +1,32 @@
+Requirements: python 3.8.2(latest release)
+Note: virtualenv is recommended but not required
+
+1. Clone the git repo into a desired folder
+2. Open a console and type the command
+        pip install django
+   If it says pip isn't a recognized command, you need to add the python commands
+   to the PATH environment variable.  Easiest way is to do a custom (re)install of 
+   python and check the box that say like "add to path"
+3. If you want to use the virtualenv, use the command
+        pip install virtualenv
+4. To activate the environment, run the commands below from the same folder you 
+   cloned the repo into
+        virtualenv env
+        source env/Scripts/activate
+   The first command sets up the env directory, which is only done once, and the 
+   second is the what starts the environment, which needs to be don each time a
+   command window is opened.  The command "deactivate" will close the environment
+
+
+At this point everything should be set up. The posts folder is just an example of
+what can be done with django.
+
+---------------------------
+MVC-Model View Controller
+---------------------------
+Models are used to interact with the data and deal with any data logic involved
+Views are the different ways data is displayed to a user
+Controllers handle user requests and are what link the model and the View
+
+Workflow:
+User request-->Controller-->Model-->Controller-->View
