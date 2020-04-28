@@ -1,6 +1,6 @@
 Requirements: python 3.8.2(latest release)
 Note: virtualenv is recommended but not required
-
+Installation:
 1. Clone the git repo into a desired folder
 2. Open a console and type the command
         pip install django
@@ -17,9 +17,9 @@ Note: virtualenv is recommended but not required
    second is the what starts the environment, which needs to be don each time a
    command window is opened.  The command "deactivate" will close the environment
 
-
-At this point everything should be set up. The posts folder is just an example of
-what can be done with django.
+Running the webapp:
+1. In the directory with the manage.py file run "python manage.py runserver"
+2. In a web browser go the the url http://127.0.0.1:8000/
 
 ---------------------------
 MVC-Model View Controller
