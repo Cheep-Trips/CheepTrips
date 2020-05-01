@@ -17,6 +17,11 @@ Installation:
    second is the what starts the environment, which needs to be don each time a
    command window is opened.  The command "deactivate" will close the environment
 
+FIRST TIME SETUP
+nagivate to project root directory
+run "pip install -r requirements.txt"
+Set up .env file in src/CheepTrips
+
 Running the webapp:
 1. In the directory with the manage.py file run "python manage.py runserver"
 2. In a web browser go the the url http://127.0.0.1:8000/
