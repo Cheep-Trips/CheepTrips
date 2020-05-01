@@ -20,7 +20,6 @@ Installation:
 FIRST TIME SETUP
 nagivate to project root directory
 run "pip install -r requirements.txt"
-Set up .env file in src/CheepTrips
 
 Running the webapp:
 1. In the directory with the manage.py file run "python manage.py runserver"
