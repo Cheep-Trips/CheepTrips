@@ -14,9 +14,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv(verbose=True)
 
-BASE_URL = os.getenv("BASE_URL")
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
