@@ -1,15 +1,42 @@
-<h1>NEW ACCOUNT PAGE</h1>
-<br /> <br />
-Example info:
-<br /> <br />
-Enter Name
-<br />
-Enter Username
-<br />
-Enter Password
-<br />
-Confirm Password
-<br /> <br />
-<a href="{% url 'trips:welcome' %}">Submit</a>
-<br /> <br />
-<a href="{% url 'trips:welcome' %}">Cancel</a>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="account.css">
+</head>
+<body>
+
+	<div class="container">
+    <div class="row">
+      <div class="col-sm-4 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Create new account</h5>
+            <form class="form-signin">
+
+              <div class="form-group">
+    			<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+              <div class="form-group">
+    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
+              </div>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Create Account</button>
+              <button class="btn btn-primary btn-block text-uppercase" type="submit">Back</button>
+              <hr class="my-4">
+              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Connect with Google</button>
+              <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Connect with Facebook</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
