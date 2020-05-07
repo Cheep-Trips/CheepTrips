@@ -4,4 +4,4 @@ python:
 cache: pip
 install:
 script:
-    - python test.py
+    - python ./src/CheepTrips/test.py
