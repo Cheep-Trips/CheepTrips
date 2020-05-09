@@ -1,10 +1,99 @@
-<h1>COMPARE TRIPS PAGE</h1>
-<br /> <br />
-Example info:
-Select two trips
-Show price difference
-Show time difference
-<br /> <br />
-<a href="{% url 'trips:saved_trips' %}">Back to my Trips</a>
-<br /> <br />
-<a href="{% url 'trips:welcome' %}">Back to trip browsing</a>
+
+<html>
+
+    <head>
+      <title>Compare Trips</title>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+      <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="{% static 'css/main.css' %}">
+      <link rel="stylesheet" href="{% static 'css/multirange.css' %}">
+      <script src="{% static 'js/multirange.js' %}"></script>
+    </head>
+    
+    <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 50%;
+    padding: 0 10px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {margin: 0 -5px;}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Style the counter cards */
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 64px;
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+  </style>
+  
+    <body>
+  
+    <!-- Navigation bar -->
+    <header class="container">
+      <div class="row">
+        <h1 class="col-sm-6">Compare Trips</h1>
+        <nav class="col-sm-6 text-right">
+          <p><a href="{% url 'trips:saved_trips' %}">Back to my Trips</a>
+          <p><a href="{% url 'trips:welcome' %}">Back to trip browsing</a>
+        </nav>
+      </div>
+      </header>
+    <!-- End of Navigation bar -->
+  
+  
+  
+      
+  <!-- first trip card -->
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <h2>Trip 1</h2>
+         <h5 class="card-title">Destination</h5>
+         <h5 class="card-title">Price</h5>
+         <button type="button">Click here for more information</button>
+      </div>
+    </div>
+  
+  <!-- second trip card -->
+    <div class="column">
+      <div class="card">
+        <h2>Trip 2</h2>
+         <h5 class="card-title">Destination</h5>
+         <h5 class="card-title">Price</h5>
+         <button type="button">Click here for more information</button>
+      </div>
+    </div>
+    
+  </div>
+  
+  </body>
+  </html>
