@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -8,7 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
 
   <body>
@@ -17,8 +18,8 @@
     <div class="row">
       <h1 class="col-sm-4">Cheep Trips</h1>
       <nav class="col-sm-8 text-right">
-        <p>Sign up</p>
-        <p>Login</p>
+        <p><a href="{% url 'trips:new_account' %}">Sign Up</a></p>
+        <p><a href="{% url 'trips:sign_in' %}">Login</a></p>
       </nav>
     </div>
     </header>
@@ -57,7 +58,7 @@
         </figure>
         <figure class="col-sm-2 center-block">
           <form class="form-inline md-form mr-auto mb-4">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reigon</button>
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Region</button>
              <div class="dropdown-menu">
               <a class="dropdown-item" href="#">North America</a>
               <a class="dropdown-item" href="#">South America</a>
