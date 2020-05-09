@@ -56,49 +56,36 @@
             <input class="form-control mr-sm-2 " type="Destination" placeholder="Destination" aria-label="Destination">
           </form>
         </figure>
+
         <figure class="col-sm-2 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Region</button>
-             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">North America</a>
-              <a class="dropdown-item" href="#">South America</a>
-              <a class="dropdown-item" href="#">Europe</a>
-              <a class="dropdown-item" href="#">Asia</a>
-              <a class="dropdown-item" href="#">Southeast Asia</a>
-              <a class="dropdown-item" href="#">... AND MORE</a>
-              <div role="separator" class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
-             </div>
-        </form>
+          <div class="form-group col-md-12">
+            <select id="inputRegion" class="form-control">
+                <option selected>All Regions</option>
+              <option>North America</option>
+              <option>South America</option>
+              <option>Europe</option>
+              <option>Asia</option>
+              <option>Southeast Asia</option>
+              <option>... AND MORE</option>
+            </select>
+          </div>
         </figure>
         <figure class="col-sm-2 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Activity</button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Hiking</a>
-              <a class="dropdown-item" href="#">Swimming</a>
-              <a class="dropdown-item" href="#">Surfing</a>
-              <a class="dropdown-item" href="#">Scenary</a>
-              <a class="dropdown-item" href="#">Shopping</a>
-              <a class="dropdown-item" href="#">... AND MORE</a>
-              <div role="separator" class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
-             </div>
-        </form>
+          <div class="form-group col-md-12">
+            <select id="inputActivity" class="form-control">
+                <option selected>All Activities</option>
+                <option>Swimming</option>
+                <option>Surfing</option>
+                <option>Scenary</option>
+                <option>Shopping</option>
+            </select>
+        </div>
         </figure>
       </div>
       <div class="row">
-        <figure class="col-sm-1 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <button type="button" class="btn btn-large btn-primary btn-rounded">Search</button>
-        </form>
-        </figure>
-      </div>
-      <div class="row">
-        <figure class="col-sm-1 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <button type="button" class="btn btn-large btn-primary btn-rounded">Inspire me!</button>
-        </form>
+        <figure class="col-sm-3 center-block">
+          <a href="{% url 'trips:view_flight' %}" class="btn btn-large btn-primary btn-rounded">Search</a>
+          <a href="{% url 'trips:destination' %}" class="btn btn-large btn-primary btn-rounded">Inspire Me!</a>
         </figure>
       </div>
     </section>
