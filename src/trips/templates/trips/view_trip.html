@@ -1,27 +1,100 @@
-<h1>VIEW TRIP PAGE</h1>
-<br /> <br />
-Example info:
-<br /> <br />
-Flight 1:
-<br /> Starting airport: SFO
-<br /> Ending airport: LAX
-<br /> Hotel Location: Marriot at 1234 Street
-<br /> Start Date: 1/1/2020
-<br /> End Date: 1/7/2020
-<br /> Cost: $800
-<br /> <br />
-<a href="{% url 'trips:view_trip' %}">Remove Flight</a>
-Flight 2:
-<br /> Starting airport: SFO
-<br /> Ending airport: LAX
-<br /> Hotel Location: Marriot at 1234 Street
-<br /> Start Date: 1/1/2020
-<br /> End Date: 1/7/2020
-<br /> Cost: $800
-<br /> <br />
-<a href="{% url 'trips:view_trip' %}">Remove Flight</a>
-<br /> <br />
-<br /> <br />
-<a href="{% url 'trips:saved_trips' %}">Back to my trips</a>
-<br /> <br />
-<a href="{% url 'trips:welcome' %}">Back to trip browsing</a>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cheep Trips</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/multirange.css' %}">
+        <script src="{% static 'js/multirange.js' %}"></script>
+    </head>
+    
+    <body>
+
+        <!-- Navigation bar -->
+        <header class="container">
+          <div class="row">
+            <h1 class="col-sm-4">Cheep Trips</h1>
+            <nav class="col-sm-8 text-right">
+              <p><a href="{% url 'trips:new_account' %}">Sign Up</a></p>
+              <p><a href="{% url 'trips:sign_in' %}">Login</a></p>
+            </nav>
+          </div>
+        </header>
+        
+        <section class="container">
+            <h1>Trip Title</h1>
+            <!-- Start of Cards Section -->
+            <div class="col-md-8">
+                <!-- Trip Card -->
+                <div class="card" style="width: 50rem;">
+                    <div class="card-body">
+                            <!-- Flight Cards -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Flight 1</h4> <br>
+                                    <div class="row justify-content-start">
+                                        Starting Airport: AAA
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Destination Airport: BBB
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Start Date: mm/dd/yyyy
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        End Date: mm/dd/yyyy
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Cost: $$$
+                                    </div> 
+
+                                    <a href="#" class="btn btn-primary">Book This Flight</a>
+                                </div> 
+                            </div>
+                                
+                            <br>
+                            <br>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Flight 2</h4> <br>
+                                    <div class="row justify-content-start">
+                                        Starting Airport: BBB
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Destination Airport: CCC
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Start Date: mm/dd/yyyy
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        End Date: mm/dd/yyyy
+                                    </div> <br>
+
+                                    <div class="row justify-content-start">
+                                        Cost: $$$
+                                    </div> 
+
+                                    <a href="#" class="btn btn-primary">Book This Flight</a>
+                                </div> 
+                            </div>
+                                
+                    </div>
+                </div>
+
+        </section>
+
+    </body>
+   
+</html>
