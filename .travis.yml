@@ -4,4 +4,4 @@ python:
 cache: pip
 install:
 script:
-    - python ./src/posts/test.py
+    - python ./src/posts/tests.py
