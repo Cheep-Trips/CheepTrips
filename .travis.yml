@@ -4,4 +4,10 @@ python:
 cache: pip
 install:
 script:
+    - sudo pip install virtualenv
+    - virtualenv newenv
+    - source newenv/bin/activate
+    - pip install django
+    - django-admin --version
     - ./src/manage.py test posts.tests
+    - deactivate
