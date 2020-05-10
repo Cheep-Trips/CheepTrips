@@ -4,4 +4,4 @@ python:
 cache: pip
 install:
 script:
-    - python ./src/posts/tests.py
+    - .\src\manage.py test posts.tests
