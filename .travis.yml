@@ -9,5 +9,5 @@ script:
     - source newenv/bin/activate
     - pip install django
     - django-admin --version
-    - ./src/manage.py test posts.tests
+    - ./src/manage.py test trips.tests
     - deactivate
