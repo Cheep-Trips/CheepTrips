@@ -7,7 +7,6 @@ install:
     - sudo pip install virtualenv
     - 
 script:
-    - 
     - virtualenv newenv
     - source newenv/bin/activate
     - ./src/manage.py test trips.tests
