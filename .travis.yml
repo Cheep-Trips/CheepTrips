@@ -5,7 +5,7 @@ cache: pip
 install:
     - pip install -r requirements.txt
     - sudo pip install virtualenv
-    - 
+    - pip install django
 script:
     - virtualenv newenv
     - source newenv/bin/activate
