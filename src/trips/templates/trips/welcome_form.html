@@ -1,0 +1,76 @@
+{% extends 'trips/base.html' %}
+
+{% block content %}
+<!-- Jumbotron -->
+  <section class="jumbotron">
+    <div class="container float-left">
+        <h2>Welcome Traveller</h2>
+    </div>
+  </section>
+<!-- End of Jumbotron -->
+
+<form action="{% url 'trips:welcome' %}" method="post" class='form'>
+  {% csrf_token %}
+  {{form}}
+  <input type='submit' value='Search'>
+</form>
+
+  <section class="container">
+    <div class="row">
+      <figure class="col-sm-2 center-block">  
+        <form class="form-inline md-form mr-auto mb-4">
+          <input class="form-control mr-sm-2 " type="Starting Airport" placeholder="Starting Airport" aria-label="Starting Airport">
+        </form>
+      </figure>
+      <figure class="col-sm-2 center-block">
+        <form class="form-inline md-form mr-auto mb-4">
+          <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
+      </form>
+      </figure>
+      <figure class="col-sm-2 center-block">
+        <form class="form-inline md-form mr-auto mb-4">
+          <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
+      </form>
+      </figure>
+    </div>
+    <div class="row">
+      <figure class="col-sm-2 center-block">  
+        <form class="form-inline md-form mr-auto mb-4">
+          <input class="form-control mr-sm-2 " type="Destination" placeholder="Destination" aria-label="Destination">
+        </form>
+      </figure>
+
+      <figure class="col-sm-2 center-block">
+        <div class="form-group col-md-12">
+          <select id="inputRegion" class="form-control">
+              <option selected>All Regions</option>
+            <option>North America</option>
+            <option>South America</option>
+            <option>Europe</option>
+            <option>Asia</option>
+            <option>Southeast Asia</option>
+            <option>... AND MORE</option>
+          </select>
+        </div>
+      </figure>
+      <figure class="col-sm-2 center-block">
+        <div class="form-group col-md-12">
+          <select id="inputActivity" class="form-control">
+              <option selected>All Activities</option>
+              <option>Swimming</option>
+              <option>Surfing</option>
+              <option>Scenary</option>
+              <option>Shopping</option>
+          </select>
+      </div>
+      </figure>
+    </div>
+    <div class="row">
+      <figure class="col-sm-3 center-block">
+        <a href="{% url 'trips:view_flight' %}" class="btn btn-large btn-primary btn-rounded">Search</a>
+        <a href="{% url 'trips:destination' %}" class="btn btn-large btn-primary btn-rounded">Inspire Me!</a>
+      </figure>
+    </div>
+  </section>
+{% endblock %}
+  

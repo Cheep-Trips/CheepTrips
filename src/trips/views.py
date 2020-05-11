@@ -1,7 +1,27 @@
+import os
+
 from django.shortcuts import render
 from django.http import HttpResponse
-from amadeus import Client, ResponseError
-import os
+from django.views.generic import FormView
+from django.urls import reverse, reverse_lazy
+
+# from amadeus import Client, ResponseError
+
+from .forms import WelcomeForm
+
+
+class WelcomeView(FormView):
+    form_class=WelcomeForm
+    success_url=reverse_lazy('trips:view_flight')
+    template_name='trips/welcome_form.html'
+
+    def form_valid(self, form):
+        departure = form.cleaned_data['departure']
+        destination = form.cleaned_data['destination']
+        self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
+        return super().form_valid(form)
+
+
 # Create your views here.
 def welcome(request):
 
@@ -21,6 +41,8 @@ def welcome(request):
     # return HttpResponse("<html>ERROR</html>")
 
     return render(request, 'trips/welcome.html', {})
+
+
 def destination(request):
     return render(request, 'trips/destination.html', {})
 def sign_in(request):
