@@ -3,11 +3,12 @@ python:
     - "3.8"
 cache: pip
 install:
-script:
+    - pip install -r requirements.txt
     - sudo pip install virtualenv
+    - 
+script:
+    - 
     - virtualenv newenv
     - source newenv/bin/activate
-    - pip install django
-    - django-admin --version
     - ./src/manage.py test trips.tests
     - deactivate
