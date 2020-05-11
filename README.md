@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.com/Cheep-Trips/CheepTrips.svg?token=h1RrzmKZpwfEp2xx5uNs&branch=tests)](https://travis-ci.com/Cheep-Trips/CheepTrips)
