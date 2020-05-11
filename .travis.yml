@@ -10,5 +10,6 @@ script:
     - source newenv/bin/activate
     - pip install django
     - pip install python-dotenv
+    - pip install amadeus
     - ./src/manage.py test trips.tests
     - deactivate
