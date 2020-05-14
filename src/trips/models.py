@@ -21,6 +21,7 @@ class Activity(models.Model):
     name = models.CharField(max_length=200)
     locations = models.ManyToManyField(Location)
 
+
 class Flight(models.Model):
     departure_location = models.ForeignKey(Location, on_delete=models.CASCADE,related_name='departures')
     destination = models.ForeignKey(Location, on_delete=models.CASCADE,related_name='arrivals')
@@ -29,6 +30,7 @@ class Flight(models.Model):
     arrival_time = models.DateTimeField('Arrival date')
     num_passengers = models.IntegerField(default=1)
     num_bags = models.IntegerField(default=1)
+
 
 class Trip(models.Model):
     name = models.CharField(max_length=200)

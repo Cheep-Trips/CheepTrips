@@ -40,7 +40,28 @@ class TestLocation(TestCase):
         self.assertEqual(tokyo.cost_of_living, 100)
         self.assertEqual(tokyo.region.name, 'Asia')
 
+class TestAirport(TestCase):
+
+    def setUp(self):
+        northAmerica = Region(name='North America')
+        asia = Region(name='Asia')
+
+        self.losAngeles = Location(exchange_rate=3.8, cost_of_living=75, \
+                                   region=northAmerica)
+        self.tokyo = Location(exchange_rate=1.5, cost_of_living=100, region=asia)
+
+    def test_airport_creation(self):
+        laxAirport = Airport(name="LAX Airport", location=self.losAngeles)
+        naritaAirport = Airport(name="Narita Airport", location=self.tokyo)
+
+        self.assertEqual(laxAirport.name, 'LAX Airport')
+        self.assertEqual(laxAirport.location, self.losAngeles)
+        self.assertEqual(naritaAirport.name, 'Narita Airport')
+        self.assertEqual(naritaAirport.location, self.tokyo)
+
+
 class TestActivity(TestCase):
+
     def setUp(self):
         northAmerica = Region(name='North America')
         asia = Region(name='Asia')
