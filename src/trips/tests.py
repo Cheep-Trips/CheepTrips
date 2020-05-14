@@ -44,6 +44,8 @@ class TestActivity(TestCase):
     def setUp(self):
         northAmerica = Region(name='North America')
         asia = Region(name='Asia')
+
+        # must save Location objects to be used in ManyToManyField
         northAmerica.save()
         asia.save()
 
@@ -56,11 +58,16 @@ class TestActivity(TestCase):
     def test_activity_creation(self):
         shopping = Activity(name="Shopping")
 
+        # must save Flight to be able to add Location objects to it
         shopping.save()
         shopping.locations.add(self.losAngeles)
         shopping.locations.add(self.tokyo)
 
         self.assertEqual(shopping.name, 'Shopping')
+
+        # Not exactly sure how to test this yet.
+        # Can't figure out how to access elements of Queryset
+        # maybe implement __str__() method  
         self.assertQuerysetEqual(list(shopping.locations.all()), \
             ['<Location: Location object (1)>', '<Location: Location object (2)>'])
     
