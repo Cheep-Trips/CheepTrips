@@ -13,9 +13,33 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Flight',
+            name='Location',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('exchange_rate', models.IntegerField(default=1)),
+                ('cost_of_living', models.IntegerField(default=0)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Region',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('region', models.CharField(max_length=200)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='User',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('email', models.CharField(max_length=200)),
+                ('password', models.CharField(max_length=200)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Flights',
+            fields=[
+                ('start_airport', models.CharField(max_length=200)),
+                ('dest_airport', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='trips.Location')),
                 ('flight_carrier', models.CharField(max_length=200)),
                 ('departure_time', models.DateTimeField(verbose_name='Departure date')),
                 ('arrival_time', models.DateTimeField(verbose_name='Arrival date')),
@@ -23,48 +47,26 @@ class Migration(migrations.Migration):
                 ('num_bags', models.IntegerField(default=1)),
             ],
         ),
-        migrations.CreateModel(
-            name='Region',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Trip',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('budget', models.IntegerField(default=0)),
-                ('cost', models.IntegerField(default=0)),
-                ('flights', models.ManyToManyField(to='trips.Flight')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Location',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('exchange_rate', models.IntegerField(default=1)),
-                ('cost_of_living', models.IntegerField(default=0)),
-                ('region', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trips.Region')),
-            ],
-        ),
         migrations.AddField(
-            model_name='flight',
-            name='departure_location',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='departures', to='trips.Location'),
-        ),
-        migrations.AddField(
-            model_name='flight',
-            name='destination',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='arrivals', to='trips.Location'),
+            model_name='location',
+            name='regions',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trips.Region'),
         ),
         migrations.CreateModel(
-            name='Activity',
+            name='Activities',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
+                ('activity', models.CharField(max_length=200)),
                 ('locations', models.ManyToManyField(to='trips.Location')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Trips',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('budget', models.IntegerField(default=0)),
+                ('total_cost', models.IntegerField(default=0)),
+                ('flight_list', models.ManyToManyField(to='trips.Flights')),
             ],
         ),
     ]

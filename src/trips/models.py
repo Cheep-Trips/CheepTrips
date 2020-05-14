@@ -11,6 +11,12 @@ class Location(models.Model):
     cost_of_living = models.IntegerField(default=0)
     region =  models.ForeignKey(Region, on_delete=models.CASCADE)
 
+
+class Airport(models.Model):
+    name = models.CharField(max_length=200)
+    location =  models.ForeignKey(Location, on_delete=models.CASCADE)
+
+
 class Activity(models.Model):
     name = models.CharField(max_length=200)
     locations = models.ManyToManyField(Location)

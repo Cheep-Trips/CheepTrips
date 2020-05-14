@@ -1,6 +1,7 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>Cheep Trips</title>
     <meta charset="utf-8"/>
@@ -9,30 +10,32 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/multirange.css' %}">
-    <script src="{% static 'js/multirange.js' %}"></script>
   </head>
 
   <body>
-
   <!-- Navigation bar -->
   <header class="container">
     <div class="row">
       <h1 class="col-sm-4">Cheep Trips</h1>
       <nav class="col-sm-8 text-right">
-        <p><a href="{% url 'trips:welcome' %}">Start a new trip</a></p>
+        <p><a href="{% url 'trips:new_account' %}">Sign Up</a></p>
+        <p><a href="{% url 'trips:sign_in' %}">Login</a></p>
       </nav>
     </div>
     </header>
   <!-- End of Navigation bar -->
 
-    <section class="container">
-    <h3> Your Profile </h3>
-  	<div class="btn-group">
-<a href="{% url 'trips:saved_trips' %}" class="btn btn-primary">View saved trips</a>
-<p>
-<a href="{% url 'trips:forgot_password' %}" class="btn btn-primary">Change password</a>
-</div>
-    </section>
+  {% block content %}
+  {% endblock %}
+    
+  <footer class="container">
+    <div class="row">
+      <p class="col-sm-4">&copy 2020 CheepTrips</p>
+    </div>
+  </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
 </html>
