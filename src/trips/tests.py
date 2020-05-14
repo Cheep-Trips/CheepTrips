@@ -65,11 +65,10 @@ class TestActivity(TestCase):
 
         self.assertEqual(shopping.name, 'Shopping')
 
-        # Not exactly sure how to test this yet.
-        # Can't figure out how to access elements of Queryset
+        # use <QueryList>[i] to access individual objects of QueryList
         # maybe implement __str__() method  
-        self.assertQuerysetEqual(list(shopping.locations.all()), \
-            ['<Location: Location object (1)>', '<Location: Location object (2)>'])
+        self.assertEqual(shopping.locations.all()[0], self.losAngeles)
+        self.assertEqual(shopping.locations.all()[1], self.tokyo)
     
 class TestFlight(TestCase):
 
@@ -106,7 +105,7 @@ class TestFlight(TestCase):
                          datetime.datetime(2020, 5, 11, 20, 0, 0, 0)))
         self.assertEqual(flight.num_passengers, 2)
         self.assertEqual(flight.num_bags, 4)
-
+        
 
 class TestTrip(TestCase):
 
@@ -150,9 +149,8 @@ class TestTrip(TestCase):
         self.assertEqual(trip.name, 'Trip')
         self.assertEqual(trip.budget, 1000)
         self.assertEqual(trip.cost, 500)
-        self.assertQuerysetEqual(list(trip.flights.all()), \
-            ['<Flight: Flight object (1)>', '<Flight: Flight object (2)>'])
-    
+        self.assertEqual(trip.flights.all()[0], self.firstFlight)
+        self.assertEqual(trip.flights.all()[1], self.secondFlight)
 
 
     
