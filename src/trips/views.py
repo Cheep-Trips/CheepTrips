@@ -14,11 +14,17 @@ class WelcomeView(FormView):
     form_class=WelcomeForm
     success_url=reverse_lazy('trips:view_flight')
     template_name='trips/welcome_form.html'
+    destination_url=reverse_lazy('trips:destination')
 
     def form_valid(self, form):
         departure = form.cleaned_data['departure']
-        destination = form.cleaned_data['destination']
-        self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
+        # destination = form.cleaned_data['destination']
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        if "with_destination" in form.data:            
+            self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.success_url, departure, departure_date, return_date)
+        else:
+            self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
 
@@ -44,7 +50,10 @@ def welcome(request):
 
 
 def destination(request):
+    print("destination")
+    print(request.GET)
     return render(request, 'trips/destination.html', {})
+
 def sign_in(request):
     return render(request, 'trips/sign_in.html', {})
 def saved_trips(request):
@@ -59,5 +68,8 @@ def new_account(request):
     return render(request, 'trips/new_account.html', {})
 def forgot_password(request):
     return render(request, 'trips/forgot_password.html', {})
+
 def view_flight(request):
+    print("view flight")
+    print(request.GET)
     return render(request, 'trips/view_flight.html', {})

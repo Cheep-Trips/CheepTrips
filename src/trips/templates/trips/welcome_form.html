@@ -9,67 +9,51 @@
   </section>
 <!-- End of Jumbotron -->
 
-<form action="{% url 'trips:welcome' %}" method="post" class='form'>
-  {% csrf_token %}
-  {{form}}
-  <input type='submit' value='Search'>
-</form>
 
-  <section class="container">
-    <div class="row">
-      <figure class="col-sm-2 center-block">  
-        <form class="form-inline md-form mr-auto mb-4">
-          <input class="form-control mr-sm-2 " type="Starting Airport" placeholder="Starting Airport" aria-label="Starting Airport">
-        </form>
-      </figure>
-      <figure class="col-sm-2 center-block">
-        <form class="form-inline md-form mr-auto mb-4">
-          <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
-      </form>
-      </figure>
-      <figure class="col-sm-2 center-block">
-        <form class="form-inline md-form mr-auto mb-4">
-          <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
-      </form>
-      </figure>
-    </div>
-    <div class="row">
-      <figure class="col-sm-2 center-block">  
-        <form class="form-inline md-form mr-auto mb-4">
-          <input class="form-control mr-sm-2 " type="Destination" placeholder="Destination" aria-label="Destination">
-        </form>
-      </figure>
 
-      <figure class="col-sm-2 center-block">
-        <div class="form-group col-md-12">
-          <select id="inputRegion" class="form-control">
-              <option selected>All Regions</option>
-            <option>North America</option>
-            <option>South America</option>
-            <option>Europe</option>
-            <option>Asia</option>
-            <option>Southeast Asia</option>
-            <option>... AND MORE</option>
-          </select>
-        </div>
-      </figure>
-      <figure class="col-sm-2 center-block">
-        <div class="form-group col-md-12">
-          <select id="inputActivity" class="form-control">
-              <option selected>All Activities</option>
-              <option>Swimming</option>
-              <option>Surfing</option>
-              <option>Scenary</option>
-              <option>Shopping</option>
-          </select>
+  <section class="container ">
+    <form action="{% url 'trips:welcome' %}" method="post" class='form'>
+      {% csrf_token %}
+      <div class="row justify-content-md-center mb-4">
+        <figure class="col-sm-2 center-blockx"> 
+          <div class="form-group">
+            <div class="mb-1">{{form.departure.label}}</div>
+            {{form.departure}}
+          </div>
+        </figure>
+
+        <figure class="col-sm-2 center-blockx">
+          <div class="form-group">
+            <div class="mb-1">{{form.departure_date.label}}</div>
+            {{form.departure_date}}
+          </div>
+        </figure>
+
+        <figure class="col-sm-2 center-blockx">
+          <div class="form-group">
+            <div class="mb-1">{{form.return_date.label}}</div>
+            {{form.return_date}}
+          </div>   
+        </figure>
       </div>
-      </figure>
-    </div>
+
+      <div class="row justify-content-md-center mb-4">
+        <figure class="col-sm-3 mx-auto">
+          <div class='text-center'>
+          <input type='submit' class="btn btn-large btn-primary btn-rounded" name="with_destination" value="Where to">
+          <input type='submit' class="btn btn-large btn-primary btn-rounded" name="without_destination" value="Inspire me!">
+          </div>
+        </figure>
+      </div>
+    </form>
+
     <div class="row">
-      <figure class="col-sm-3 center-block">
-        <a href="{% url 'trips:view_flight' %}" class="btn btn-large btn-primary btn-rounded">Search</a>
-        <a href="{% url 'trips:destination' %}" class="btn btn-large btn-primary btn-rounded">Inspire Me!</a>
-      </figure>
+
+      
+    </div>
+
+    <div class="row">
+      
     </div>
   </section>
 {% endblock %}
