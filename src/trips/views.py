@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic import FormView
 from django.urls import reverse, reverse_lazy
 
+
 # from amadeus import Client, ResponseError
 
 from .forms import WelcomeForm
@@ -17,8 +18,14 @@ class WelcomeView(FormView):
 
     def form_valid(self, form):
         departure = form.cleaned_data['departure']
-        destination = form.cleaned_data['destination']
-        self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        inspire_me = form.cleaned_data['inspire_me']
+        print(departure_date)
+        print(return_date)
+        print(inspire_me)
+        self.success_url = "{}?departure={}&departure_date={}&return_date={}&inspire_me={}".format(self.success_url, departure, departure_date, return_date, inspire_me)
+        #self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
         return super().form_valid(form)
 
 
