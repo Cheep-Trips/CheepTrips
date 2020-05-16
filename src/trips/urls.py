@@ -4,8 +4,8 @@ from . import views
 
 app_name = 'trips'
 urlpatterns = [
-    path('', views.WelcomeView.as_view(), name='index'),
-    path('welcome', views.WelcomeView.as_view(), name='welcome'),
+    path('', views.Welcome.as_view(), name='index'),
+    path('welcome', views.Welcome.as_view(), name='welcome'),
     path('destination', views.destination, name='destination'),
     path('sign_in/', views.sign_in, name='sign_in'),
     path('saved_trips/', views.saved_trips, name='saved_trips'),

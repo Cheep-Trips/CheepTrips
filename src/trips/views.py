@@ -11,26 +11,25 @@ from django.urls import reverse, reverse_lazy
 from .forms import WelcomeForm
 
 
-class WelcomeView(FormView):
+class Welcome(FormView):
     form_class=WelcomeForm
     success_url=reverse_lazy('trips:view_flight')
-    template_name='trips/welcome_form.html'
+    destination_url=reverse_lazy('trips:destination')
+    template_name='trips/welcome.html'
 
     def form_valid(self, form):
         departure = form.cleaned_data['departure']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
-        inspire_me = form.cleaned_data['inspire_me']
-        print(departure_date)
-        print(return_date)
-        print(inspire_me)
-        self.success_url = "{}?departure={}&departure_date={}&return_date={}&inspire_me={}".format(self.success_url, departure, departure_date, return_date, inspire_me)
-        #self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
+        if "with_destination" in form.data:           
+           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.success_url, departure, departure_date, return_date)
+        else:
+           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
 
 # Create your views here.
-def welcome(request):
+#def welcome(request):
 
     # amadeus = Client(
     #     client_id=os.getenv("AMADEUS_KEY"),
@@ -47,7 +46,7 @@ def welcome(request):
     #     print(error)
     # return HttpResponse("<html>ERROR</html>")
 
-    return render(request, 'trips/welcome.html', {})
+#    return render(request, 'trips/welcome.html', {})
 
 
 def destination(request):

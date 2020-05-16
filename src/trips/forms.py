@@ -9,7 +9,3 @@ class WelcomeForm(forms.Form):
         label='Departing')
     return_date = forms.DateField(
         label='Returning')
-    inspire_me = forms.ChoiceField(
-        label='inspire',
-        choices=[('yes', 'Inspire Me!'), ('no', 'Specify Destination')]
-    )
