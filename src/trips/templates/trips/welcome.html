@@ -1,103 +1,39 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% extends 'trips/base.html' %}
+{% load widget_tweaks %}
 
-  <head>
-    <title>Cheep Trips</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  </head>
-
-  <body>
-  <!-- Navigation bar -->
-  <header class="container">
-    <div class="row">
-      <h1 class="col-sm-4">Cheep Trips</h1>
-      <nav class="col-sm-8 text-right">
-        <p><a href="{% url 'trips:new_account' %}">Sign Up</a></p>
-        <p><a href="{% url 'trips:sign_in' %}">Login</a></p>
-      </nav>
+{% block content %}
+<!-- Jumbotron -->
+  <section class="jumbotron">
+    <div class="container float-left">
+        <h2>Welcome Traveller</h2>
     </div>
-    </header>
-  <!-- End of Navigation bar -->
-  <!-- Jumbotron -->
-    <section class="jumbotron">
-      <div class="container float-left">
-          <h2>Welcome Traveller</h2>
-      </div>
-    </section>
-  <!-- End of Jumbotron -->
+  </section>
+<!-- End of Jumbotron -->
 
-    <section class="container">
-      <div class="row">
-        <figure class="col-sm-2 center-block">  
-          <form class="form-inline md-form mr-auto mb-4">
-            <input class="form-control mr-sm-2 " type="Starting Airport" placeholder="Starting Airport" aria-label="Starting Airport">
-          </form>
-        </figure>
-        <figure class="col-sm-2 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
-        </form>
-        </figure>
-        <figure class="col-sm-2 center-block">
-          <form class="form-inline md-form mr-auto mb-4">
-            <input class="form-control mr-sm-2" type="date" placeholder="date" aria-label="Search">
-        </form>
-        </figure>
-      </div>
-      <div class="row">
-        <figure class="col-sm-2 center-block">  
-          <form class="form-inline md-form mr-auto mb-4">
-            <input class="form-control mr-sm-2 " type="Destination" placeholder="Destination" aria-label="Destination">
-          </form>
-        </figure>
-
-        <figure class="col-sm-2 center-block">
-          <div class="form-group col-md-12">
-            <select id="inputRegion" class="form-control">
-                <option selected>All Regions</option>
-              <option>North America</option>
-              <option>South America</option>
-              <option>Europe</option>
-              <option>Asia</option>
-              <option>Southeast Asia</option>
-              <option>... AND MORE</option>
-            </select>
-          </div>
-        </figure>
-        <figure class="col-sm-2 center-block">
-          <div class="form-group col-md-12">
-            <select id="inputActivity" class="form-control">
-                <option selected>All Activities</option>
-                <option>Swimming</option>
-                <option>Surfing</option>
-                <option>Scenary</option>
-                <option>Shopping</option>
-            </select>
-        </div>
-        </figure>
-      </div>
-      <div class="row">
-        <figure class="col-sm-3 center-block">
-          <a href="{% url 'trips:view_flight' %}" class="btn btn-large btn-primary btn-rounded">Search</a>
-          <a href="{% url 'trips:destination' %}" class="btn btn-large btn-primary btn-rounded">Inspire Me!</a>
-        </figure>
-      </div>
-    </section>
+<form action="{% url 'trips:welcome' %}" method="post" class='form'>
+  {% csrf_token %}
+  
+  <section class="container">
+    <div class="row">
+      <figure class="col-sm-3">  
+          {% render_field form.departure class+="form-control mr-sm-2" %}
+      </figure>
+      <figure class="col-sm-3">
+          {% render_field form.departure_date class+="form-control mr-sm-2" type="date" %}
+      </figure>
+      <figure class="col-sm-3">
+          {% render_field form.return_date class+="form-control mr-sm-2" type="date" %}
+      </figure>
+    </div>
     
-    <footer class="container">
-      <div class="row">
-        <p class="col-sm-4">&copy 2020 CheepTrips</p>
-      </div>
-    </footer>
+    <div class="row" style="padding-top : 10px">
+      <figure class="center-block">
+        <input type='submit' class="btn btn-large btn-primary btn-rounded" name="with_destination" value="Specify Destination">
+        <input type='submit' class="btn btn-large btn-primary btn-rounded" name="without_destination" value="Inspire me!">
+      </figure>
+    </div>
+  </section>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
-</html>
+</form>
+{% endblock %}
+  
