@@ -5,46 +5,105 @@ from django.http import HttpResponse
 from django.views.generic import FormView
 from django.urls import reverse, reverse_lazy
 
+
 # from amadeus import Client, ResponseError
 
-from .forms import WelcomeForm
+from .forms import *
+from . import views
 
 
 class WelcomeView(FormView):
     form_class=WelcomeForm
     success_url=reverse_lazy('trips:view_flight')
-    template_name='trips/welcome_form.html'
+    destination_url=reverse_lazy('trips:destination')
+    template_name='trips/welcome.html'
 
     def form_valid(self, form):
         departure = form.cleaned_data['departure']
-        destination = form.cleaned_data['destination']
-        self.success_url = "{}?departure={}&destination={}".format(self.success_url, departure, destination)
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        if "with_destination" in form.data:           
+           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.success_url, departure, departure_date, return_date)
+        else:
+           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
+class DestinationView(FormView):
+    form_class=DestinationForm
+    success_url=reverse_lazy('trips:view_flight')
+    destination_url=reverse_lazy('trips:destination')
+    template_name='trips/destination.html'
 
-# Create your views here.
-def welcome(request):
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['departure'] = self.request.GET.get('departure', '')
+        initial['arrival'] = self.request.GET.get('arrival', '')
+        initial['departure_date'] = self.request.GET.get('departure_date', '')
+        initial['return_date'] = self.request.GET.get('return_date', '')
+        initial['price_max'] = self.request.GET.get('price_max', '1000')
+        initial['region'] = self.request.GET.get('region', 'All Regions')
+        initial['activity'] = self.request.GET.get('activity', 'All Activities')
+        initial['travelers'] = self.request.GET.get('travelers', '1')
+        initial['priority'] = self.request.GET.get('priority', 'Prioritize Cheapest Flights')
+        return initial
 
-    # amadeus = Client(
-    #     client_id=os.getenv("AMADEUS_KEY"),
-    #     client_secret=os.getenv("AMADEUS_SECRET"),
-    # )
-    # try:
-    #     response = amadeus.shopping.flight_offers_search.get(
-    #         originLocationCode='SYD',
-    #         destinationLocationCode='BKK',
-    #         departureDate='2020-07-01',
-    #         adults=1)
-    #     return HttpResponse(response.data)
-    # except ResponseError as error:
-    #     print(error)
-    # return HttpResponse("<html>ERROR</html>")
 
-    return render(request, 'trips/welcome.html', {})
+    def form_valid(self, form):
+        departure = form.cleaned_data['departure']
+        arrival = form.cleaned_data['arrival']
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        price_max = form.cleaned_data['price_max']
+        region = form.cleaned_data['region']
+        activity = form.cleaned_data['activity']
+        travelers = form.cleaned_data['travelers']
+        priority = form.cleaned_data['priority']
+        if "with_destination" in form.data:           
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        else:
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        return super().form_valid(form)
 
+class ViewFlightView(FormView):
+    form_class=DestinationForm
+    success_url=reverse_lazy('trips:view_flight')
+    destination_url=reverse_lazy('trips:destination')
+    template_name='trips/view_flight.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['departure'] = self.request.GET.get('departure', '')
+        initial['arrival'] = self.request.GET.get('arrival', '')
+        initial['departure_date'] = self.request.GET.get('departure_date', '')
+        initial['return_date'] = self.request.GET.get('return_date', '')
+        initial['price_max'] = self.request.GET.get('price_max', '1000')
+        initial['region'] = self.request.GET.get('region', 'All Regions')
+        initial['activity'] = self.request.GET.get('activity', 'All Activities')
+        initial['travelers'] = self.request.GET.get('travelers', '1')
+        initial['priority'] = self.request.GET.get('priority', 'Prioritize Cheapest Flights')
+        return initial
+
+    def form_valid(self, form):
+        departure = form.cleaned_data['departure']
+        arrival = form.cleaned_data['arrival']
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        price_max = form.cleaned_data['price_max']
+        region = form.cleaned_data['region']
+        activity = form.cleaned_data['activity']
+        travelers = form.cleaned_data['travelers']
+        priority = form.cleaned_data['priority']
+        if "with_destination" in form.data:           
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        else:
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        return super().form_valid(form)
 
 def destination(request):
+    print("destination")
+    print(request.GET)
     return render(request, 'trips/destination.html', {})
+
 def sign_in(request):
     return render(request, 'trips/sign_in.html', {})
 def saved_trips(request):
@@ -59,5 +118,6 @@ def new_account(request):
     return render(request, 'trips/new_account.html', {})
 def forgot_password(request):
     return render(request, 'trips/forgot_password.html', {})
+
 def view_flight(request):
-    return render(request, 'trips/view_flight.html', {})
+    return render(request, 'views.ViewFlight.as_view()', {})
