@@ -29,36 +29,27 @@ class TestLocation(TestCase):
         self.asia = Region(name='Asia')
 
     def test_location_creation(self):
-        losAngeles = Location(exchange_rate=3.8, cost_of_living=75, \
+        losAngeles = Location(airport="LAX", country="United States", \
+                              city="Los Angeles", state="California", \
+                              exchange_rate=3.8, cost_of_living=75, \
                               region=self.northAmerica)
-        tokyo = Location(exchange_rate=1.5, cost_of_living=100, region=self.asia)
-
+        tokyo = Location(airport="Narita Airport", country="Japan", \
+                         city="Tokyo", state="Tokyo", \
+                         exchange_rate=1.5, cost_of_living=100, region=self.asia)
+        self.assertEqual(losAngeles.airport, 'LAX')
+        self.assertEqual(losAngeles.country, 'United States')
+        self.assertEqual(losAngeles.city, 'Los Angeles')
+        self.assertEqual(losAngeles.state, 'California')
         self.assertEqual(losAngeles.exchange_rate, 3.8)
         self.assertEqual(losAngeles.cost_of_living, 75)
         self.assertEqual(losAngeles.region.name, 'North America')
+        self.assertEqual(tokyo.airport, 'Narita Airport')
+        self.assertEqual(tokyo.country, 'Japan')
+        self.assertEqual(tokyo.city, 'Tokyo')
+        self.assertEqual(tokyo.state, 'Tokyo')
         self.assertEqual(tokyo.exchange_rate, 1.5)
         self.assertEqual(tokyo.cost_of_living, 100)
         self.assertEqual(tokyo.region.name, 'Asia')
-
-class TestAirport(TestCase):
-
-    def setUp(self):
-        northAmerica = Region(name='North America')
-        asia = Region(name='Asia')
-
-        self.losAngeles = Location(exchange_rate=3.8, cost_of_living=75, \
-                                   region=northAmerica)
-        self.tokyo = Location(exchange_rate=1.5, cost_of_living=100, region=asia)
-
-    def test_airport_creation(self):
-        laxAirport = Airport(name="LAX Airport", location=self.losAngeles)
-        naritaAirport = Airport(name="Narita Airport", location=self.tokyo)
-
-        self.assertEqual(laxAirport.name, 'LAX Airport')
-        self.assertEqual(laxAirport.location, self.losAngeles)
-        self.assertEqual(naritaAirport.name, 'Narita Airport')
-        self.assertEqual(naritaAirport.location, self.tokyo)
-
 
 class TestActivity(TestCase):
 
@@ -70,9 +61,13 @@ class TestActivity(TestCase):
         northAmerica.save()
         asia.save()
 
-        self.losAngeles = Location(exchange_rate=3.8, cost_of_living=75, \
-                                   region=northAmerica)
-        self.tokyo = Location(exchange_rate=1.5, cost_of_living=100, region=asia)
+        self.losAngeles = Location(airport="LAX", country="United States", \
+                              city="Los Angeles", state="California", \
+                              exchange_rate=3.8, cost_of_living=75, \
+                              region=northAmerica)
+        self.tokyo = Location(airport="Narita Airport", country="Japan", \
+                         city="Tokyo", state="Tokyo", \
+                         exchange_rate=1.5, cost_of_living=100, region=asia)
         self.losAngeles.save()
         self.tokyo.save()
 
@@ -99,12 +94,17 @@ class TestFlight(TestCase):
         northAmerica.save()
         asia.save()
 
-        self.losAngeles = Location(exchange_rate=3.8, cost_of_living=75, \
-                                   region=northAmerica)
-        self.tokyo = Location(exchange_rate=1.5, cost_of_living=100, region=asia)
+        self.losAngeles = Location(airport="LAX", country="United States", \
+                              city="Los Angeles", state="California", \
+                              exchange_rate=3.8, cost_of_living=75, \
+                              region=northAmerica)
+        self.tokyo = Location(airport="Narita Airport", country="Japan", \
+                         city="Tokyo", state="Tokyo", \
+                         exchange_rate=1.5, cost_of_living=100, region=asia)
         self.losAngeles.save()
         self.tokyo.save()
 
+        # used to avoid Warning about DateTimeField not aware of timezones
         self.timezone = pytz.timezone("America/Los_Angeles")
 
     def test_flight_creation(self):
@@ -114,8 +114,7 @@ class TestFlight(TestCase):
                         departure_time=self.timezone.localize( \
                         datetime.datetime(2020, 5, 11, 8, 0, 0, 0)), \
                         arrival_time=self.timezone.localize( \
-                        datetime.datetime(2020, 5, 11, 20, 0, 0, 0)), \
-                        num_passengers=2, num_bags=4)
+                        datetime.datetime(2020, 5, 11, 20, 0, 0, 0)))
         
         self.assertEqual(flight.departure_location, self.losAngeles)
         self.assertEqual(flight.destination, self.tokyo)
@@ -124,8 +123,6 @@ class TestFlight(TestCase):
                          datetime.datetime(2020, 5, 11, 8, 0, 0, 0)))
         self.assertEqual(flight.arrival_time, self.timezone.localize( \
                          datetime.datetime(2020, 5, 11, 20, 0, 0, 0)))
-        self.assertEqual(flight.num_passengers, 2)
-        self.assertEqual(flight.num_bags, 4)
         
 
 class TestTrip(TestCase):
@@ -144,26 +141,24 @@ class TestTrip(TestCase):
 
         self.timezone = pytz.timezone("America/Los_Angeles")
 
-        self.firstFlight = Flight(departure_location=self.losAngeles, \
-                        destination=self.tokyo, flight_carrier="Japan Airlines", \
+        self.firstFlight = Flight(departure_location=self.losAngeles, destination=self.tokyo,\
+                        flight_carrier="Japan Airlines", \
                         departure_time=self.timezone.localize( \
                         datetime.datetime(2020, 5, 11, 8, 0, 0, 0)), \
                         arrival_time=self.timezone.localize( \
-                        datetime.datetime(2020, 5, 11, 20, 0, 0, 0)), \
-                        num_passengers=2, num_bags=4)
+                        datetime.datetime(2020, 5, 11, 20, 0, 0, 0)))
         self.secondFlight = Flight(departure_location=self.tokyo, \
                                    destination=self.losAngeles, \
                                    flight_carrier="Japan Airlines", 
                                    departure_time=self.timezone.localize( \
                                    datetime.datetime(2020, 5, 16, 8, 0, 0, 0)), \
                                    arrival_time=self.timezone.localize( \
-                                   datetime.datetime(2020, 5, 16, 20, 0, 0, 0)), \
-                                   num_passengers=2, num_bags=4)
+                                   datetime.datetime(2020, 5, 16, 20, 0, 0, 0)))
         self.firstFlight.save()
         self.secondFlight.save()
 
     def test_trip_creation(self):
-        trip = Trip(name="Trip", budget=1000, cost=500)
+        trip = Trip(name="Trip", budget=1000, cost=500, num_passengers=2, num_bags=4)
         trip.save()
         trip.flights.add(self.firstFlight, self.secondFlight)
 
@@ -172,6 +167,7 @@ class TestTrip(TestCase):
         self.assertEqual(trip.cost, 500)
         self.assertEqual(trip.flights.all()[0], self.firstFlight)
         self.assertEqual(trip.flights.all()[1], self.secondFlight)
-
+        self.assertEqual(trip.num_passengers, 2)
+        self.assertEqual(trip.num_bags, 4)
 
     
