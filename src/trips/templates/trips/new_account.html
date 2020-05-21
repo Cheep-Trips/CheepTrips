@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <html>
 <head>
 	<meta charset="utf-8"/>
@@ -21,18 +22,22 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Create new account</h5>
-            <form class="form-signin">
-
+            <form action="{% url 'trips:new_account' %}" method="post" class='form-signin'>
+              {% csrf_token %}
               <div class="form-group">
-    			<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                {{form.email.label}}
+                {% render_field form.email class+="form-control" %}
               </div>
               <div class="form-group">
-    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                {{form.password.label}}
+                {% render_field form.password class+="form-control" %}
               </div>
               <div class="form-group">
-    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
+                {{form.confirm_password.label}}
+                {% render_field form.confirm_password class+="form-control" %}
               </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Create Account</button>
+              <input type='submit' class="btn btn-large btn-primary btn-rounded btn-block text-uppercase" name="submit" style="width:100%">
+              <div style = 'padding-top: 5px'></div>
               <a href="{% url 'trips:welcome' %}" class="btn btn-lg btn-primary btn-block text-uppercase">BACK</a>
               <hr class="my-4">
               <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Connect with Google</button>

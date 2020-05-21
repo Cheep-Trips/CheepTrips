@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 class WelcomeForm(forms.Form):
     departure = forms.CharField(
@@ -42,3 +43,38 @@ class DestinationForm(forms.Form):
         label='Priority',
         choices=[('cheapest', 'Prioritize Cheapest Flights'), ('fastest', 'Prioritize Fastest Flights')]
     )
+class ForgotPasswordForm(forms.Form):
+    email = forms.CharField(
+        max_length=256, 
+        label="Email",
+        widget=forms.EmailInput)
+class SignInForm(forms.Form):
+    email = forms.CharField(
+        max_length=256, 
+        label="Email",
+        widget=forms.EmailInput)
+    password = forms.CharField(
+        max_length=256, 
+        label="Password",
+        widget=forms.PasswordInput)
+class NewAccountForm(forms.Form):
+    email = forms.CharField(
+        max_length=256, 
+        label="Email",
+        widget=forms.PasswordInput)
+    password = forms.CharField(
+        max_length=256, 
+        label="Password",
+        widget=forms.PasswordInput)
+    confirm_password = forms.CharField(
+        max_length=256, 
+        label="Confirm Password",
+        widget=forms.PasswordInput)
+    def clean(self):
+        cleaned_data = super(NewAccountForm, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password and confirm_password and password != confirm_password:
+            #TODO
+            pass
+        return cleaned_data
