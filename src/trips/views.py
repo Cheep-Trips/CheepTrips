@@ -121,9 +121,13 @@ class SignInView(FormView):
     def form_valid(self, form):
         self.success_url = reverse_lazy('trips:welcome')
         return super().form_valid(form)
+class ProfileView(FormView):
+    form_class=ProfileForm
+    template_name='trips/profile.html'
+    def form_valid(self, form):
+        self.success_url = reverse_lazy('trips:welcome')
+        return super().form_valid(form)
 
-def sign_in(request):
-    return render(request, 'trips/sign_in.html', {})
 def saved_trips(request):
     return render(request, 'trips/saved_trips.html', {})
 def view_trip(request):
@@ -132,8 +136,6 @@ def profile(request):
     return render(request, 'trips/profile.html', {})
 def compare(request):
     return render(request, 'trips/compare.html', {})
-def new_account(request):
-    return render(request, 'trips/new_account.html', {})
 
 def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})

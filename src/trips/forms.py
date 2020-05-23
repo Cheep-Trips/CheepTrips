@@ -57,6 +57,15 @@ class SignInForm(forms.Form):
         max_length=256, 
         label="Password",
         widget=forms.PasswordInput)
+class ProfileForm(forms.Form):
+    new_password = forms.CharField(
+        max_length=256, 
+        label="New Password",
+        widget=forms.PasswordInput)
+    confirm_password = forms.CharField(
+        max_length=256, 
+        label="Confirm Password",
+        widget=forms.PasswordInput)
 class NewAccountForm(forms.Form):
     email = forms.CharField(
         max_length=256, 
