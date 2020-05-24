@@ -121,3 +121,75 @@ def forgot_password(request):
 
 def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})
+
+
+def getSkyscannerCached(request, ):
+
+    departure = departure
+    departure_date = departure_date
+    inbound_date = return_date
+ 
+    url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
+ 
+    querystring = {"inboundpartialdate":inbound_date}
+ 
+    headers = {
+        'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        'x-rapidapi-key': SKYSCANNER_API_KEY
+    }
+    
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    response_json = json.loads(response.text)
+ 
+    places = response_json['Places']
+    places_dict = {}
+
+    for place in places:
+        places_dict[place['PlaceId']] = place['SkyscannerCode']
+    
+    for quote in response_json['Quotes']:
+        print('Flight to ' + places_dict[quote['OutboundLeg']['DestinationId']] + ' Costs ' + str(quote['MinPrice']))
+
+def getSkyscannerLive(request, this):
+    response = unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
+    headers={
+        "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": SKYSCANNER_API_KEY
+        "Content-Type": "application/x-www-form-urlencoded"
+     },
+    params={
+        "inboundDate": this.departure_date,
+        "cabinClass": "economy",
+        "children": "0",
+        "infants": "0",
+        "country": this.country,
+        "currency": "USD",
+        "locale": "en-US",
+        "originPlace": form.originPlace +"-sky"
+        "destinationPlace": form.destinationPlace +"-sky"
+        "outboundDate": form.return_date
+        "adults": form.travelers
+    })
+
+    response = unirest.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/{sessionkey}?pageIndex=0&pageSize=10",
+  headers={
+    "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+    "X-RapidAPI-Key": "SIGN-UP-FOR-KEY"
+  }
+)
+
+def getEchangeRate(request):
+    url = 'https://open.exchangerate-api.com/v6/latest/USD'
+
+    # Here is all the exchange rates to all countries from USD
+    response = requests.get(url)
+    data = response.json()
+
+    return data
+
+def getBudget(request, city):
+    #todo (most likely over the weekend)
+
+    url = https://www.budgetyourtrip.com/api/v3/search/locationdata/ + city
+    response = requests.post( url, headers=headers, auth=("apikey", BUDGET_YOUR_TRIP_API_KEY))

@@ -33,6 +33,7 @@ class Flight(models.Model):
     flight_carrier = models.CharField(max_length=200)
     departure_time = models.DateTimeField('Departure date')
     arrival_time = models.DateTimeField('Arrival date')
+    price = models.IntegerField(default=0)
 
 
 class Trip(models.Model):
