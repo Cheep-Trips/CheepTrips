@@ -1,3 +1,0 @@
-Django~=3.0.5
-amadeus~=4.0.0
-python-dotenv~=0.13.0
