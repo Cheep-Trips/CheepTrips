@@ -3,8 +3,8 @@ python:
     - "3.8"
 cache: pip
 install:
+    - easy_install distribute
     - pip install -r requirements.txt
-    - sudo pip install virtualenv
 script:
     - virtualenv newenv
     - source newenv/bin/activate
