@@ -1,5 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django_registration.forms import RegistrationForm
+from .models import User
 
 class WelcomeForm(forms.Form):
     departure = forms.CharField(
@@ -66,8 +68,10 @@ class ProfileForm(forms.Form):
         max_length=256, 
         label="Confirm Password",
         widget=forms.PasswordInput)
-class NewAccountForm(forms.Form):
-    email = forms.CharField(
+class NewAccountForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
+        model = User
+    ''''email = forms.CharField(
         max_length=256, 
         label="Email",
         widget=forms.PasswordInput)
@@ -86,4 +90,4 @@ class NewAccountForm(forms.Form):
         if password and confirm_password and password != confirm_password:
             #TODO
             pass
-        return cleaned_data
+        return cleaned_data''''

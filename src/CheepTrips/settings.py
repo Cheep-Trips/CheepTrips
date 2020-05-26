@@ -28,6 +28,9 @@ SECRET_KEY = 'v_l_ex9w+52n4zlpn%80k5v2)w5-2$-33i2ono0d)mrec09@6f'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'trips.User'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 
 # Application definition
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trips',
+    'django_registration',
     'widget_tweaks'
 ]
 
