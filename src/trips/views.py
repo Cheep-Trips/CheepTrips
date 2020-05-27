@@ -58,6 +58,8 @@ class DestinationView(FormView):
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
+
+        #skyscanner to cache call here 
         if "with_destination" in form.data:           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
@@ -93,6 +95,8 @@ class ViewFlightView(FormView):
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
+
+        #skyscanner call to live here
         if "with_destination" in form.data:           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
@@ -123,7 +127,7 @@ def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})
 
 
-def getSkyscannerCached(request, ):
+def getSkyscannerCached(request):
 
     departure = departure
     departure_date = departure_date
