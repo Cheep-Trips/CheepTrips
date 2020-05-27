@@ -1,4 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
+from django_registration.forms import RegistrationForm
+from .models import User
 
 class WelcomeForm(forms.Form):
     departure = forms.CharField(
@@ -8,6 +12,8 @@ class WelcomeForm(forms.Form):
         label='Departing')
     return_date = forms.DateField(
         label='Returning')
+
+
 class DestinationForm(forms.Form):
     departure = forms.CharField(
         max_length=256, 
@@ -42,3 +48,38 @@ class DestinationForm(forms.Form):
         label='Priority',
         choices=[('cheapest', 'Prioritize Cheapest Flights'), ('fastest', 'Prioritize Fastest Flights')]
     )
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.CharField(
+        max_length=256, 
+        label="Email",
+        widget=forms.EmailInput)
+
+        
+class SignInForm(forms.Form):
+    email = forms.CharField(
+        max_length=256, 
+        label="Email",
+        widget=forms.EmailInput)
+    password = forms.CharField(
+        max_length=256, 
+        label="Password",
+        widget=forms.PasswordInput)
+
+        
+class ProfileForm(forms.Form):
+    new_password = forms.CharField(
+        max_length=256, 
+        label="New Password",
+        widget=forms.PasswordInput)
+    confirm_password = forms.CharField(
+        max_length=256, 
+        label="Confirm Password",
+        widget=forms.PasswordInput)
+
+
+class NewAccountForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
+        model = User
+    

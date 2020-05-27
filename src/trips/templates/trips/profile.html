@@ -1,4 +1,5 @@
 {% extends 'trips/base.html' %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 
 {% block content %}
@@ -7,32 +8,35 @@
   body {
   background-image: url(../static/images/tired-office-employee-sleeping-workplace_74855-5296.jpg) !important;
   background-repeat: no-repeat !important;
-  background-position: right bottom !important;
+  background-position: right center !important;
+  background-size: 400px !important;
 }
 </style>
 <section class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
       <h3> Account Settings </h3>
       <div class="col-md-6">
         <h4 class="card-title">Change Password</h4>
-        <input type="password" class="form-control" id="newpassword" aria-describedby="newpass" placeholder="New Password">
-        <input type="password" class="form-control" id="confirmpass" aria-describedby="newpass" placeholder="Confirm Password">
+        <form action="{% url 'trips:sign_in' %}" method="post" class='form-signin'>
+          {% csrf_token %}
+          <div class="form-group">
+            {{form.new_password.label}}
+            {% render_field form.new_password class+="form-control" %}
+            {{form.confirm_password.label}}
+            {% render_field form.confirm_password class+="form-control" %}
+          </div>
+          <input type='submit' class="btn btn-large btn-primary btn-rounded btn-block" name="Save" style="width:100%">
+        </form>
       </div>
       <div>
         <div class="col-md-6">
           <h4 class="card-title">Email Preferences</h4>
+          <a href="{% url 'trips:welcome' %}" class="btn btn-lg btn-primary btn-rounded btn-block">Log Out</a>
+          <a href="{% url 'trips:saved_trips' %}" class="btn btn-lg btn-primary btn-rounded btn-block">Saved Trips</a>
         </div>
       </div>
-      
-      <div class="btn-group">
-        <input type='submit' class="btn btn-primary pull-right" name="view_saved" value="Saved Trips"> 
-        <input type='submit' class="btn btn-primary pull-right" name="log_out" value="Logout"> 
-      </div>
     </div>
-
-     
   </div>
-
 </section>
 {% endblock %}

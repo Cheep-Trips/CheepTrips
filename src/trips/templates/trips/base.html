@@ -19,8 +19,12 @@
     <div class="row">
       <h1 class="col-sm-4">Cheep Trips</h1>
       <nav class="col-sm-8 text-right">
-        <p><a href="{% url 'trips:new_account' %}">Sign Up</a></p>
-        <p><a href="{% url 'trips:sign_in' %}">Login</a></p>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+        {% else %}
+        <p><a href="{% url 'django_registration_register' %}">Sign Up</a></p>
+        <p><a href="{% url 'login' %}">Login</a></p>
+        {% endif %}
       </nav>
     </div>
     </header>
