@@ -43,10 +43,7 @@ class Trip(models.Model):
     flights = models.ManyToManyField(Flight)    
     num_passengers = models.IntegerField(default=1)
     num_bags = models.IntegerField(default=1)
-    
-# class User(models.Model):
-#     email = models.CharField(max_length=200)
-#     password = models.CharField(max_length=200)
+
 class User(AbstractUser):
     pass
     

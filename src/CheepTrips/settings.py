@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
+from django.urls import reverse, reverse_lazy
 load_dotenv(verbose=True)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,8 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'trips.User'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = reverse_lazy('trips:welcome')
+LOGOUT_REDIRECT_URL = reverse_lazy('trips:welcome')
 
 
 # Application definition

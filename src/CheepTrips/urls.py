@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-from .trips.views import RegistrationView
+from trips.views import RegistrationView
 
 urlpatterns = [
     # path('users/', include('users.urls')), 

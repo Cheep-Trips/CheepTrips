@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import FormView
 from django.urls import reverse, reverse_lazy
-#imports for user
+
 from django_registration.backends.one_step.views import RegistrationView as BaseRegistrationView
 from .forms import NewAccountForm
 
@@ -111,12 +111,6 @@ class ForgotPasswordView(FormView):
         self.success_url = reverse_lazy('trips:forgot_password')
         return super().form_valid(form)
 
-''''class NewAccountView(FormView):
-    form_class=NewAccountForm
-    template_name='trips/new_account.html'
-    def form_valid(self, form):
-        self.success_url = reverse_lazy('trips:new_account')
-        return super().form_valid(form)''''
 
 class RegistrationView(BaseRegistrationView):
     form_class=NewAccountForm
