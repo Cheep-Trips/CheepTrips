@@ -22,7 +22,8 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Create new account</h5>
-            <form action="{% url 'trips:new_account' %}" method="post" class='form-signin'>
+            <!--<form action="{% url 'trips:new_account' %}" method="post" class='form-signin'>-->
+            <form action="{% url 'django_registration_register' %}" method="post" class='form-signin'>
               {% csrf_token %}
               <div class="form-group">
                 {{form.email.label}}
