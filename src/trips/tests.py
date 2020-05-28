@@ -3,6 +3,11 @@ from trips.models import *
 import datetime
 import pytz
 
+from django.contrib import auth
+
+# for testing things as a Client ex: using webpages
+from django.test import Client
+
 # just to test Django TestCase and Travis CI
 class TestSumDjango(TestCase):
 
@@ -170,4 +175,116 @@ class TestTrip(TestCase):
         self.assertEqual(trip.num_passengers, 2)
         self.assertEqual(trip.num_bags, 4)
 
-    
+#Note will have to change from username to email when the user model is fixed
+class TestAuthentication(TestCase):
+
+    def setUp(self):
+        self.oldUser = User.objects.create_user(username = 'oldAccount', \
+                                                email='oldAccount@test.com', \
+                                                password='oldPassword10')
+
+    def test_signup_page_url(self):
+        response = self.client.get("/accounts/register/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 
+                                template_name='django_registration/registration_form.html')
+
+    def test_sign_up(self): 
+
+        #self.assertEqual(User.objects.all()[0], newUser)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+
+        response = self.client.post('/accounts/register/', {'username': 'newAccount', \
+                                    'email': 'newAccount@test.com', 'password1': 'newPassword10', \
+                                    'password2': 'newPassword10'}, follow=True)  
+        
+        newUser = User.objects.filter(username='newAccount')[0]
+        self.assertEqual(newUser.username, 'newAccount')
+        self.assertEqual(newUser.email, 'newAccount@test.com')
+
+        self.assertTrue(response.context['user'].is_authenticated)
+
+    def test_login(self):
+        self.assertEqual(User.objects.filter(email="oldAccount@test.com")[0], self.oldUser)
+
+        # test for wrong email
+        response = self.client.post('/accounts/login/', {'username': 'oldAccount1', \
+                                    'password': 'oldPassword10'}, follow=True)      
+        self.assertFalse(response.context['user'].is_authenticated)
+
+        # test for wrong password
+        response = self.client.post('/accounts/login/', {'username': 'oldAccount', \
+                                    'password': 'oldPassword11'})      
+        self.assertFalse(response.context['user'].is_authenticated)
+
+        # test for correct email and password
+        response = self.client.post('/accounts/login/', {'username': 'oldAccount', \
+                                        'password': 'oldPassword10'}, follow=True)      
+        self.assertTrue(response.context['user'].is_authenticated)
+
+    def test_logout(self):
+
+        self.client.login(username='oldAccount', password='oldPassword10')
+        user = auth.get_user(self.client)
+        self.assertTrue(user.is_authenticated)
+
+        response = self.client.post('/accounts/logout/')
+        self.assertEqual(response.status_code, 302)
+
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+
+        #execute log out
+        self.client.post('/accounts/logout/')
+
+        self.assertTrue(self.oldUser.is_authenticated)
+        # test for user log out
+        user = auth.get_user(self.client)
+        self.assertEqual(user.is_authenticated, False)
+
+    def test_change_password(self):
+        pass
+        #self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('oldPassword10'))
+
+        # change password
+        #self.client.post('/profile/', {'new_password':'newPassord10', \
+        #                               'confirm_password':'newPassord10'})
+
+        #self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('newPassword10'))
+
+    def test_save_destination_view_info(self):
+        pass
+
+        #fill out destination form
+
+        #save info in destination form
+
+        #test that info has been saved properly
+
+    def test_save_view_flights_view_info(self):
+        pass
+
+        #fill out destination form
+
+        #save info in destination form
+
+        #test that info has been saved properly
+
+    def test_load_destination_view_info(self):
+        pass
+        
+        #save info for the destination forms
+
+        #load info back into the destination form
+
+        #test that destination view has been filled properly
+
+    def test_load_view_flights_view_info(self):
+        pass
+
+        #save info for the destination forms
+
+        #load info back into the destination form
+
+        #test that view flights view has been filled properly 
