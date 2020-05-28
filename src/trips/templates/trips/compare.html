@@ -28,33 +28,30 @@
           <div class="card-body">
               <div class="card-title">
                 <div id="icenter">
-                  <h1>Trip 1</h1>
-                  </div>
+                  <h1>First Trip</h1>
+                </div>
               </div>
-              <div class="row justify-content-start">
-                  <h5 class="card-title">Flights: </h5>
+
+              <!-- Information for trips -->
+              <div class="d-flex flex-column">
+                <div class="p-2"> Flights: </div>
+                <div class="p-2"> Start Date: </div>
+                <div class="p-2"> End Date: </div>
+                <div class="p-2"> Starting Airport: </div>
+                <div class="p-2"> Ending Airport: </div>
               </div>
+
+              <!-- Total cost information -->
               <div class="row justify-content-start">
-                <h5 class="card-title">Start Date: </h5>
-            </div>
-            <div class="row justify-content-start">
-              <h5 class="card-title">End Date:  </h5>
-          </div>
-              <div class="row justify-content-start">
-                  <h5 class="card-title">Starting Airport: </h5>
-              </div>
-              <div class="row justify-content-start">
-                <h5 class="card-title">Ending Airport: </h5>
-            </div>
-              <div class="row justify-content-start">
-                  <h2 class="card-title">Total Cost: </h2>
+                  <div id="icenter">
+                      <h2 class="card-title"> Total Cost: </h2>
+                    </div>
               </div>
               <br><br>
               <div id="icenter">
-              <a href="{% url 'trips:profile' %}" class="btn btn-primary">Book this trip </a>
+              <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Book this trip </a>
               </div>
           </div>
-                  
       </div>
   </div>
 
@@ -64,31 +61,28 @@
           <div class="card-body">
               <div class="card-title">
                 <div id="icenter">
-                  <h1>Trip 2</h1>
+                  <h1>Second Trip</h1>
                 </div>
               </div>
 
-              <div class="row justify-content-start">
-                <h5 class="card-title">Flights: </h5>
+            <!-- Information on trips -->
+            <div class="d-flex flex-column">
+              <div class="p-2"> Flights: </div>
+              <div class="p-2"> Start Date: </div>
+              <div class="p-2"> End Date: </div>
+              <div class="p-2"> Starting Airport: </div>
+              <div class="p-2"> Ending Airport: </div>
             </div>
+
+            <!-- Total cost information -->
             <div class="row justify-content-start">
-              <h5 class="card-title">Start Date: </h5>
-          </div>
-          <div class="row justify-content-start">
-            <h5 class="card-title">End Date:  </h5>
-        </div>
-            <div class="row justify-content-start">
-                <h5 class="card-title">Starting Airport: </h5>
-            </div>
-            <div class="row justify-content-start">
-              <h5 class="card-title">Ending Airport: </h5>
-          </div>
-            <div class="row justify-content-start">
-                <h2 class="card-title">Total Cost: </h2>
+              <div id="icenter">
+                <h2 class="card-title"> Total Cost: </h2>
+              </div>
             </div>
           <br><br>
           <div id="icenter">
-          <a href="{% url 'trips:profile' %}" class="btn btn-primary">Book this trip</a>
+          <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Book this trip</a>
           </div>
         </div>
                                 
