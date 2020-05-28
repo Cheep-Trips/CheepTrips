@@ -152,11 +152,7 @@ def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})
 
 
-def getSkyscannerCached(request):
-
-    departure = departure
-    departure_date = departure_date
-    inbound_date = return_date
+def getSkyscannerCached(request, departure, departure_date, return_date):
  
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
  
@@ -181,6 +177,8 @@ def getSkyscannerCached(request):
         print('Flight to ' + places_dict[quote['OutboundLeg']['DestinationId']] + ' Costs ' + str(quote['MinPrice']))
 
 def getSkyscannerLive(request, this):
+
+    #start the live session
     response = unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
     headers={
         "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -200,13 +198,20 @@ def getSkyscannerLive(request, this):
         "outboundDate": form.return_date
         "adults": form.travelers
     })
+    result = response.json()
+    sessionKey = result["location"]
+    sessionKey = sessionKey.split('/').pop()
 
-    response = unirest.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/{sessionkey}?pageIndex=0&pageSize=10",
-  headers={
-    "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-    "X-RapidAPI-Key": "SIGN-UP-FOR-KEY"
-  }
-)
+    #poll the live session
+    poll_response = unirest.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/"+sessionKey +"?pageIndex=0&pageSize=10",
+    headers={
+        "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": SKYSCANNER_API_KEY
+    })
+
+    #should be the results from the polled session (what you need)
+    poll_results = poll_response.json()
+
 
 def getEchangeRate(request):
     url = 'https://open.exchangerate-api.com/v6/latest/USD'
