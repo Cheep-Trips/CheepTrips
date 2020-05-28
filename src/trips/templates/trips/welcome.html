@@ -16,17 +16,20 @@
   <section class="container">
     <div class="row">
       <figure class="col-sm-3">  
+          {{form.departure.label}}
           {% render_field form.departure class+="form-control mr-sm-2" %}
       </figure>
       <figure class="col-sm-3">
+          {{form.departure_date.label}}
           {% render_field form.departure_date class+="form-control mr-sm-2" type="date" %}
       </figure>
       <figure class="col-sm-3">
+          {{form.return_date.label}}
           {% render_field form.return_date class+="form-control mr-sm-2" type="date" %}
       </figure>
     </div>
     
-    <div class="row" style="padding-top : 10px">
+    <div class="row" style="padding-top : 15px">
       <figure class="center-block">
         <input type='submit' class="btn btn-large btn-primary btn-rounded" name="with_destination" value="Specify Destination">
         <input type='submit' class="btn btn-large btn-primary btn-rounded" name="without_destination" value="Inspire me!">
