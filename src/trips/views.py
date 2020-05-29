@@ -33,7 +33,7 @@ class WelcomeView(FormView):
            self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
-def getSkyscannerCached(departure, departure_date, arrival="Everywhere", inbound_date=""):
+def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
  
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
  
@@ -42,28 +42,34 @@ def getSkyscannerCached(departure, departure_date, arrival="Everywhere", inbound
  
     headers = {
         'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        'x-rapidapi-key': "d8bd090baamsh2d471b50a2f602dp172bf3jsn6ae1f2747d21"
+        'x-rapidapi-key': "bad009e854msha1e631baaea5b4cp1f4736jsn72e952c4dfef"
     }
     
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     response_json = json.loads(response.text)
- 
-    # print(response_json)
 
     places = response_json['Places']
     places_dict = {}
+    carriers = response_json['Carriers']
+    carriers_dict = {}
 
     for place in places:
-        places_dict[place['PlaceId']] = place['Name']
-    
+        places_dict[place['PlaceId']] = [place['Name'], place['SkyscannerCode']]
+    for carrier in carriers:
+        carriers_dict[carrier['CarrierId']] = carrier['Name']
     res={}
     for quote in response_json['Quotes']:
-        res[places_dict[quote['OutboundLeg']['DestinationId']]] = str(quote['MinPrice'])
+        if(arrival=="Everywhere"): 
+            res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [str(quote['MinPrice']), places_dict[quote['OutboundLeg']['DestinationId']][1]]
+        else:
+            res[quote['QuoteId']] = [str(quote['MinPrice']), carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]]
+            # for airline in quote['OutboundLeg']['CarrierIds']:
+            #     print(carriers_dict[airline])
+                # res[quote['QuoteId']] = [quote['MinPrice'], ]
     return res
 
 class DestinationView(FormView):
-    print("MAIN")
     form_class=DestinationForm
     success_url=reverse_lazy('trips:view_flight')
     destination_url=reverse_lazy('trips:destination')
@@ -107,10 +113,13 @@ class DestinationView(FormView):
         priority = form.cleaned_data['priority']
 
         #skyscanner to cache call here 
-        if "with_destination" in form.data:           
+        print(form.data)
+        if "with_destination" in form.data and arrival != "":           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        elif "without_destination" in form.data:
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" - ")[1], departure_date, return_date, price_max, region, activity, travelers, priority)
         return super().form_valid(form)
 
 
@@ -125,6 +134,17 @@ class ViewFlightView(FormView):
     success_url=reverse_lazy('trips:view_flight')
     destination_url=reverse_lazy('trips:destination')
     template_name='trips/view_flight.html'
+
+    def get_context_data(self, **kwargs):
+        initial = super().get_initial()
+        context = super().get_context_data(**kwargs)
+        departure = self.request.GET.get('departure', '')
+        arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
+        departure_date = self.request.GET.get('departure_date', '')
+        return_date = initial['return_date'] = self.request.GET.get('return_date', '')
+        destinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        context['destinations'] = destinations
+        return context
 
     def get_initial(self):
         initial = super().get_initial()
@@ -150,11 +170,14 @@ class ViewFlightView(FormView):
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
 
-        #skyscanner call to live here
-        if "with_destination" in form.data:           
+        if "with_destination" in form.data and arrival != "":           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+        elif "without_destination" in form.data:
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+            #TODO ADD FLIGHT TO TRIP
+            pass
+
         return super().form_valid(form)
 
 class ForgotPasswordView(FormView):
@@ -173,8 +196,8 @@ class RegistrationView(BaseRegistrationView):
 
     def get_form(self, form_class=None):
      data = super().get_form(form_class)
-     for field in data.fields:
-        print(dir(field))
+    #  for field in data.fields:
+    #     print(dir(field))
      return data
 
 class SignInView(FormView):
