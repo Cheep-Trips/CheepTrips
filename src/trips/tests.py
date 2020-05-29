@@ -245,13 +245,13 @@ class TestAuthentication(TestCase):
 
     def test_change_password(self):
         pass
-        #self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('oldPassword10'))
+        self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('oldPassword10'))
 
-        # change password
-        #self.client.post('/profile/', {'new_password':'newPassord10', \
-        #                               'confirm_password':'newPassord10'})
+        #change password
+        self.client.post('/profile/', {'new_password':'newPassord10', \
+                                       'confirm_password':'newPassord10'})
 
-        #self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('newPassword10'))
+        self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('newPassword10'))
 
     def test_save_destination_view_info(self):
         pass
