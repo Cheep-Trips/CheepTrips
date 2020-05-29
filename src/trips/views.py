@@ -8,6 +8,8 @@ from django.urls import reverse, reverse_lazy
 from django_registration.backends.one_step.views import RegistrationView as BaseRegistrationView
 from .forms import NewAccountForm
 
+import requests, json
+
 
 # from amadeus import Client, ResponseError
 
@@ -31,18 +33,60 @@ class WelcomeView(FormView):
            self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
+def getSkyscannerCached(departure, departure_date, arrival="Everywhere", inbound_date=""):
+ 
+    url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
+ 
+
+    querystring = {"inboundpartialdate":inbound_date}
+ 
+    headers = {
+        'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        'x-rapidapi-key': "d8bd090baamsh2d471b50a2f602dp172bf3jsn6ae1f2747d21"
+    }
+    
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    response_json = json.loads(response.text)
+ 
+    # print(response_json)
+
+    places = response_json['Places']
+    places_dict = {}
+
+    for place in places:
+        places_dict[place['PlaceId']] = place['Name']
+    
+    res={}
+    for quote in response_json['Quotes']:
+        res[places_dict[quote['OutboundLeg']['DestinationId']]] = str(quote['MinPrice'])
+    return res
+
 class DestinationView(FormView):
+    print("MAIN")
     form_class=DestinationForm
     success_url=reverse_lazy('trips:view_flight')
     destination_url=reverse_lazy('trips:destination')
     template_name='trips/destination.html'
 
+    def get_context_data(self, **kwargs):
+        initial = super().get_initial()
+        context = super().get_context_data(**kwargs)
+        departure = self.request.GET.get('departure', '')
+        arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
+        departure_date = self.request.GET.get('departure_date', '')
+        return_date = initial['return_date'] = self.request.GET.get('return_date', '')
+        destinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        context['destinations'] = destinations
+        return context
+
     def get_initial(self):
         initial = super().get_initial()
-        initial['departure'] = self.request.GET.get('departure', '')
+        departure = initial['departure'] = self.request.GET.get('departure', '')
         initial['arrival'] = self.request.GET.get('arrival', '')
-        initial['departure_date'] = self.request.GET.get('departure_date', '')
-        initial['return_date'] = self.request.GET.get('return_date', '')
+        arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
+        departure_date = initial['departure_date'] = self.request.GET.get('departure_date', '')
+        return_date = initial['return_date'] = self.request.GET.get('return_date', '')
         initial['price_max'] = self.request.GET.get('price_max', '1000')
         initial['region'] = self.request.GET.get('region', 'All Regions')
         initial['activity'] = self.request.GET.get('activity', 'All Activities')
@@ -61,11 +105,20 @@ class DestinationView(FormView):
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
+
+        #skyscanner to cache call here 
         if "with_destination" in form.data:           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         return super().form_valid(form)
+
+
+# places_dict[place['PlaceId']] = [place['IataCode'], place['CityName']]
+    
+#     res={}
+#     for quote in response_json['Quotes']:
+#         res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [str(quote['MinPrice']), places_dict[quote['OutboundLeg']['DestinationId']][1]]
 
 class ViewFlightView(FormView):
     form_class=DestinationForm
@@ -96,6 +149,8 @@ class ViewFlightView(FormView):
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
+
+        #skyscanner call to live here
         if "with_destination" in form.data:           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         else:
@@ -146,3 +201,55 @@ def compare(request):
 
 def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})
+
+def getSkyscannerLive(request, this):
+
+    #start the live session
+    response = unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
+    headers={
+        "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": SKYSCANNER_API_KEY,
+        "Content-Type": "application/x-www-form-urlencoded",
+     },
+    params={
+        "inboundDate": this.departure_date,
+        "cabinClass": "economy",
+        "children": "0",
+        "infants": "0",
+        "country": this.country,
+        "currency": "USD",
+        "locale": "en-US",
+        "originPlace": form.originPlace +"-sky",
+        "destinationPlace": form.destinationPlace +"-sky",
+        "outboundDate": form.return_date,
+        "adults": form.travelers
+    })
+    result = response.json()
+    sessionKey = result["location"]
+    sessionKey = sessionKey.split('/').pop()
+
+    #poll the live session
+    poll_response = unirest.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/"+sessionKey +"?pageIndex=0&pageSize=10",
+    headers={
+        "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": SKYSCANNER_API_KEY
+    })
+
+    #should be the results from the polled session (what you need)
+    poll_results = poll_response.json()
+
+
+def getEchangeRate(request):
+    url = 'https://open.exchangerate-api.com/v6/latest/USD'
+
+    # Here is all the exchange rates to all countries from USD
+    response = requests.get(url)
+    data = response.json()
+
+    return data
+
+def getBudget(request, city):
+    #todo (most likely over the weekend)
+
+    url = "https://www.budgetyourtrip.com/api/v3/search/locationdata/" + city
+    response = requests.post( url, headers=headers, auth=("apikey", BUDGET_YOUR_TRIP_API_KEY))

@@ -12,111 +12,85 @@
     }
 </style>
 <section class="container">
-    <div class="row">
-        <!-- Start of left side elements -->
-        <div class="col-md-4">
-            <form action="{% url 'trips:destination' %}" method="post" class='form'>
-                {% csrf_token %}
-                <!-- From Label -->
-                <div class="col-md-6">
-                    <h5 class="card-title">From</h5>
-                    {% render_field form.departure class+="form-control" %}
-                    {% render_field form.departure_date class+="form-control" type='date'%}
+    <!-- Start of left side elements -->
+    <div class="col-md-4">
+        <form action="{% url 'trips:destination' %}" method="post" class='form'>
+            {% csrf_token %}
+            <!-- From Label -->
+            <div class="col-md-6">
+                <h5 class="card-title">From</h5>
+                {% render_field form.departure class+="form-control" %}
+                {% render_field form.departure_date class+="form-control" type='date'%}
+            </div>
+            <!-- To Label -->
+            <div class="col-md-6">
+                <h5 class="card-title">To</h5>
+                {% render_field form.arrival class+="form-control" %}
+                {% render_field form.return_date class+="form-control" type='date'%}
+            </div>
+
+            <!-- Start of Lower Filters -->
+            <div>
+                <!-- Price Range Label/Slider -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Price Max</h5>
+                    {% render_field form.price_max class+="form-control"%}
                 </div>
-                <!-- To Label -->
-                <div class="col-md-6">
-                    <h5 class="card-title">To</h5>
-                    {% render_field form.arrival class+="form-control" %}
-                    {% render_field form.return_date class+="form-control" type='date'%}
+
+                <!-- Region Dropdown -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Region Selection</h5>
+                    {% render_field form.region class+="form-control"%}
                 </div>
 
-                <!-- Start of Lower Filters -->
-                <div>
-                    <!-- Price Range Label/Slider -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Price Max</h5>
-                        {% render_field form.price_max class+="form-control"%}
-                    </div>
-
-                    <!-- Region Dropdown -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Region Selection</h5>
-                        {% render_field form.region class+="form-control"%}
-                    </div>
-
-                    <!-- Activity Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Activity Selection</h5>
-                        {% render_field form.activity class+="form-control"%}
-                    </div>
-
-                    <!-- Travelers Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Number of Travelers</h5>
-                        {% render_field form.travelers class+="form-control"%}
-                    </div>
-
-                    <!-- Priority Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Flight Priority</h5>
-                        {% render_field form.priority class+="form-control"%}
-                    </div>
+                <!-- Activity Tab -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Activity Selection</h5>
+                    {% render_field form.activity class+="form-control"%}
                 </div>
-                <!-- Search/Inspire Buttons -->
-                <div class="col-md-12">
-                    <figure class="center-block">
-                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Specify Destination">
-                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
-                    </figure>
+
+                <!-- Travelers Tab -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Number of Travelers</h5>
+                    {% render_field form.travelers class+="form-control"%}
                 </div>
-            </form>
-        </div>
+
+                <!-- Priority Tab -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Flight Priority</h5>
+                    {% render_field form.priority class+="form-control"%}
+                </div>
+            </div>
+            <!-- Search/Inspire Buttons -->
+            <div class="col-md-12">
+                <figure class="center-block">
+                    <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Specify Destination">
+                    <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
+                </figure>
+            </div>
+        </form>
+    </div>
+    <div>
 
         <!-- Start of Cards Section -->
         <div class="col-md-8">
-            <!-- Individual Cards -->
-            <div>
-            <div class="card mb-3">
-                <div class="card-body">
-                        <div class="col-md-6">
-                            <h5 class="card-title">Destination</h5>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="card-title">Daily Budget * Days = Total Cost</h5>
-                        </div>
-                    <p class="card-text">Information about the destination.</p>
-                    <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Check flights for this destination</a>
+            {% for destination, info in destinations.items %} 
+                <div class="card mb-3">
+                    <div class="card-body">
+                            <div class="col-md-6">
+                                <h5 class="card-title">{{destination}}</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title">Flight Cost (${{info}}) + Daily Budget * Days = Total Cost</h5>
+                            </div>
+                        <!-- <p class="card-text">Information about the destination.</p> -->
+                        <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Check flights for this destination</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-body">
-                        <div class="col-md-6">
-                            <h5 class="card-title">Destination</h5>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="card-title">Daily Budget * Days = Total Cost</h5>
-                        </div>
-                    <p class="card-text">Information about the destination.</p>
-                    <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Check flights for this destination</a>
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-body">
-                        <div class="col-md-6">
-                            <h5 class="card-title">Destination</h5>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="card-title">Daily Budget * Days = Total Cost</h5>
-                        </div>
-                    <p class="card-text">Information about the destination.</p>
-                    <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Check flights for this destination</a>
-                </div>
-            </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
+</div>
 
 </section>
 {% endblock %}
