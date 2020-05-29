@@ -32,7 +32,7 @@ header p {
 .jumbotron {
   display: flex;
   align-items: center;
-  background-image: url('https://cutewallpaper.org/21/digital-art-landscape-wallpaper/Landscape-Digital-Art-Wallpaper-Hd-Skushi.jpg');
+  background-image: url(../images/2843425.jpg);
   background-size: cover;
   background-position: center;
   color: #ffffff;

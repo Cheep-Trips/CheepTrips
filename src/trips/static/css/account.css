@@ -3,6 +3,7 @@ body {
   background-image: url(../images/group-tourist-with-luggage-standing-line_74855-5255.jpg) !important;
   background-repeat: no-repeat !important;
   background-position: center bottom !important;
+  background-attachment:fixed !important;
 }
 
 .card-signin {

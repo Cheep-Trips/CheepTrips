@@ -116,6 +116,11 @@ class RegistrationView(BaseRegistrationView):
     form_class=NewAccountForm
     success_url=reverse_lazy('trips:welcome')
 
+    def get_form(self, form_class=None):
+     data = super().get_form(form_class)
+     for field in data.fields:
+        print(dir(field))
+     return data
 
 class SignInView(FormView):
     form_class=SignInForm

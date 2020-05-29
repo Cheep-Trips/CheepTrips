@@ -1,8 +1,6 @@
 {% extends 'trips/base.html' %}
+{% load widget_tweaks %}
 {% block content %}
-
-
-<html>
 
 <style>
   body {
@@ -10,6 +8,7 @@
     background-repeat: no-repeat;
     background-position: bottom center, bottom left, bottom right;
     background-size: 400px;
+    background-attachment:fixed !important;
   }
 
  /* styling to center divs */
@@ -19,8 +18,6 @@
   }
 </style>
 
-
-<body>
 <section class="container">
   <!-- First card -->
   <div class="col-md-6">
@@ -90,6 +87,5 @@
     </div>
                 
     </section>
-  </body>
-  </html>
+
   {% endblock %}
