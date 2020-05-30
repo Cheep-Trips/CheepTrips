@@ -125,7 +125,7 @@ class TestAuthentication(TestCase):
         #self.assertTrue(self.oldUser.check_password('newPassword10'))
 
     # fully uncomment when password change is implemented
-    def test_forg(self):
+    def test_forget_password(self):
 
         self.client.post('/profile/', {'email': 'oldAccount@test.com'})
 
@@ -142,44 +142,58 @@ class TestAuthentication(TestCase):
 
 class TestTripSearch(TestCase):
 
-    def setup(self):
-        pass
+    def setUp(self):
+        self.browser = Browser('chrome')
 
     def test_search_from_welcome_screen(self):
-        browser = Browser('chrome')
-        
-        #fill out destination form
 
-        #save info in destination form
+        # search for existing flight
+        # test Specify Destination button
+        # go to welcome screen
+        self.browser.visit('http://127.0.0.1:8000')
 
-        #test that info has been saved properly
+        # fill out destination form
+        self.browser.fill('departure', 'SAN')
+        self.browser.fill('departure_date', '06-14-2020')
+        self.browser.fill('return_date', '06-14-2020')
 
-    def test_save_view_flights_view_info(self):
-        pass
+        # press Specify Destination button
+        self.browser.find_by_name('with_destination').click()
 
-        #fill out destination form
+        # check that the correct flight came up
+        self.assertTrue(self.browser.is_text_present('Tokyo Narita'))
 
-        #save info in destination form
+        # test Inspire button
+        # go to welcome screen
+        self.browser.visit('http://127.0.0.1:8000')
 
-        #test that info has been saved properly
+        # fill out destination form
+        self.browser.fill('departure', 'SAN')
+        self.browser.fill('departure_date', '06-14-2020')
+        self.browser.fill('return_date', '06-14-2020')
 
-    def test_load_destination_view_info(self):
-        pass
-        
-        #save info for the destination forms
+        # press Specify Destination button
+        self.browser.find_by_name('without_destination').click()
 
-        #load info back into the destination form
+        # check that the correct flight came up
+        #self.assertTrue(self.browser.is_text_present('View Flights to Tokyo Narita - NRT'))
 
-        #test that destination view has been filled properly
+        # search for non-existing flight
+        # test Specify Destination button
+        # go to welcome screen
+        self.browser.visit('http://127.0.0.1:8000')
 
-    def test_load_view_flights_view_info(self):
-        pass
+        # fill out destination form
+        self.browser.fill('departure', 'HRI')
+        self.browser.fill('departure_date', '06-14-2020')
+        self.browser.fill('return_date', '06-14-2020')
 
-        #save info for the destination forms
+        # press Specify Destination button
+        self.browser.find_by_name('with_destination').click()
 
-        #load info back into the destination form
+        # check that the correct flight came up
+        self.assertFalse(self.browser.is_text_present('Add Flight to Trip'))
 
-        #test that view flights view has been filled properly 
 
 # just to test Django TestCase and Travis CI
 class TestSumDjango(TestCase):
