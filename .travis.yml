@@ -8,5 +8,5 @@ install:
 before_script:
     - python ./src/manage.py runserver &
 script:
-    - ChromeDriver -v
+    - export PATH=$PATH:";/home/travis/build/Cheep-Trips/CheepTrips/src/trips/"
     - python ./src/manage.py test trips.tests
