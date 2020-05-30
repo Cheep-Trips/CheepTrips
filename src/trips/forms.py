@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from django_registration.forms import RegistrationForm
 from .models import User
+import datetime
 
 class WelcomeForm(forms.Form):
     departure = forms.CharField(
@@ -12,6 +13,9 @@ class WelcomeForm(forms.Form):
         label='Departing')
     return_date = forms.DateField(
         label='Returning')
+    def clean(self):
+        if(self.cleaned_data['departure_date'] < datetime.date.today()):
+            raise forms.ValidationError(u'Wrong Date or Time!')
 
 
 class DestinationForm(forms.Form):

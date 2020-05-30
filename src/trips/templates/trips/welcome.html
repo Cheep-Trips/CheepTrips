@@ -14,6 +14,11 @@
   {% csrf_token %}
   
   <section class="container">
+    {% if form.errors %}
+      <p style="color:red">Error: Departure date is in the past.</p>
+    {% endif %}
+
+
     <div class="row">
       <figure class="col-sm-3">  
           {{form.departure.label}}
