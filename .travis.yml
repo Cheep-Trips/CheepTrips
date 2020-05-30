@@ -8,4 +8,5 @@ install:
 before_script:
     - python ./src/manage.py runserver &
 script:
+    - ChromeDriver -v
     - python ./src/manage.py test trips.tests
