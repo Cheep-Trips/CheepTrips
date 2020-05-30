@@ -5,5 +5,7 @@ cache: pip
 install:
     - easy_install distribute
     - pip install -r requirements.txt
+before_script:
+    - python ./src/manage.py runserver &
 script:
-    - ./src/manage.py test trips.tests
+    - python manage.py test trips.tests
