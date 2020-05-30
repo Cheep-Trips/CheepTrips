@@ -143,7 +143,7 @@ class TestAuthentication(TestCase):
 class TestTripSearch(TestCase):
 
     def setUp(self):
-        self.browser = Browser('chrome')
+        self.browser = Browser("firefox")
 
     def test_search_from_welcome_screen(self):
 
