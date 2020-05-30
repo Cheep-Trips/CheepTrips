@@ -1,12 +1,185 @@
 from django.test import TestCase
 from trips.models import *
+
+# for specifying dates
 import datetime
 import pytz
 
+# for checking user authentication
 from django.contrib import auth
 
-# for testing things as a Client ex: using webpages
-from django.test import Client
+# for testing sending emails
+from django.core import mail
+
+# for modifying path during testing
+import sys
+
+# for testing button and links
+from splinter import Browser
+#from chromedriver import binary_path
+from selenium.webdriver import Chrome
+
+#Note will have to change from username to email when the user model is fixed
+class TestAuthentication(TestCase):
+
+    def setUp(self):
+        self.oldUser = User.objects.create_user(username = 'oldAccount', \
+                                                email='oldAccount@test.com', \
+                                                password='oldPassword10')
+
+    def test_sign_up_new_account(self): 
+
+        self.assertTrue(User.objects.filter(username='newAccount').count() == 0)
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+        self.client.post('/accounts/register/', {'username': 'newAccount', \
+                                    'email': 'newAccount@test.com', \
+                                    'password1': 'newPassword10', \
+                                    'password2': 'newPassword10'}, follow=True)  
+        
+        newUser = User.objects.filter(username='newAccount')[0]
+        self.assertEqual(newUser.username, 'newAccount')
+        self.assertEqual(newUser.email, 'newAccount@test.com')
+        self.assertTrue(newUser.check_password('newPassword10'))
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
+
+    def test_sign_up_diff_passwords(self): 
+
+        self.assertTrue(User.objects.filter(username='newAccount').count() == 0)
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+        self.client.post('/accounts/register/', {'username': 'newAccount', \
+                                    'email': 'newAccount@test.com', \
+                                    'password1': 'newPassword10', \
+                                    'password2': 'diffPassword10'}, follow=True)  
+        
+        self.assertTrue(User.objects.filter(username='newAccount').count() == 0)
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+    def test_sign_up_old_account(self): 
+
+        self.assertTrue(User.objects.filter(username='oldAccount').count() == 1)
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+        self.client.post('/accounts/register/', {'username': 'oldAccount', \
+                                    'email': 'oldAccount@test.com', \
+                                    'password1': 'oldPassword10', \
+                                    'password2': 'oldPassword10'}, follow=True)  
+        
+        self.assertTrue(User.objects.filter(username='oldAccount').count() == 1)
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+    def test_login(self):
+        self.assertEqual(User.objects.filter(email="oldAccount@test.com")[0], self.oldUser)
+
+        # test for wrong email
+        self.client.post('/accounts/login/', {'username': 'oldAccount1', \
+                                    'password': 'oldPassword10'}, follow=True)      
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+        # test for wrong password
+        self.client.post('/accounts/login/', {'username': 'oldAccount', \
+                                    'password': 'oldPassword11'})      
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+        # test for correct email and password
+        self.client.post('/accounts/login/', {'username': 'oldAccount', \
+                                        'password': 'oldPassword10'}, follow=True)      
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
+
+    def test_logout(self):
+
+        # login in oldAccount manually
+        self.client.login(username="oldAccount", password="oldPassword10")  
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
+
+        # execute log out
+        response = self.client.post('/accounts/logout/')
+        self.assertEqual(response.status_code, 302)
+
+        # check if user logged out
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
+
+
+    # fully uncomment when password change is implemented
+    def test_change_password(self):
+
+        self.assertTrue(self.oldUser.check_password('oldPassword10'))
+
+        # login in oldAccount manually
+        self.client.login(username="oldAccount", password="oldPassword10")  
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
+
+        # change password incorrectly
+        self.client.post('/profile/', {'Password':'newPassword10', \
+                                       'Confirm Password':'diffPassword10'})
+        
+        # password should be the same
+        self.assertTrue(self.oldUser.check_password('oldPassword10'))
+
+        # change password correctly
+        self.client.post('/profile/', {'Password':'newPassord10', \
+                                       'Confirm Password':'newPassword10'})
+
+        # password should be different
+        #self.assertTrue(self.oldUser.check_password('newPassword10'))
+
+    # fully uncomment when password change is implemented
+    def test_forg(self):
+
+        self.client.post('/profile/', {'email': 'oldAccount@test.com'})
+
+        #self.assertEqual(len(mail.outbox), 1)
+        # ToDo change to correct subject line
+        #self.assertTrue(mail.outbox[0].subject == 'Subject here')
+
+        # ToDo change to correct body message
+        #self.assertTrue(mail.outbox[0].body == 'Here is the message.')
+
+        # ToDo change to correct outgoing email address
+        #self.assertTrue(mail.outbox[0].from_email == 'from@example.com')
+        #self.assertTrue(mail.outbox[0].to == ['oldAccount@test.com'])
+
+class TestTripSearch(TestCase):
+
+    def setup(self):
+        pass
+
+    def test_search_from_welcome_screen(self):
+        browser = Browser('chrome')
+        
+        #fill out destination form
+
+        #save info in destination form
+
+        #test that info has been saved properly
+
+    def test_save_view_flights_view_info(self):
+        pass
+
+        #fill out destination form
+
+        #save info in destination form
+
+        #test that info has been saved properly
+
+    def test_load_destination_view_info(self):
+        pass
+        
+        #save info for the destination forms
+
+        #load info back into the destination form
+
+        #test that destination view has been filled properly
+
+    def test_load_view_flights_view_info(self):
+        pass
+
+        #save info for the destination forms
+
+        #load info back into the destination form
+
+        #test that view flights view has been filled properly 
 
 # just to test Django TestCase and Travis CI
 class TestSumDjango(TestCase):
@@ -128,7 +301,6 @@ class TestFlight(TestCase):
                          datetime.datetime(2020, 5, 11, 8, 0, 0, 0)))
         self.assertEqual(flight.arrival_time, self.timezone.localize( \
                          datetime.datetime(2020, 5, 11, 20, 0, 0, 0)))
-        
 
 class TestTrip(TestCase):
 
@@ -174,117 +346,3 @@ class TestTrip(TestCase):
         self.assertEqual(trip.flights.all()[1], self.secondFlight)
         self.assertEqual(trip.num_passengers, 2)
         self.assertEqual(trip.num_bags, 4)
-
-#Note will have to change from username to email when the user model is fixed
-class TestAuthentication(TestCase):
-
-    def setUp(self):
-        self.oldUser = User.objects.create_user(username = 'oldAccount', \
-                                                email='oldAccount@test.com', \
-                                                password='oldPassword10')
-
-    def test_signup_page_url(self):
-        response = self.client.get("/accounts/register/")
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 
-                                template_name='django_registration/registration_form.html')
-
-    def test_sign_up(self): 
-
-        #self.assertEqual(User.objects.all()[0], newUser)
-        user = auth.get_user(self.client)
-        self.assertFalse(user.is_authenticated)
-
-        response = self.client.post('/accounts/register/', {'username': 'newAccount', \
-                                    'email': 'newAccount@test.com', 'password1': 'newPassword10', \
-                                    'password2': 'newPassword10'}, follow=True)  
-        
-        newUser = User.objects.filter(username='newAccount')[0]
-        self.assertEqual(newUser.username, 'newAccount')
-        self.assertEqual(newUser.email, 'newAccount@test.com')
-
-        self.assertTrue(response.context['user'].is_authenticated)
-
-    def test_login(self):
-        self.assertEqual(User.objects.filter(email="oldAccount@test.com")[0], self.oldUser)
-
-        # test for wrong email
-        response = self.client.post('/accounts/login/', {'username': 'oldAccount1', \
-                                    'password': 'oldPassword10'}, follow=True)      
-        self.assertFalse(response.context['user'].is_authenticated)
-
-        # test for wrong password
-        response = self.client.post('/accounts/login/', {'username': 'oldAccount', \
-                                    'password': 'oldPassword11'})      
-        self.assertFalse(response.context['user'].is_authenticated)
-
-        # test for correct email and password
-        response = self.client.post('/accounts/login/', {'username': 'oldAccount', \
-                                        'password': 'oldPassword10'}, follow=True)      
-        self.assertTrue(response.context['user'].is_authenticated)
-
-    def test_logout(self):
-
-        self.client.login(username='oldAccount', password='oldPassword10')
-        user = auth.get_user(self.client)
-        self.assertTrue(user.is_authenticated)
-
-        response = self.client.post('/accounts/logout/')
-        self.assertEqual(response.status_code, 302)
-
-        user = auth.get_user(self.client)
-        self.assertFalse(user.is_authenticated)
-
-        #execute log out
-        self.client.post('/accounts/logout/')
-
-        self.assertTrue(self.oldUser.is_authenticated)
-        # test for user log out
-        user = auth.get_user(self.client)
-        self.assertEqual(user.is_authenticated, False)
-
-    def test_change_password(self):
-        pass
-        self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('oldPassword10'))
-
-        #change password
-        self.client.post('/profile/', {'new_password':'newPassord10', \
-                                       'confirm_password':'newPassord10'})
-
-        self.assertTrue(User.objects.filter(username='oldAccount')[0].check_password('newPassword10'))
-
-    def test_save_destination_view_info(self):
-        pass
-
-        #fill out destination form
-
-        #save info in destination form
-
-        #test that info has been saved properly
-
-    def test_save_view_flights_view_info(self):
-        pass
-
-        #fill out destination form
-
-        #save info in destination form
-
-        #test that info has been saved properly
-
-    def test_load_destination_view_info(self):
-        pass
-        
-        #save info for the destination forms
-
-        #load info back into the destination form
-
-        #test that destination view has been filled properly
-
-    def test_load_view_flights_view_info(self):
-        pass
-
-        #save info for the destination forms
-
-        #load info back into the destination form
-
-        #test that view flights view has been filled properly 
