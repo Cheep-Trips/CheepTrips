@@ -17,6 +17,9 @@
         {% csrf_token %}
     <!-- Start of left side elements -->
     <div class="col-md-4">
+            {% if form.errors %}
+                <p style="color:red">Error: Departure date is in the past.</p>
+            {% endif %}
             <!-- From Label -->
             <div class="col-md-6">
                 <h5 class="card-title">From</h5>

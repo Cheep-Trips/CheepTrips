@@ -52,6 +52,10 @@ class DestinationForm(forms.Form):
         label='Priority',
         choices=[('cheapest', 'Prioritize Cheapest Flights'), ('fastest', 'Prioritize Fastest Flights')]
     )
+    def clean(self):
+        if(self.cleaned_data['departure_date'] < datetime.date.today()):
+            print("CLEAN:",self.cleaned_data['departure_date'] < datetime.date.today())
+            raise forms.ValidationError(u'Wrong Date or Time!')
 
 
 class ForgotPasswordForm(forms.Form):

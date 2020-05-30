@@ -14,6 +14,9 @@
     <div class="row">
         <!-- Start of left side elements -->
         <div class="col-md-4">
+            {% if form.errors %}
+                <p style="color:red">Error: Departure date is in the past.</p>
+            {% endif %}
             <form action="{% url 'trips:view_flight' %}" method="post" class='form'>
                 {% csrf_token %}
                 <!-- From Label -->

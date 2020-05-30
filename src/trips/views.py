@@ -122,6 +122,9 @@ class DestinationView(FormView):
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" - ")[1], departure_date, return_date, price_max, region, activity, travelers, priority)
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
 class ViewFlightView(FormView):
     form_class=DestinationForm
     success_url=reverse_lazy('trips:view_flight')
@@ -172,6 +175,9 @@ class ViewFlightView(FormView):
             pass
 
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 class ForgotPasswordView(FormView):
     form_class=ForgotPasswordForm
