@@ -12,7 +12,8 @@ class WelcomeForm(forms.Form):
     departure_date = forms.DateField(
         label='Departing')
     return_date = forms.DateField(
-        label='Returning')
+        label='Returning',
+        required=False)
     def clean(self):
         if(self.cleaned_data['departure_date'] < datetime.date.today()):
             raise forms.ValidationError(u'Wrong Date or Time!')
@@ -29,7 +30,8 @@ class DestinationForm(forms.Form):
     departure_date = forms.DateField(
         label='Departing')
     return_date = forms.DateField(
-        label='Returning')
+        label='Returning',
+        required=False)
     price_max = forms.IntegerField(
         label='Maximum Cost'
     )
@@ -56,7 +58,6 @@ class DestinationForm(forms.Form):
         if(self.cleaned_data['departure_date'] < datetime.date.today()):
             print("CLEAN:",self.cleaned_data['departure_date'] < datetime.date.today())
             raise forms.ValidationError(u'Wrong Date or Time!')
-
 
 class ForgotPasswordForm(forms.Form):
     email = forms.CharField(
