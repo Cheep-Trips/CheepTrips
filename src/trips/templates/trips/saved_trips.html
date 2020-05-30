@@ -1,138 +1,112 @@
-{%load static%}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Cheep Trips</title>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    </head>
+{% extends 'trips/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
 <style>
     body {
     background-image: url(../static/images/tourists-with-bags-checking-hotel_74855-5297.jpg);
     background-repeat: no-repeat;
     background-position: bottom left;
     background-size: 400px;
-  }
+    background-attachment:fixed !important;
+    }
 </style>
-    <body>
 
-         <!-- Navigation bar -->
-         <header class="container">
-            <div class="row">
-              <h1 class="col-sm-4">Cheep Trips</h1>
-              <nav class="col-sm-8 text-right">
-                <a href="{% url 'trips:profile' %}">
-                    <p>profile icon</p>
-                </a>
-              </nav>
+<section class="container">
+
+<nav class="navbar navbar-default">
+        <div class="navbar-header justify-content-start">
+        <h2>Saved Trips</h2>
+        </div>
+        <ul class="nav navbar-nav justify-content-end">
+        <li class="active"><a href="{% url 'trips:welcome' %}">Back to Browsing</a></li>
+        </ul>
+    </nav>
+
+
+
+<!-- Start of Cards Section -->
+    <!-- Individual Cards -->
+    <div class="col-md-4">
+        <div class="card" style="width: 25rem; height: 25rem;">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>Trip 1</h4>
+                </div>
+
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Flights</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Budget</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Total Cost</h5>
+                </div>
+                <a href="#" class="btn btn-primary">Book This Flight</a>
+                <br><br>
+                <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
             </div>
-          </header>
+                    
+        </div>
+    </div>
 
-
-          <section class="container">
-
-            <nav class="navbar navbar-default">
-                  <div class="navbar-header justify-content-start">
-                    <h2>Saved Trips</h2>
-                  </div>
-                  <ul class="nav navbar-nav justify-content-end">
-                    <li class="active"><a href="{% url 'trips:welcome' %}">Back to Browsing</a></li>
-                  </ul>
-              </nav>
-
-
-
-            <!-- Start of Cards Section -->
-                <!-- Individual Cards -->
-                <div class="col-md-4">
-                    <div class="card" style="width: 25rem; height: 25rem;">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h4>Trip 1</h4>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Flights</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Budget</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Total Cost</h5>
-                            </div>
-                            <a href="#" class="btn btn-primary">Book This Flight</a>
-                            <br><br>
-                            <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
-                        </div>
-                                
-                    </div>
+    <div class="col-md-4">
+        <div class="card" style="width: 25rem; height: 25rem;">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>Trip 2</h4>
                 </div>
+
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Flights</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Budget</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Total Cost</h5>
+                </div>
+                <a href="#" class="btn btn-primary">Book This Flight</a>
+                <br><br>
+                <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
+            </div>
+                    
+        </div>
+    </div>
     
-                <div class="col-md-4">
-                    <div class="card" style="width: 25rem; height: 25rem;">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h4>Trip 2</h4>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Flights</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Budget</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Total Cost</h5>
-                            </div>
-                            <a href="#" class="btn btn-primary">Book This Flight</a>
-                            <br><br>
-                            <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
-                        </div>
-                                
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card" style="width: 25rem; height: 25rem;">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h4>Trip 3</h4>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Flights</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Budget</h5>
-                            </div>
-                            <div class="row justify-content-start">
-                                <h5 class="card-title">Total Cost</h5>
-                            </div>
-                            <a href="#" class="btn btn-primary">Book This Flight</a>
-                            <br><br>
-                            <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
-                        </div>
-                                
-                    </div>
+    <div class="col-md-4">
+        <div class="card" style="width: 25rem; height: 25rem;">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>Trip 3</h4>
                 </div>
 
-                <!-- Compare Button Below Cards -->
-                <div class="row">
-                    <figure class="col-sm-3 center-block">
-                        <br>
-                        <a href="{% url 'trips:compare' %}" class="btn btn-large btn-primary btn-rounded">Compare Trips</a>
-                    </figure>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Flights</h5>
                 </div>
-                
-        </section>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </body>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Budget</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <h5 class="card-title">Total Cost</h5>
+                </div>
+                <a href="#" class="btn btn-primary">Book This Flight</a>
+                <br><br>
+                <a href="{% url 'trips:profile' %}" class="btn btn-primary">View Trip</a>
+            </div>
+                    
+        </div>
+    </div>
 
-
-</html>
+    <!-- Compare Button Below Cards -->
+    <div class="row">
+        <figure class="col-sm-3 center-block">
+            <br>
+            <a href="{% url 'trips:compare' %}" class="btn btn-large btn-primary btn-rounded">Compare Trips</a>
+        </figure>
+    </div>
+    
+</section>
+{% endblock %}

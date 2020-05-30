@@ -1,102 +1,91 @@
-{%load static%}
-<html>
+{% extends 'trips/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
 
-    <head>
-      <title>Compare Trips</title>
-      <meta charset="utf-8"/>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-      <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
-      <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    </head>
-    
-    <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-  * {
-    box-sizing: border-box;
-  }
+<style>
   body {
     background-image: url(../static/images/compare-page1.jpg), url(../static/images/compare2.jpg), url(../static/images/compare3.jpg);
     background-repeat: no-repeat;
     background-position: bottom center, bottom left, bottom right;
     background-size: 400px;
+    background-attachment:fixed !important;
   }
-  /* Float four columns side by side */
-  .column {
-    float: left;
-    width: 50%;
-    padding: 0 10px;
-  }
-  
-  /* Remove extra left and right margins, due to padding */
-  .row {margin: 0 -5px;}
-  
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
+
+ /* styling to center divs */
+  #icenter {
     display: table;
-    clear: both;
+    margin: 0 auto;
   }
-  
-  /* Responsive columns */
-  @media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
-      display: block;
-      margin-bottom: 20px;
-    }
-  }
-  
-  /* Style the counter cards */
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 64px;
-    text-align: center;
-    background-color: #f1f1f1;
-  }
-  </style>
-  
-    <body>
-  
-    <!-- Navigation bar -->
-    <header class="container">
-      <div class="row">
-        <h1 class="col-sm-6">Compare Trips</h1>
-        <nav class="col-sm-6 text-right">
-          <p><a href="{% url 'trips:saved_trips' %}">Back to my Trips</a>
-          <p><a href="{% url 'trips:welcome' %}">Back to trip browsing</a>
-        </nav>
+</style>
+
+<section class="container">
+  <!-- First card -->
+  <div class="col-md-6">
+      <div class="card" style="width: 40rem; height: 40rem;">
+          <div class="card-body">
+              <div class="card-title">
+                <div id="icenter">
+                  <h1>First Trip</h1>
+                </div>
+              </div>
+
+              <!-- Information for trips -->
+              <div class="d-flex flex-column">
+                <div class="p-2"> Flights: </div>
+                <div class="p-2"> Start Date: </div>
+                <div class="p-2"> End Date: </div>
+                <div class="p-2"> Starting Airport: </div>
+                <div class="p-2"> Ending Airport: </div>
+              </div>
+
+              <!-- Total cost information -->
+              <div class="row justify-content-start">
+                  <div id="icenter">
+                      <h2 class="card-title"> Total Cost: </h2>
+                    </div>
+              </div>
+              <br><br>
+              <div id="icenter">
+              <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Book this trip </a>
+              </div>
+          </div>
       </div>
-      </header>
-    <!-- End of Navigation bar -->
-  
-  
-  
-      
-  <!-- first trip card -->
-  <div class="row">
-    <div class="column">
-      <div class="card">
-        <h2>Trip 1</h2>
-         <h5 class="card-title">Destination</h5>
-         <h5 class="card-title">Price</h5>
-         <button type="button">Click here for more information</button>
-      </div>
-    </div>
-  
-  <!-- second trip card -->
-    <div class="column">
-      <div class="card">
-        <h2>Trip 2</h2>
-         <h5 class="card-title">Destination</h5>
-         <h5 class="card-title">Price</h5>
-         <button type="button">Click here for more information</button>
-      </div>
-    </div>
-    
   </div>
-  
-  </body>
-  </html>
+
+  <!-- Second card -->
+  <div class="col-md-6">
+      <div class="card" style="width: 40rem; height: 40rem;">
+          <div class="card-body">
+              <div class="card-title">
+                <div id="icenter">
+                  <h1>Second Trip</h1>
+                </div>
+              </div>
+
+            <!-- Information on trips -->
+            <div class="d-flex flex-column">
+              <div class="p-2"> Flights: </div>
+              <div class="p-2"> Start Date: </div>
+              <div class="p-2"> End Date: </div>
+              <div class="p-2"> Starting Airport: </div>
+              <div class="p-2"> Ending Airport: </div>
+            </div>
+
+            <!-- Total cost information -->
+            <div class="row justify-content-start">
+              <div id="icenter">
+                <h2 class="card-title"> Total Cost: </h2>
+              </div>
+            </div>
+          <br><br>
+          <div id="icenter">
+          <a href="{% url 'trips:view_flight' %}" class="btn btn-primary">Book this trip</a>
+          </div>
+        </div>
+                                
+      </div>
+    </div>
+                
+    </section>
+
+  {% endblock %}
