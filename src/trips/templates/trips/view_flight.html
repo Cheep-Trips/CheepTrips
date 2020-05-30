@@ -75,14 +75,14 @@
         <div class="col-md-8">
             <!-- Individual Cards -->
             <div>
-                {% for flight, info in destinations.items %} 
+                {% for carrier, cost in destinations.items %} 
                 <div class="card mb-3">
                     <div class="card-body">
                             <div class="col-md-6">
-                                <h5 class="card-title">{{info.1}}</h5>
+                                <h5 class="card-title">{{carrier}}</h5>
                             </div>
                             <div class="col-md-6">
-                                <h5 class="card-title">Flight Cost (${{info.0}}) + Daily Budget * Days = Total Cost</h5>
+                                <h5 class="card-title">Flight Cost (${{cost}}) + Daily Budget * Days = Total Cost</h5>
                             </div>
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="Add Flight to Trip">
                     </div>

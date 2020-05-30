@@ -63,7 +63,11 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
         if(arrival=="Everywhere"): 
             res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [str(quote['MinPrice']), places_dict[quote['OutboundLeg']['DestinationId']][1]]
         else:
-            res[quote['QuoteId']] = [str(quote['MinPrice']), carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]]
+            if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]]):
+                res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = quote['MinPrice']
+            #print(res)
+            #res = sorted(res)
+            #res=sorted(res.items())
             # for airline in quote['OutboundLeg']['CarrierIds']:
             #     print(carriers_dict[airline])
                 # res[quote['QuoteId']] = [quote['MinPrice'], ]
@@ -113,7 +117,6 @@ class DestinationView(FormView):
         priority = form.cleaned_data['priority']
 
         #skyscanner to cache call here 
-        print(form.data)
         if "with_destination" in form.data and arrival != "":           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
         elif "without_destination" in form.data:
