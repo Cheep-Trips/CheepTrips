@@ -49,7 +49,7 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
     }
     
     response = requests.request("GET", url, headers=headers, params=querystring)
-
+    print(response.json())
     response_json = json.loads(response.text)
 
     places = response_json['Places']
