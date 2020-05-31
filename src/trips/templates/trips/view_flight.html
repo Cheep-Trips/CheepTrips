@@ -38,39 +38,34 @@
                 <div>
                     <!-- Number of Stops Dropdown -->
                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Number of Stops</h5>
-                        {% render_field form.stops class+="form-control"%}
+                        <h5 class="card-title">Price Max</h5>
+                        {% render_field form.price_max class+="form-control"%}
                     </div>
 
                     <!-- Travelers Number Input -->
+                    <div class="form-group col-md-12">
+                        <h5 class="card-title">Region Selection</h5>
+                        {% render_field form.region class+="form-control"%}
+                    </div>
+
+                     <!-- Type of Flight Tab -->
+                     <div class="form-group col-md-12">
+                        <h5 class="card-title">Activity Selection</h5>
+                        {% render_field form.activity class+="form-control"%}
+                    </div>
+
+                    <!-- Type of Flight Tab -->
                     <div class="form-group col-md-12">
                         <h5 class="card-title">Number of Travelers</h5>
                         {% render_field form.travelers class+="form-control"%}
                     </div>
 
-                     <!-- Type of Flight Tab -->
-                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Type Of Flight</h5>
-                        {% render_field form.type class+="form-control"%}
-                    </div>
-
-                    <!-- Type of Flight Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Number of Bags</h5>
-                        {% render_field form.bags class+="form-control"%}
-                    </div>
-
-                    <!-- Airline Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Airline</h5>
-                        {% render_field form.airline class+="form-control"%}
-                    </div>
-
-                    <!-- Priority Tab -->
+                    <!-- Flight Priority-->
                     <div class="form-group col-md-12">
                         <h5 class="card-title">Flight Priority</h5>
                         {% render_field form.priority class+="form-control"%}
                     </div>
+                    
                 </div>
                 <!-- Search/Inspire Buttons -->
                 <div class="col-md-12">

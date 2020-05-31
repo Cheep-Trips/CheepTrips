@@ -25,6 +25,7 @@
     } 
     .navbar-custom { 
       background-color: #b1acfa; 
+      background: linear-gradient(to bottom, #b1acfa 85%, white 15%);
     }
     .btn.btn-rounded {
       border-radius: 12px;
@@ -35,7 +36,7 @@
 
   <div class="container-fluid navbar-custom">
     <header class="container">
-    <div class="row navbar-custom">
+    <div class="row">
       <a href="{% url 'trips:welcome' %}" class="col-sm-4">
       <h1>Cheep Trips
         <img src="https://cdn.discordapp.com/attachments/598365420981977120/716052242091737108/imageedit_7_7139378593_5.jpg" height="45" width="45">
@@ -59,17 +60,16 @@
   {% block content %}
   {% endblock %}
   <style>
-    footer {
-      position: absolute;
-      bottom: 0;
+    .myDiv {
+      background-color: white;
+      text-align: center;
     }
-  </style>
+    </style>
+
   <section class="container">
-    <div class="row pull-right">
-    <footer class="page-footer font-small">
-      <div class="footer-copyright text-center py-3">&copy 2020 CheepTrips
-      </div>
-    </footer>
+    <div class="row">
+      <div class="footer-copyright myDiv py-3">&copy 2020 CheepTrips
+    </div>
     </div>
   </section>
 
