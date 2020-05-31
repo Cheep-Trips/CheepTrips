@@ -96,7 +96,17 @@
                             <div class="col-md-6">
                                 <h5 class="card-title">Flight Cost (${{cost}}) + Daily Budget * Days = Total Cost</h5>
                             </div>
-                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="Add Flight to Trip">
+                            <form method='POST' action="{% url 'trips:add_flight' %}" class="form">
+                                {% csrf_token %}
+                                <input type='hidden' name='carrier' value='{{carrier}}'>
+                                <input type='hidden' name='cost' value='{{cost.0}}'>
+                                <input type='hidden' name='departure' value='{{departure}}'>
+                                <input type='hidden' name='destination' value='{{cost.1}}'>
+                                <input type='hidden' name='departure_time' value='2020-06-03T00:00:00'>
+                                <input type='hidden' name='arrival_time' value='2020-06-03T06:00:00'>
+                                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="Add Flight to Trip">
+                            </form>
+                       
                     </div>
                 </div>
                 {% endfor %}

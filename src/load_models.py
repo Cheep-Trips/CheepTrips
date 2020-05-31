@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
 import CheepTrips.wsgi
+from trips.utils.country_regions import world_regions
+from trips.models import Region,Location
+from trips.utils.us_airports import us_airports
+from trips.utils.canadian_airports import canadian_airports
+from trips.utils.intl_airports import intl_airports
 
 # load regions
 regions = {}

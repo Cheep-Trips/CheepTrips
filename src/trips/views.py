@@ -2,8 +2,10 @@ import os
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import FormView
+from django.views.generic import FormView, RedirectView, TemplateView
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django_registration.backends.one_step.views import RegistrationView as BaseRegistrationView
 from .forms import NewAccountForm
@@ -15,6 +17,7 @@ import requests, json
 
 from .forms import *
 from . import views
+from .models import Trip, Flight, Location
 
 
 class WelcomeView(FormView):
@@ -140,6 +143,7 @@ class ViewFlightView(FormView):
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
         destinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
         context['destinations'] = destinations
+        context['departure'] = departure
         return context
 
     def get_initial(self):
@@ -205,12 +209,52 @@ class SignInView(FormView):
     def form_valid(self, form):
         self.success_url = reverse_lazy('trips:welcome')
         return super().form_valid(form)
+
 class ProfileView(FormView):
     form_class=ProfileForm
     template_name='trips/profile.html'
     def form_valid(self, form):
         self.success_url = reverse_lazy('trips:welcome')
         return super().form_valid(form)
+
+
+class AddFlightView(LoginRequiredMixin, RedirectView):
+
+    def post(self, request, *args, **kwargs):
+        carrier = request.POST.get('carrier', None)
+        cost = request.POST.get('cost', None)
+        departure_name = request.POST.get('departure', None)
+        destination_name = request.POST.get('destination', None)
+        departure_time = request.POST.get('departure_time', None)
+        arrival_time = request.POST.get('arrival_time', None)
+
+        departure = Location.objects.filter(airport=departure_name).first()
+        destination = Location.objects.filter(airport=destination_name).first()
+
+        trips = Trip.objects.filter(user=request.user)
+        if not trips.count() == 0:
+            trip = trips.last()
+        else:
+            trip = Trip(user=request.user)
+            trip.save()
+        flight = Flight(
+            flight_carrier=carrier,
+            departure_location=departure,
+            destination=destination,
+            departure_time=departure_time,
+            arrival_time=arrival_time,
+            price=int(cost.split('.')[0]),
+            trip=trip
+        )
+        flight.save()
+
+        print(carrier, cost, departure, destination, departure_time, arrival_time)
+        self.url = reverse_lazy('trips:saved_trips')
+        return super().post(request, *args, **kwargs)
+
+class SavedTripsView(LoginRequiredMixin, TemplateView):
+    template_name = 'trips/saved_trips.html'
+
 
 def saved_trips(request):
     return render(request, 'trips/saved_trips.html', {})

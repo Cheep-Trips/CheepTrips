@@ -27,6 +27,17 @@ class Activity(models.Model):
     name = models.CharField(max_length=200)
     locations = models.ManyToManyField(Location)
 
+class User(AbstractUser):
+    pass    
+
+class Trip(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    budget = models.IntegerField(default=0)
+    cost = models.IntegerField(default=0)
+    num_passengers = models.IntegerField(default=1)
+    num_bags = models.IntegerField(default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='trips')
+
 
 class Flight(models.Model):
     departure_location = models.ForeignKey(Location, on_delete=models.CASCADE,related_name='departures')
@@ -35,16 +46,5 @@ class Flight(models.Model):
     departure_time = models.DateTimeField('Departure date')
     arrival_time = models.DateTimeField('Arrival date')
     price = models.IntegerField(default=0)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE,related_name='flights')
 
-
-class Trip(models.Model):
-    name = models.CharField(max_length=200)
-    budget = models.IntegerField(default=0)
-    cost = models.IntegerField(default=0)
-    flights = models.ManyToManyField(Flight)    
-    num_passengers = models.IntegerField(default=1)
-    num_bags = models.IntegerField(default=1)
-
-class User(AbstractUser):
-    pass
-    
