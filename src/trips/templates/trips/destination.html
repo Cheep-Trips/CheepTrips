@@ -13,6 +13,7 @@
 
 </style>
 <section class="container">
+    <div class="row">
     <form action="{% url 'trips:destination' %}" method="post" class='form'>
         {% csrf_token %}
     <!-- Start of left side elements -->
@@ -95,6 +96,7 @@
             {% endfor %}
         </div>
     </div>
+</div>
 </div>
 </form>
 </section>
