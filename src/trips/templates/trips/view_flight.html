@@ -23,39 +23,47 @@
                 <div class="col-md-6">
                     <h5 class="card-title">From</h5>
                     {% render_field form.departure class+="form-control" %}
+                    <h5 class="card-title">Departing Date</h5>
                     {% render_field form.departure_date class+="form-control" type='date'%}
                 </div>
                 <!-- To Label -->
                 <div class="col-md-6">
                     <h5 class="card-title">To</h5>
                     {% render_field form.arrival class+="form-control" %}
+                    <h5 class="card-title">Returning Date</h5>
                     {% render_field form.return_date class+="form-control" type='date'%}
                 </div>
 
                 <!-- Start of Lower Filters -->
                 <div>
-                    <!-- Price Range Label/Slider -->
+                    <!-- Number of Stops Dropdown -->
                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Price Max</h5>
-                        {% render_field form.price_max class+="form-control"%}
+                        <h5 class="card-title">Number of Stops</h5>
+                        {% render_field form.stops class+="form-control"%}
                     </div>
 
-                    <!-- Region Dropdown -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Region Selection</h5>
-                        {% render_field form.region class+="form-control"%}
-                    </div>
-
-                    <!-- Activity Tab -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Activity Selection</h5>
-                        {% render_field form.activity class+="form-control"%}
-                    </div>
-
-                    <!-- Travelers Tab -->
+                    <!-- Travelers Number Input -->
                     <div class="form-group col-md-12">
                         <h5 class="card-title">Number of Travelers</h5>
                         {% render_field form.travelers class+="form-control"%}
+                    </div>
+
+                     <!-- Type of Flight Tab -->
+                     <div class="form-group col-md-12">
+                        <h5 class="card-title">Type Of Flight</h5>
+                        {% render_field form.type class+="form-control"%}
+                    </div>
+
+                    <!-- Type of Flight Tab -->
+                    <div class="form-group col-md-12">
+                        <h5 class="card-title">Number of Bags</h5>
+                        {% render_field form.bags class+="form-control"%}
+                    </div>
+
+                    <!-- Airline Tab -->
+                    <div class="form-group col-md-12">
+                        <h5 class="card-title">Airline</h5>
+                        {% render_field form.airline class+="form-control"%}
                     </div>
 
                     <!-- Priority Tab -->
@@ -67,6 +75,7 @@
                 <!-- Search/Inspire Buttons -->
                 <div class="col-md-12">
                     <figure class="center-block">
+                        <!-- Should only be  one search button -->
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Specify Destination">
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
                     </figure>
