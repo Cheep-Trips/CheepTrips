@@ -11,6 +11,7 @@ from django_registration.backends.one_step.views import RegistrationView as Base
 from .forms import NewAccountForm
 
 import requests, json
+from collections import OrderedDict
 
 import datetime
 
@@ -62,17 +63,15 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
     for carrier in carriers:
         carriers_dict[carrier['CarrierId']] = carrier['Name']
     res={}
-    count = 0
     for quote in response_json['Quotes']:
-        if(count > 4):
-            break
         if(arrival=="Everywhere"): 
             res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
         else:
             if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
                 res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
-        count +=1
-    return res
+    print(res)
+    # return res
+    return OrderedDict(sorted(res.items(), key=lambda x: x[1]))
 
 
 class DestinationView(FormView):
@@ -119,14 +118,6 @@ class DestinationView(FormView):
         arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
         departure_date = initial['departure_date'] = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        # initial['departure'] = self.request.GET.get('departure', '')
-        # initial['arrival'] = self.request.GET.get('arrival', '')
-        # if initial['arrival'] == "":
-        #     initial['arrival'] = "Everywhere" 
-        # initial['departure_date'] = self.request.GET.get('departure_date', '')
-        # initial['return_date'] = self.request.GET.get('return_date', '')
-        # if initial['return_date'] == None:
-        #     initial['arrival'] = "Everywhere" 
         initial['daily_budget'] = self.request.GET.get('daily_budget', 'value_budget')
         initial['region'] = self.request.GET.get('region', 'All Regions')
         initial['activity'] = self.request.GET.get('activity', 'All Activities')
@@ -274,8 +265,8 @@ class AddFlightView(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         carrier = request.POST.get('carrier', None)
         cost = request.POST.get('cost', None)
-        departure_name = request.POST.get('departure', None)
-        destination_name = request.POST.get('destination', None)
+        departure_name = request.POST.get('departure', None).upper()
+        destination_name = request.POST.get('destination', None).upper()
         departure_time = request.POST.get('departure_time', None)
         arrival_time = request.POST.get('arrival_time', None)
 
