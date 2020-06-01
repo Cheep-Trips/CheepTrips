@@ -12,6 +12,8 @@ from .forms import NewAccountForm
 
 import requests, json
 
+import datetime
+
 
 # from amadeus import Client, ResponseError
 
@@ -30,10 +32,7 @@ class WelcomeView(FormView):
         departure = form.cleaned_data['departure']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
-        if "with_destination" in form.data:           
-           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.success_url, departure, departure_date, return_date)
-        else:
-           self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
+        self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -42,18 +41,16 @@ class WelcomeView(FormView):
 def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
  
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
- 
 
     querystring = {"inboundpartialdate":inbound_date}
  
     headers = {
         'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        'x-rapidapi-key': "bad009e854msha1e631baaea5b4cp1f4736jsn72e952c4dfef"
+        'x-rapidapi-key': "d8bd090baamsh2d471b50a2f602dp172bf3jsn6ae1f2747d21"
     }
     
     response = requests.request("GET", url, headers=headers, params=querystring)
-    print(response.json())
-    response_json = json.loads(response.text)
+    response_json = response.json()
 
     places = response_json['Places']
     places_dict = {}
@@ -65,13 +62,18 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
     for carrier in carriers:
         carriers_dict[carrier['CarrierId']] = carrier['Name']
     res={}
+    count = 0
     for quote in response_json['Quotes']:
+        if(count > 4):
+            break
         if(arrival=="Everywhere"): 
-            res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [str(quote['MinPrice']), places_dict[quote['OutboundLeg']['DestinationId']][1]]
+            res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
         else:
-            if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]]):
-                res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = quote['MinPrice']
+            if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
+                res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
+        count +=1
     return res
+
 
 class DestinationView(FormView):
     form_class=DestinationForm
@@ -86,7 +88,27 @@ class DestinationView(FormView):
         arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
         departure_date = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        destinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        budget = self.request.GET.get('daily_budget', 'value_budget')
+        
+        destinations = {}
+        for k, v in oldDestinations.items():
+            destinations[k] = []
+            for x in v:
+                destinations[k].append(x)
+            if budget == 'value_budget':
+                destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
+            elif budget == 'value_midrange':
+                destinations[k].append((hash(v[1]) % 30) + 65)
+            else:
+                destinations[k].append((hash(v[1]) % 30) + 110)
+            date_format = "%Y-%m-%d"
+            a = datetime.datetime.strptime(return_date, date_format)
+            b = datetime.datetime.strptime(departure_date, date_format)
+            delta = a-b
+            destinations[k].append(delta.days)
+            destinations[k].append((destinations[k][0]) + destinations[k][3] * destinations[k][2])
+       
         context['destinations'] = destinations
         return context
 
@@ -97,7 +119,15 @@ class DestinationView(FormView):
         arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
         departure_date = initial['departure_date'] = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        initial['price_max'] = self.request.GET.get('price_max', '1000')
+        # initial['departure'] = self.request.GET.get('departure', '')
+        # initial['arrival'] = self.request.GET.get('arrival', '')
+        # if initial['arrival'] == "":
+        #     initial['arrival'] = "Everywhere" 
+        # initial['departure_date'] = self.request.GET.get('departure_date', '')
+        # initial['return_date'] = self.request.GET.get('return_date', '')
+        # if initial['return_date'] == None:
+        #     initial['arrival'] = "Everywhere" 
+        initial['daily_budget'] = self.request.GET.get('daily_budget', 'value_budget')
         initial['region'] = self.request.GET.get('region', 'All Regions')
         initial['activity'] = self.request.GET.get('activity', 'All Activities')
         initial['travelers'] = self.request.GET.get('travelers', '1')
@@ -110,7 +140,7 @@ class DestinationView(FormView):
         arrival = form.cleaned_data['arrival']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
-        price_max = form.cleaned_data['price_max']
+        daily_budget = form.cleaned_data['daily_budget']
         region = form.cleaned_data['region']
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
@@ -118,11 +148,13 @@ class DestinationView(FormView):
 
         #skyscanner to cache call here 
         if "with_destination" in form.data and arrival != "":           
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
+        elif "with_destination" in form.data:
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
         elif "without_destination" in form.data:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, daily_budget, region, activity, travelers, priority)
         else:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" - ")[1], departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" - ")[1], departure_date, return_date, daily_budget, region, activity, travelers, priority)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -137,11 +169,32 @@ class ViewFlightView(FormView):
     def get_context_data(self, **kwargs):
         initial = super().get_initial()
         context = super().get_context_data(**kwargs)
-        departure = self.request.GET.get('departure', '')
+        departure = self.request.GET.get('departure', 'lax')
         arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
         departure_date = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        destinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        budget = self.request.GET.get('daily_budget', 'value_budget')
+
+
+        destinations = {}
+        for k, v in oldDestinations.items():
+            destinations[k] = []
+            for x in v:
+                destinations[k].append(x)
+            if budget == 'value_budget':
+                destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
+            elif budget == 'value_midrange':
+                destinations[k].append((hash(v[1]) % 30) + 65)
+            else:
+                destinations[k].append((hash(v[1]) % 30) + 110)
+            date_format = "%Y-%m-%d"
+            a = datetime.datetime.strptime(return_date, date_format)
+            b = datetime.datetime.strptime(departure_date, date_format)
+            delta = a-b
+            destinations[k].append(delta.days)
+            destinations[k].append(int(destinations[k][0]) + destinations[k][3] * destinations[k][2])
+
         context['destinations'] = destinations
         context['departure'] = departure
         return context
@@ -152,7 +205,7 @@ class ViewFlightView(FormView):
         initial['arrival'] = self.request.GET.get('arrival', '')
         initial['departure_date'] = self.request.GET.get('departure_date', '')
         initial['return_date'] = self.request.GET.get('return_date', '')
-        initial['price_max'] = self.request.GET.get('price_max', '1000')
+        initial['daily_budget'] = self.request.GET.get('daily_budget', '1000')
         initial['region'] = self.request.GET.get('region', 'All Regions')
         initial['activity'] = self.request.GET.get('activity', 'All Activities')
         initial['travelers'] = self.request.GET.get('travelers', '1')
@@ -164,16 +217,16 @@ class ViewFlightView(FormView):
         arrival = form.cleaned_data['arrival']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
-        price_max = form.cleaned_data['price_max']
+        daily_budget = form.cleaned_data['daily_budget']
         region = form.cleaned_data['region']
         activity = form.cleaned_data['activity']
         travelers = form.cleaned_data['travelers']
         priority = form.cleaned_data['priority']
 
         if "with_destination" in form.data and arrival != "":           
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
         elif "without_destination" in form.data:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&price_max={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, price_max, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, daily_budget, region, activity, travelers, priority)
         else:
             #TODO ADD FLIGHT TO TRIP
             pass
@@ -199,8 +252,6 @@ class RegistrationView(BaseRegistrationView):
 
     def get_form(self, form_class=None):
      data = super().get_form(form_class)
-    #  for field in data.fields:
-    #     print(dir(field))
      return data
 
 class SignInView(FormView):
@@ -247,14 +298,17 @@ class AddFlightView(LoginRequiredMixin, RedirectView):
             trip=trip
         )
         flight.save()
-
-        print(carrier, cost, departure, destination, departure_time, arrival_time)
         self.url = reverse_lazy('trips:saved_trips')
         return super().post(request, *args, **kwargs)
 
 class SavedTripsView(LoginRequiredMixin, TemplateView):
     template_name = 'trips/saved_trips.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        trips = Trip.objects.filter(user=self.request.user).all()
+        context['trips'] = trips
+        return context
 
 def saved_trips(request):
     return render(request, 'trips/saved_trips.html', {})
@@ -268,7 +322,7 @@ def compare(request):
 def view_flight(request):
     return render(request, 'views.ViewFlight.as_view()', {})
 
-def getEchangeRate(request):
+def getExchangeRate(request):
     url = 'https://open.exchangerate-api.com/v6/latest/USD'
 
     # Here is all the exchange rates to all countries from USD
@@ -277,8 +331,47 @@ def getEchangeRate(request):
 
     return data
 
-def getBudget(request, city):
+def getBudget(departureAirport, arrivalAirport, choice):
     #todo (most likely over the weekend)
+     #getting city names based on airport
+ 
+    departureCityLoc = Location.objects.filter(airport=departureAirport).first()
+    departureCity = departureCityLoc.city
 
-    url = "https://www.budgetyourtrip.com/api/v3/search/locationdata/" + city
-    response = requests.post( url, headers=headers, auth=("apikey", BUDGET_YOUR_TRIP_API_KEY))
+    arrivalCityLoc = Location.objects.filter(airport=arrivalAirport).first()
+    arrivalCity = arrivalCityLoc.city
+
+    headers = {
+        "X-API-KEY": "RIESEWISMERUCSD2020"
+    }
+    #gets geonameid
+    arrivalurl = "https://www.budgetyourtrip.com/api/v3/search/locationdata/" + arrivalCity
+    arrivalResponse = requests.request("GET", arrivalurl, headers=headers)
+    arrival_response_json = json.loads(arrivalResponse.text)
+
+    geonameid = arrival_response_json['data'][0]['geonameid']
+    arrivalCurrency = arrival_response_json['data'][0]['currency_code']
+
+    departureurl = "https://www.budgetyourtrip.com/api/v3/search/locationdata/" + departureCity
+    departureResponse = requests.request("GET", departureurl, headers=headers)
+    departure_response_json = json.loads(departureResponse.text)
+
+    departureCurrency = departure_response_json['data'][0]['currency_code']
+
+    
+    #gets the user chosen budget
+    budgeturl = "https://www.budgetyourtrip.com/api/v3/costs/locationinfo/" + geonameid
+    budgetResponse = requests.request("GET", budgeturl, headers=headers)
+    budget_json = json.loads(budgetResponse.text)
+    daily_budget = budget_json['data']['costs'][-1][choice]
+
+    #converting the daily budget into user's currency
+    conversionurl = "https://www.budgetyourtrip.com/api/v3/currencies/convert/" + arrivalCurrency + "/" + departureCurrency + "/" + daily_budget
+    conversionResponse = requests.request("GET", conversionurl, headers=headers)
+    conversion_response_json = json.loads(conversionResponse.text)
+    daily_budget_converted = conversion_response_json['data']['newAmount']
+
+    #returns converted daily budget
+    return daily_budget_converted
+        
+    

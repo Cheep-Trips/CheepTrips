@@ -9,16 +9,19 @@
         background-position: left bottom;
         background-attachment:fixed !important;
     }
+    .bigger { font-size:135%; }
+
 </style>
 <section class="container">
-    <div class="row">
+    <div class="row" style="padding-top: 20px">
         <!-- Start of left side elements -->
+        {% if form.errors %}
+        <p style="color:red">Error: Departure date is in the past.</p>
+        {% endif %}
+        <form action="{% url 'trips:view_flight' %}" method="post" class='form'>
+            {% csrf_token %}
         <div class="col-md-4">
-            {% if form.errors %}
-                <p style="color:red">Error: Departure date is in the past.</p>
-            {% endif %}
-            <form action="{% url 'trips:view_flight' %}" method="post" class='form'>
-                {% csrf_token %}
+            
                 <!-- From Label -->
                 <div class="col-md-6">
                     <h5 class="card-title">From</h5>
@@ -38,8 +41,8 @@
                 <div>
                     <!-- Number of Stops Dropdown -->
                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Price Max</h5>
-                        {% render_field form.price_max class+="form-control"%}
+                        <h5 class="card-title">Daily Budget</h5>
+                        {% render_field form.daily_budget class+="form-control"%}
                     </div>
 
                     <!-- Travelers Number Input -->
@@ -71,11 +74,10 @@
                 <div class="col-md-12">
                     <figure class="center-block">
                         <!-- Should only be  one search button -->
-                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Specify Destination">
+                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
                     </figure>
                 </div>
-            </form>
         </div>
 
 <!-- Start of Cards Section -->
@@ -86,10 +88,12 @@
                 <div class="card mb-3">
                     <div class="card-body">
                             <div class="col-md-6">
-                                <h5 class="card-title">{{carrier}}</h5>
+                                <h4 class="card-title">{{carrier}}</h4>
                             </div>
                             <div class="col-md-6">
-                                <h5 class="card-title">Flight Cost (${{cost}}) + Daily Budget * Days = Total Cost</h5>
+                                <h4 class="card-title">Flight Cost = ${{cost.0}} </h4>
+                                <h6 class="card-title">Flight Cost + Daily Budget * Days = Total Cost</h6>
+                                <h5 class="card-title">${{cost.0}} + ${{cost.2}} * {{cost.3}} =  <span class='bigger'><strong>${{cost.4}}</strong></span> </h5>
                             </div>
                             <form method='POST' action="{% url 'trips:add_flight' %}" class="form">
                                 {% csrf_token %}

@@ -5,7 +5,11 @@
 <!-- Jumbotron -->
   <section class="jumbotron">
     <div class="container float-left">
-        <h2>Welcome Traveller</h2>
+      {% if user.is_authenticated %}
+        <h2>Welcome back, {{user.get_username}}!</h2>
+      {% else %}
+        <h2> Welcome Traveller</h2>
+      {% endif %}
     </div>
   </section>
 <!-- End of Jumbotron -->
@@ -15,9 +19,8 @@
   
   <section class="container">
     {% if form.errors %}
-      <p style="color:red">Error: Departure date is in the past.</p>
+      <p style="color:red">Error: Departure date should be after today.</p>
     {% endif %}
-
 
     <div class="row justify-content-center">
       <figure class="col-sm-3">  

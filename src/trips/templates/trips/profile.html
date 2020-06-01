@@ -17,23 +17,48 @@
     <div class="col-md-6">
       <h3> Account Settings </h3>
       <div class="col-md-6">
-        <h4 class="card-title">Change Password</h4>
-        <form action="{% url 'trips:sign_in' %}" method="post" class='form-signin'>
+        <h4>Username: {{user.get_username}}</h4>  
+        
+
+        <h4 class="card-title">Change Password:
+          <div style="line-height:10px;">
+            <br>
+        </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="New Password">
+          </div>
+          
+          <div class="form-group">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confrim Password">
+          </div>
+  
+
+
+        </h4>
+       
+        
+        <form action="{% url 'trips:profile' %}" method="post" class='form-signin'>
           {% csrf_token %}
           <div class="form-group">
             {{form.new_password.label}}
-            {% render_field form.new_password class+="form-control" %}
-            {{form.confirm_password.label}}
-            {% render_field form.confirm_password class+="form-control" %}
+            {% render_field form.new_password class+="form-control"%}
           </div>
-          <input type='submit' class="btn btn-large btn-primary btn-rounded btn-block" name="Save" style="width:100%">
-        </form>
-      </div>
-      <div>
-        <div class="col-md-6">
-          <h4 class="card-title">Email Preferences</h4>
-          <a href="{% url 'trips:saved_trips' %}" class="btn btn-lg btn-primary btn-rounded btn-block">Saved Trips</a>
+          <div class="form-group">
+            {{form.confirm_password.label}}
+            {% render_field form.confirm_password class+="form-control"%}
+          </div>
+          <h4 class="card-title">Email Preferences:</h4>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+            <!-- 
+              <input type="checkbox" class="custom-control-input" id="defaultChecked2" checked> 
+            -->
+            <br></br>
+            <label class="form-check-label" for="inlineCheckbox1">Receive Email Notifications</label>
         </div>
+          <input type='submit' class="btn btn-large btn-primary btn-rounded btn-block" name="Save" style="width:100%">
+          <a href="{% url 'trips:saved_trips' %}" class="btn btn-large btn-primary btn-rounded btn-block" style="width:100%">Saved Trips</a>
+        </form>
       </div>
     </div>
   </div>

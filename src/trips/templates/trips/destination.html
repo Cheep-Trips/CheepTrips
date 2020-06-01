@@ -10,39 +10,40 @@
         background-size: 375px;
         background-attachment:fixed !important;
     }
+    .bigger { font-size:135%; }
 
 </style>
 <section class="container">
-    <div class="row">
-    <form action="{% url 'trips:destination' %}" method="post" class='form'>
-        {% csrf_token %}
+<div class="row" style="padding-top: 20px">
     <!-- Start of left side elements -->
     <div class="col-md-4">
         {% if form.errors %}
             <p style="color:red">Error: Departure date is in the past.</p>
         {% endif %}
-        <!-- From Label -->
-        <div class="col-md-6">
-            <h5 class="card-title">From</h5>
-            {% render_field form.departure class+="form-control" %}
-            <h5 class="card-title">Departing Date</h5>
-            {% render_field form.departure_date class+="form-control" type='date'%}
-        </div>
-        <!-- To Label -->
-        <div class="col-md-6">
-            <h5 class="card-title">To</h5>
-            {% render_field form.arrival class+="form-control" %}
-            <h5 class="card-title">Returning Date</h5>
-            {% render_field form.return_date class+="form-control" type='date'%}
-        </div>
-
-        <!-- Start of Lower Filters -->
-        <div>
-            <!-- Price Range Label/Slider -->
-            <div class="form-group col-md-12">
-                <h5 class="card-title">Price Max</h5>
-                {% render_field form.price_max class+="form-control"%}
+        <form action="{% url 'trips:destination' %}" method="post" class='form'>
+            {% csrf_token %}
+            
+            <div class="col-md-6">
+                <h5 class="card-title">From</h5>
+                {% render_field form.departure class+="form-control" %}
+                <h5 class="card-title">Departing Date</h5>
+                {% render_field form.departure_date class+="form-control" type='date'%}
             </div>
+            <!-- To Label -->
+            <div class="col-md-6">
+                <h5 class="card-title">To</h5>
+                {% render_field form.arrival class+="form-control" %}
+                <h5 class="card-title">Returning Date</h5>
+                {% render_field form.return_date class+="form-control" type='date'%}
+            </div>
+
+            <!-- Start of Lower Filters -->
+            <div>
+                <!-- Price Range Label/Slider -->
+                <div class="form-group col-md-12">
+                    <h5 class="card-title">Daily Budget</h5>
+                    {% render_field form.daily_budget class+="form-control"%}
+                </div>
 
             <!-- Region Dropdown -->
             <div class="form-group col-md-12">
@@ -72,32 +73,34 @@
         <div class="col-md-12">
             <figure class="center-block">
                 <!-- Should only be one search button -->
-                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Specify Destination">
+                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
                 <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
+                <div style="line-height:15px;">
+                    <br>
+                </div>
             </figure>
             </div>
     </div>
-    <div>
-
         <!-- Start of Cards Section -->
         <div class="col-md-8">
-            {% for destination, info in destinations.items %} 
+            {% for destination, info in destinations.items %}
                 <div class="card mb-3">
                     <div class="card-body">
                             <div class="col-md-6">
-                                <h5 class="card-title">{{destination}}</h5>
+                                <h4 class="card-title"><strong>{{destination}}</strong></h4>
                             </div>
                             <div class="col-md-6">
-                                <h5 class="card-title">Flight Cost (${{info.0}}) + Daily Budget * Days = Total Cost</h5>
+                                <h4 class="card-title">Flight Cost: ${{info.0}}</h4>
+                                <h6 class="card-title">Flight Cost + Daily Budget * Days = Estimated Cost</h6>
+                                <h5 class="card-title">${{info.0}} + ${{info.2}} * {{info.3}} =  <span class='bigger'><strong>${{info.4}}</strong></span> </h5>
                             </div>
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{destination}} - {{info.1}}">
                     </div>
                 </div>
             {% endfor %}
         </div>
-    </div>
+    </form>
 </div>
-</div>
-</form>
+
 </section>
 {% endblock %}

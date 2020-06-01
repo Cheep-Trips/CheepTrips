@@ -12,10 +12,9 @@ class WelcomeForm(forms.Form):
     departure_date = forms.DateField(
         label='Departing')
     return_date = forms.DateField(
-        label='Returning',
-        required=False)
+        label='Returning')
     def clean(self):
-        if(self.cleaned_data['departure_date'] < datetime.date.today()):
+        if(self.cleaned_data['departure_date'] <= datetime.date.today()):
             raise forms.ValidationError(u'Wrong Date or Time!')
 
 
@@ -32,8 +31,10 @@ class DestinationForm(forms.Form):
     return_date = forms.DateField(
         label='Returning',
         required=False)
-    price_max = forms.IntegerField(
-        label='Maximum Cost'
+    daily_budget = forms.ChoiceField(
+        label='Budget',
+        required=False,
+        choices=[('value_budget', 'Low'), ('value_midrange', 'Medium'), ('value_luxury', 'High')]
     )
     region = forms.ChoiceField(
         label='Regions',

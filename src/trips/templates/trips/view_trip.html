@@ -13,72 +13,55 @@
   }
 </style>
 
-<section class="container">
-    <h1>Trip Title</h1>
+<section class="container" style="padding-top: 20px">
+
+        <nav class="navbar navbar-default">
+                <div class="col-md-10 navbar-header justify-content-start">
+                  <h2>View Trips</h2>    
+                </div>
+                <div class="col-md-2">
+                    <div class="col justify-content-end">
+                        <a href="{% url 'trips:saved_trips' %}" class="btn btn-primary">Back to Saved Trips</a>
+                    </div>
+                </div>
+            </nav>
+
     <!-- Start of Cards Section -->
-    <div class="col-md-8">
+    <div class="col-md-16">
         <!-- Trip Card -->
         <div class="card">
             <div class="card-body">
+                
                     <!-- Flight Cards -->
                     <div class="card">
+                        
                         <div class="card-body">
-                            <h4 class="card-title">Flight 1</h4> <br>
-                            <div class="row justify-content-start">
-                                Starting Airport: AAA
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Destination Airport: BBB
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Start Date: mm/dd/yyyy
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                End Date: mm/dd/yyyy
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Cost: $$$
-                            </div> 
-
-                            <a href="#" class="btn btn-primary">Book This Flight</a>
+                            <div class="col-md-2">
+                                <h3 class="card-title"><strong>Flight 1</strong></h3> <br>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-4">
+                                    <h5 class="card-title">Starting Airport</h5><br>
+                                    <h5 class="card-title">Destination Airport</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="card-title">Starting Date</h5><br>
+                                    <h5 class="card-title">Returning Date</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="card-title">Flight Cost Estimate</h5><br>
+                                    <!-- on click save to profilfe -->
+                                    <a href="{% url 'trips:saved_trips' %}" class="btn btn-primary">Save Trip</a>
+                                </div>
+                            </div>    
                         </div> 
                     </div>
                         
                     <br>
                     <br>
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Flight 2</h4> <br>
-                            <div class="row justify-content-start">
-                                Starting Airport: BBB
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Destination Airport: CCC
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Start Date: mm/dd/yyyy
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                End Date: mm/dd/yyyy
-                            </div> <br>
-
-                            <div class="row justify-content-start">
-                                Cost: $$$
-                            </div> 
-
-                            <a href="#" class="btn btn-primary">Book This Flight</a>
-                        </div> 
-                    </div>
-                        
             </div>
         </div>
+    </div>
 </section>
+
 {% endblock %}
