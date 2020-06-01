@@ -92,8 +92,8 @@
                             </div>
                             <div class="col-md-6">
                                 <h4 class="card-title">Flight Cost = ${{cost.0}} </h4>
-                                <h6 class="card-title">Flight Cost + Daily Budget * Days = Total Cost</h6>
-                                <h5 class="card-title">${{cost.0}} + ${{cost.2}} * {{cost.3}} =  <span class='bigger'><strong>${{cost.4}}</strong></span> </h5>
+                                <h6 class="card-title">Travelers * (Flight Cost + Daily Budget * Days) = Estimated Cost</h6>
+                                <h5 class="card-title">${{cost.4}} * ({{cost.0}} + ${{cost.2}} * {{cost.3}}) =  <span class='bigger'><strong>${{cost.5}}</strong></span> </h5>
                             </div>
                             <form method='POST' action="{% url 'trips:add_flight' %}" class="form">
                                 {% csrf_token %}

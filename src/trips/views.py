@@ -69,7 +69,6 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
         else:
             if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
                 res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
-    print(res)
     # return res
     return OrderedDict(sorted(res.items(), key=lambda x: x[1]))
 
@@ -89,6 +88,7 @@ class DestinationView(FormView):
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
         oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
         budget = self.request.GET.get('daily_budget', 'value_budget')
+        travelers = self.request.GET.get('travelers', 1)
         
         destinations = {}
         for k, v in oldDestinations.items():
@@ -98,15 +98,17 @@ class DestinationView(FormView):
             if budget == 'value_budget':
                 destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
             elif budget == 'value_midrange':
-                destinations[k].append((hash(v[1]) % 30) + 65)
+                destinations[k].append((hash(v[1]) % 30) + 100)
             else:
-                destinations[k].append((hash(v[1]) % 30) + 110)
+                destinations[k].append((hash(v[1]) % 30) + 200)
             date_format = "%Y-%m-%d"
             a = datetime.datetime.strptime(return_date, date_format)
             b = datetime.datetime.strptime(departure_date, date_format)
             delta = a-b
             destinations[k].append(delta.days)
-            destinations[k].append((destinations[k][0]) + destinations[k][3] * destinations[k][2])
+            destinations[k].append(travelers)
+            destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
+            print(destinations)
        
         context['destinations'] = destinations
         return context
@@ -141,7 +143,7 @@ class DestinationView(FormView):
         if "with_destination" in form.data and arrival != "":           
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
         elif "with_destination" in form.data:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, arrival, departure_date, return_date, daily_budget, region, activity, travelers, priority)
         elif "without_destination" in form.data:
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, daily_budget, region, activity, travelers, priority)
         else:
@@ -166,7 +168,7 @@ class ViewFlightView(FormView):
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
         oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
         budget = self.request.GET.get('daily_budget', 'value_budget')
-
+        travelers = self.request.GET.get('travelers', 1)
 
         destinations = {}
         for k, v in oldDestinations.items():
@@ -176,15 +178,16 @@ class ViewFlightView(FormView):
             if budget == 'value_budget':
                 destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
             elif budget == 'value_midrange':
-                destinations[k].append((hash(v[1]) % 30) + 65)
+                destinations[k].append((hash(v[1]) % 30) + 100)
             else:
-                destinations[k].append((hash(v[1]) % 30) + 110)
+                destinations[k].append((hash(v[1]) % 30) + 200)
             date_format = "%Y-%m-%d"
             a = datetime.datetime.strptime(return_date, date_format)
             b = datetime.datetime.strptime(departure_date, date_format)
             delta = a-b
             destinations[k].append(delta.days)
-            destinations[k].append(int(destinations[k][0]) + destinations[k][3] * destinations[k][2])
+            destinations[k].append(travelers)
+            destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
 
         context['destinations'] = destinations
         context['departure'] = departure
