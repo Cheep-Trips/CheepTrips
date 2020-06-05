@@ -15,6 +15,17 @@
         background-attachment:fixed !important;
     }
     .bigger { font-size:135%; }
+    .bg-custom {
+        background-color: #e9f2f9;
+        border-radius: 10px !important;
+    }
+    .bg-other {
+        background-color: #FFFFFF;
+        border-radius: 15px;
+    }
+    .padding {
+        margin-bottom: 0 !important;
+    }
 
 </style>
 <section class="container">
@@ -94,9 +105,10 @@
     </div>
         <!-- Start of Cards Section -->
         <div class="col-md-8">
+            <p class="text-right">Total Cost = Travelers * (Flight Cost + Daily Budget * Days)</p>
             {% for destination, info in destinations.items %}
-                <div class="card mb-2">
-                    <div class="card-body">
+                <div class="card mb-2" style="border-radius: 10px;">
+                    <div class="card-body bg-custom">
                             <div class="col-md-6">
                                 <h4 class="card-title"><strong>{{destination}}</strong></h4>
                                 <br></br>
@@ -112,13 +124,12 @@
                                     <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{info.1}}">
                                 </form>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 bg-other padding">
                                 <h4 class="card-title">Total Cost: <strong>${{info.5}}</strong></h4>
                                 <h5 class="card-title">Number of Travelers: {{info.4}}</h5> 
                                 <h5 class="card-title">Flight Cost: ${{info.0}}</h5> 
                                 <h5 class="card-title">Daily Budget: ${{info.2}}</h5> 
                                 <h5 class="card-title">Number of Days: {{info.3}}</h5> 
-                                <h6 class="card-title">Travelers * (Flight Cost + Daily Budget * Days) = <span class='bigger'><strong>${{info.5}}</strong></span></h6>
                             </div>
                     </div>
                 </div>

@@ -10,6 +10,17 @@
         background-attachment:fixed !important;
     }
     .bigger { font-size:135%; }
+    .bg-custom {
+        background-color: #e9f2f9;
+        border-radius: 10px;
+    }
+    .bg-other {
+        background-color: #FFFFFF;
+        border-radius: 15px;
+    }
+    .padding {
+        margin-bottom: 0 !important;
+    }
 
 </style>
 <section class="container">
@@ -90,9 +101,10 @@
         <div class="col-md-8">
             <!-- Individual Cards -->
             <div>
+                <p class="text-right">Total Cost = Travelers * (Flight Cost + Daily Budget * Days)</p>
                 {% for carrier, cost in destinations.items %} 
-                <div class="card mb-3">
-                    <div class="card-body">
+                <div class="card mb-3" style="border-radius: 10px;">
+                    <div class="card-body bg-custom">
                         <form method='POST' action="{% url 'trips:add_flight' %}" class="form">
                             {% csrf_token %}
                             <div class="col-md-6">
@@ -100,10 +112,12 @@
                                 <br></br>
                                 <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="Add Flight to Trip">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 bg-other padding">
                                 <h4 class="card-title">Flight Cost = ${{cost.0}} </h4>
-                                <h6 class="card-title">Travelers * (Flight Cost + Daily Budget * Days) = Estimated Cost</h6>
-                                <h5 class="card-title">${{cost.4}} * ({{cost.0}} + ${{cost.2}} * {{cost.3}}) =  <span class='bigger'><strong>${{cost.5}}</strong></span> </h5>
+                                <h5 class="card-title">Number of Travelers: {{cost.4}}</h5> 
+                                <h5 class="card-title">Daily Budget: ${{cost.2}}</h5> 
+                                <h5 class="card-title">Number of Days: {{cost.3}}</h5>
+                                <h4 class="card-title">Total Cost =  <span class='bigger'><strong>${{cost.5}}</strong></span> </h4>
                             </div>
                            
                                 <input type='hidden' name='carrier' value='{{carrier}}'>
