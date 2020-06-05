@@ -33,7 +33,7 @@ class WelcomeView(FormView):
         departure = form.cleaned_data['departure']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
-        self.success_url = "{}?departure={}&departure_date={}&return_date={}".format(self.destination_url, departure, departure_date, return_date)
+        self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -72,6 +72,21 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
     # return res
     return OrderedDict(sorted(res.items(), key=lambda x: x[1]))
 
+class UpdateSearchView(FormView):
+    form_class=DestinationForm
+    success_url=reverse_lazy('trips:destination')
+    destination_url=reverse_lazy('trips:destination')
+
+    def form_valid(self, form):
+        departure = form.cleaned_data['departure']
+        departure_date = form.cleaned_data['departure_date']
+        return_date = form.cleaned_data['return_date']
+        arrival = form.cleaned_data['arrival']
+        self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
+        if arrival:
+            self.success_url += "&arrival_id={}".format(arrival.id)
+        return super().form_valid(form)
+
 
 class DestinationView(FormView):
     form_class=DestinationForm
@@ -108,15 +123,22 @@ class DestinationView(FormView):
             destinations[k].append(delta.days)
             destinations[k].append(travelers)
             destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
-            print(destinations)
        
         context['destinations'] = destinations
         return context
 
     def get_initial(self):
         initial = super().get_initial()
-        departure = initial['departure'] = self.request.GET.get('departure', '')
-        initial['arrival'] = self.request.GET.get('arrival', '')
+        departure_id = self.request.GET.get('departure_id', '')
+        departure = Location.objects.get(id=departure_id)
+        initial['departure'] = departure
+        arrival_id = self.request.GET.get('arrival_id', '')
+        if arrival_id:
+            arrival = Location.objects.get(id=arrival_id)
+            initial['arrival'] = arrival
+        else:
+            initial['arrival'] = ''
+
         arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
         departure_date = initial['departure_date'] = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')

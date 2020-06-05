@@ -12,5 +12,6 @@ urlpatterns = [
         name='django_registration_register',
     ),
     path('accounts/', include('django.contrib.auth.urls')),
+    path("select2/", include("django_select2.urls")),
     path('', include('trips.urls'))
 ]

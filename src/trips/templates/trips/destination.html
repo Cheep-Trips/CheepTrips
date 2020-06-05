@@ -1,6 +1,10 @@
 {% extends 'trips/base.html' %}
 {% load widget_tweaks %}
 
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
 {% block content %}
 <style>
     body {
@@ -20,7 +24,7 @@
         {% if form.errors %}
             <p style="color:red">Error: Departure date is in the past.</p>
         {% endif %}
-        <form action="{% url 'trips:destination' %}" method="post" class='form'>
+        <form action="{% url 'trips:update_search' %}" method="post" class='form'>
             {% csrf_token %}
             
             <div class="col-md-6">
@@ -104,4 +108,8 @@
 </div>
 
 </section>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media.js }}
 {% endblock %}

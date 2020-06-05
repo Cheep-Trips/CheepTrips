@@ -2,13 +2,23 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from django_registration.forms import RegistrationForm
-from .models import User
+from django_select2 import forms as s2forms
+
+from .models import User, Location
 import datetime
 
 class WelcomeForm(forms.Form):
-    departure = forms.CharField(
-        max_length=256, 
-        label="Flying from")
+    departure = forms.ModelChoiceField(
+        queryset=Location.objects.all(),
+        label='Flying from',
+        widget=s2forms.ModelSelect2Widget(
+            model=Location,
+            search_fields=['airport__icontains', 'city__icontains', 'country__icontains', 'state__icontains'],
+            )
+    )
+    # departure = forms.CharField(
+    #     max_length=256, 
+    #     label="Flying from")
     departure_date = forms.DateField(
         label='Departing')
     return_date = forms.DateField(
@@ -19,13 +29,27 @@ class WelcomeForm(forms.Form):
 
 
 class DestinationForm(forms.Form):
-    departure = forms.CharField(
-        max_length=256, 
-        label="Flying from")
-    arrival = forms.CharField(
-        max_length=256, 
-        label="Flying to",
-        required=False)
+    departure = forms.ModelChoiceField(
+        queryset=Location.objects.all(),
+        label='Flying from',
+        widget=s2forms.ModelSelect2Widget(
+            model=Location,
+            search_fields=['airport__icontains', 'city__icontains', 'country__icontains', 'state__icontains'],
+            )
+    )
+    arrival = forms.ModelChoiceField(
+        queryset=Location.objects.all(),
+        label='Flying to',
+        widget=s2forms.ModelSelect2Widget(
+            model=Location,
+            search_fields=['airport__icontains', 'city__icontains', 'country__icontains', 'state__icontains'],
+            ), 
+        required=False
+    )
+    # arrival = forms.CharField(
+    #     max_length=256, 
+    #     label="Flying to",
+    #     required=False)
     departure_date = forms.DateField(
         label='Departing')
     return_date = forms.DateField(

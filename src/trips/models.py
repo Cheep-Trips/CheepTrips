@@ -16,6 +16,9 @@ class Location(models.Model):
     cost_of_living = models.IntegerField(default=0)
     region =  models.ForeignKey(Region, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name()
+
     def name(self):
         if self.state:
             return "{}, {} {} ({})".format(self.city, self.state, self.country, self.airport)

@@ -1,7 +1,12 @@
 {% extends 'trips/base.html' %}
 {% load widget_tweaks %}
 
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
 {% block content %}
+
 <!-- Jumbotron -->
   <section class="jumbotron">
     <div class="container float-left">
@@ -47,3 +52,6 @@
 </form>
 {% endblock %}
   
+{% block extra_js %}
+{{ form.media.js }}
+{% endblock %}

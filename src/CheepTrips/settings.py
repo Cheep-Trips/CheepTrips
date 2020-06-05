@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'trips',
     'django_registration',
-    'widget_tweaks'
+    'widget_tweaks',
+    'django_select2'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CACHES = {
+    # … default cache config and others
+    "default": {
+        "BACKEND": 'django.core.cache.backends.db.DatabaseCache',
+        "LOCATION": 'select2_cache',
+        "TIMEOUT": None,
+    }
+}
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "default"
