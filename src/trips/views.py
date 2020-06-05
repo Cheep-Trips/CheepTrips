@@ -87,6 +87,10 @@ class UpdateSearchView(FormView):
             self.success_url += "&arrival_id={}".format(arrival.id)
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        print(form.errors)
+        return self.form_valid(form)
+
 
 class DestinationView(FormView):
     form_class=DestinationForm
@@ -95,8 +99,9 @@ class DestinationView(FormView):
     template_name='trips/destination.html'
 
     def get_context_data(self, **kwargs):
-        initial = super().get_initial()
+        initial = self.get_initial()
         context = super().get_context_data(**kwargs)
+        context['departure'] = initial['departure']
         departure = self.request.GET.get('departure', '')
         arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
         departure_date = self.request.GET.get('departure_date', '')
@@ -141,7 +146,7 @@ class DestinationView(FormView):
         else:
             initial['arrival'] = ''
 
-        arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
+        # arrival = initial['arrival'] if initial['arrival'] != "" else "Everywhere"
         departure_date = initial['departure_date'] = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
         initial['daily_budget'] = self.request.GET.get('daily_budget', 'value_budget')
@@ -176,6 +181,18 @@ class DestinationView(FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
+
+
+class SelectDestinationView(RedirectView):
+    url=reverse_lazy('trips:view_flight')
+
+    def post(self, request, *args, **kwargs):
+        departure_id = self.request.POST.get('departure_id')
+        departure_date = self.request.POST.get('departure_date')
+        return_date = self.request.POST.get('return_date')
+        arrival = self.request.POST.get('arrival')
+        self.url = "{}?departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.url, departure_date, return_date, departure_id, arrival)
+        return super().post(request, *args, **kwargs)
 
 class ViewFlightView(FormView):
     form_class=DestinationForm
@@ -223,8 +240,15 @@ class ViewFlightView(FormView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['departure'] = self.request.GET.get('departure', '')
-        initial['arrival'] = self.request.GET.get('arrival', '')
+        departure_id = self.request.GET.get('departure_id', '')
+        departure = Location.objects.get(id=departure_id)
+        initial['departure'] = departure
+        arrival_airport = self.request.GET.get('arrival', '')
+        if arrival_airport:
+            arrival = Location.objects.get(airport=arrival_airport)
+            initial['arrival'] = arrival
+        else:
+            initial['arrival'] = ''
         initial['departure_date'] = self.request.GET.get('departure_date', '')
         initial['return_date'] = self.request.GET.get('return_date', '')
         initial['daily_budget'] = self.request.GET.get('daily_budget', '1000')

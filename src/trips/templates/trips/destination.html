@@ -78,18 +78,19 @@
                 <h5 class="card-title">One Way or Round Trip</h5>
                 {% render_field form.flight_type class+="form-control"%}
             </div>
-        </div>
         <!-- Search/Inspire Buttons -->
-        <div class="col-md-12">
-            <figure class="center-block">
-                <!-- Should only be one search button -->
-                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
-                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
-                <div style="line-height:15px;">
-                    <br>
-                </div>
-            </figure>
+            <div class="col-md-12">
+                <figure class="center-block">
+                    <!-- Should only be one search button -->
+                    <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
+                    <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
+                    <div style="line-height:15px;">
+                        <br>
+                    </div>
+                </figure>
             </div>
+        </form>
+    </div>
     </div>
         <!-- Start of Cards Section -->
         <div class="col-md-8">
@@ -99,7 +100,17 @@
                             <div class="col-md-6">
                                 <h4 class="card-title"><strong>{{destination}}</strong></h4>
                                 <br></br>
-                                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{info.1}}">
+                                <form action="{% url 'trips:select_destination' %}" method="post" class='form'>
+                                    {% csrf_token %}
+                                    <input type='hidden' name='departure_id' value='{{departure.id}}'>
+                                    <input type='hidden' name='arrival' value='{{info.1}}'>
+                                    <input type='hidden' name='departure' value='{{departure}}'>
+                                    <input type='hidden' name='destination' value='{{cost.1}}'>
+                                    <input type='hidden' name='departure_date' value='{{form.departure_date.value}}'>
+                                    <input type='hidden' name='return_date' value='{{form.return_date.value}}'>
+
+                                    <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{info.1}}">
+                                </form>
                             </div>
                             <div class="col-md-6">
                                 <h4 class="card-title">Total Cost: <strong>${{info.5}}</strong></h4>
