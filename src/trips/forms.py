@@ -79,6 +79,12 @@ class DestinationForm(forms.Form):
         label='Priority',
         choices=[('cheapest', 'Prioritize Cheapest Flights'), ('fastest', 'Prioritize Fastest Flights')]
     )
+
+    flight_type = forms.ChoiceField(
+        label='One Way or Round Trip',
+        choices=[('1', 'One Way'), ('2', 'Round Trip')]
+    )
+
     def clean(self):
         if(self.cleaned_data['departure_date'] < datetime.date.today()):
             print("CLEAN:",self.cleaned_data['departure_date'] < datetime.date.today())

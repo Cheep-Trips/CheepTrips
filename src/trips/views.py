@@ -104,6 +104,7 @@ class DestinationView(FormView):
         oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
         budget = self.request.GET.get('daily_budget', 'value_budget')
         travelers = self.request.GET.get('travelers', 1)
+        flight_type = self.request.GET.get('flight_type', '1') #integer (1 or 2) that specifies whether one-way or round-trip
         
         destinations = {}
         for k, v in oldDestinations.items():
@@ -122,6 +123,7 @@ class DestinationView(FormView):
             delta = a-b
             destinations[k].append(delta.days)
             destinations[k].append(travelers)
+            destinations[k][0] = destinations[k][0] * int(flight_type)
             destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
        
         context['destinations'] = destinations
@@ -169,7 +171,7 @@ class DestinationView(FormView):
         elif "without_destination" in form.data:
             self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.destination_url, departure, "", departure_date, return_date, daily_budget, region, activity, travelers, priority)
         else:
-            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" - ")[1], departure_date, return_date, daily_budget, region, activity, travelers, priority)
+            self.success_url = "{}?departure={}&arrival={}&departure_date={}&return_date={}&daily_budget={}&region={}&activity={}&travelers={}&priority={}".format(self.success_url, departure, form.data["set_destination"].split(" ")[-1], departure_date, return_date, daily_budget, region, activity, travelers, priority)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -180,6 +182,7 @@ class ViewFlightView(FormView):
     success_url=reverse_lazy('trips:view_flight')
     destination_url=reverse_lazy('trips:destination')
     template_name='trips/view_flight.html'
+    
 
     def get_context_data(self, **kwargs):
         initial = super().get_initial()
@@ -191,6 +194,8 @@ class ViewFlightView(FormView):
         oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
         budget = self.request.GET.get('daily_budget', 'value_budget')
         travelers = self.request.GET.get('travelers', 1)
+        flight_type = self.request.GET.get('flight_type', '1') #integer (1 or 2) that specifies whether one-way or round-trip
+
 
         destinations = {}
         for k, v in oldDestinations.items():
@@ -209,6 +214,7 @@ class ViewFlightView(FormView):
             delta = a-b
             destinations[k].append(delta.days)
             destinations[k].append(travelers)
+            destinations[k][0] = destinations[k][0] * int(flight_type)
             destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
 
         context['destinations'] = destinations

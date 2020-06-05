@@ -72,6 +72,12 @@
                 <h5 class="card-title">Prioritization</h5>
                 {% render_field form.priority class+="form-control"%}
             </div>
+
+            <!-- One way/Two way-->
+            <div class="form-group col-md-12">
+                <h5 class="card-title">One Way or Round Trip</h5>
+                {% render_field form.flight_type class+="form-control"%}
+            </div>
         </div>
         <!-- Search/Inspire Buttons -->
         <div class="col-md-12">
@@ -93,12 +99,15 @@
                             <div class="col-md-6">
                                 <h4 class="card-title"><strong>{{destination}}</strong></h4>
                                 <br></br>
-                                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{destination}} - {{info.1}}">
+                                <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="set_destination" value="View Flights to {{info.1}}">
                             </div>
                             <div class="col-md-6">
-                                <h4 class="card-title">Flight Cost: ${{info.0}}</h4>
-                                <h6 class="card-title">Travelers * (Flight Cost + Daily Budget * Days) = Estimated Cost</h6>
-                                <h5 class="card-title">{{info.4}} * (${{info.0}} + ${{info.2}} * {{info.3}}) = <span class='bigger'><strong>${{info.5}}</strong></span> </h5>
+                                <h4 class="card-title">Total Cost: <strong>${{info.5}}</strong></h4>
+                                <h5 class="card-title">Number of Travelers: {{info.4}}</h5> 
+                                <h5 class="card-title">Flight Cost: ${{info.0}}</h5> 
+                                <h5 class="card-title">Daily Budget: ${{info.2}}</h5> 
+                                <h5 class="card-title">Number of Days: {{info.3}}</h5> 
+                                <h6 class="card-title">Travelers * (Flight Cost + Daily Budget * Days) = <span class='bigger'><strong>${{info.5}}</strong></span></h6>
                             </div>
                     </div>
                 </div>
