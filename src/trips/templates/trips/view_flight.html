@@ -56,18 +56,6 @@
                         {% render_field form.daily_budget class+="form-control"%}
                     </div>
 
-                    <!-- Travelers Number Input -->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">Region Selection</h5>
-                        {% render_field form.region class+="form-control"%}
-                    </div>
-
-                     <!-- Type of Flight Tab -->
-                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Activity Selection</h5>
-                        {% render_field form.activity class+="form-control"%}
-                    </div>
-
                     <!-- Type of Flight Tab -->
                     <div class="form-group col-md-12">
                         <h5 class="card-title">Number of Travelers</h5>
@@ -88,7 +76,12 @@
         <div class="col-md-8">
             <!-- Individual Cards -->
             <div>
-                <p class="text-right">Total Cost = Travelers * (Flight Cost + Daily Budget * Days)</p>
+                <p style="text-align:left;">
+                    Flights to
+                    <span style="float:right;">
+                        Total Cost = Travelers * (Flight Cost + Daily Budget * Days)
+                    </span>
+                </p>
                 {% for carrier, cost in destinations.items %} 
                 <div class="card mb-3" style="border-radius: 10px;">
                     <div class="card-body bg-custom">
