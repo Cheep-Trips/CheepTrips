@@ -63,7 +63,7 @@ class DestinationForm(forms.Form):
     region = forms.ChoiceField(
         label='Regions',
         required=False,
-        choices=[('all', 'All Regions'), ('NA', 'North America'), ('SA', 'South America'), ('EU', 'Europe'), ('AS', 'Asia'), ('AF', 'Africa'), ('AU', 'Australia')]
+        choices=[('', 'All Regions'), ('North America', 'North America'), ('South America', 'South America'), ('Europe', 'Europe'), ('Asia', 'Asia'), ('Africa', 'Africa'), ('Oceania', 'Oceania')]
     )
     activity = forms.ChoiceField(
         label='Activities',

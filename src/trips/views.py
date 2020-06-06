@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django_registration.backends.one_step.views import RegistrationView as BaseRegistrationView
 from .forms import NewAccountForm
+from .utils.country_codes import country_codes
+from .utils.curated_regions import world_regions
 
 import requests, json
 from collections import OrderedDict
@@ -64,7 +66,7 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
         carriers_dict[carrier['CarrierId']] = carrier['Name']
     res={}
     for quote in response_json['Quotes']:
-        if(arrival=="Everywhere"): 
+        if(arrival=="Everywhere") or len(arrival) == 2: 
             res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
         else:
             if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
@@ -83,7 +85,10 @@ class UpdateSearchView(FormView):
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
         arrival = form.cleaned_data['arrival']
+        region = form.cleaned_data['region']
         self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
+        if region:
+            self.success_url += "&region={}".format(region)
         if arrival:
             self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.flights_url, departure.airport, departure_date, return_date, departure.id, arrival.airport)
         return super().form_valid(form)
@@ -104,10 +109,22 @@ class DestinationView(FormView):
         context = super().get_context_data(**kwargs)
         context['departure'] = initial['departure']
         departure = self.request.GET.get('departure', '')
-        arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
+        arrival = self.request.GET.get('arrival', 'Everywhere')
+        region = self.request.GET.get('region', '')
         departure_date = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        if not region:
+            oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
+        else:
+            oldDestinations = {}
+            countries = []
+            if region in world_regions:
+                countries = world_regions[region]
+            for country in countries:
+                code = country_codes[country]
+                results = getSkyscannerCached(departure, departure_date, code, return_date)
+                oldDestinations.update(results)
+    
         budget = self.request.GET.get('daily_budget', 'value_budget')
         travelers = self.request.GET.get('travelers', 1)
         flight_type = self.request.GET.get('flight_type', '1') #integer (1 or 2) that specifies whether one-way or round-trip
