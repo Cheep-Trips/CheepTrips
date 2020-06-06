@@ -73,12 +73,6 @@
                         <h5 class="card-title">Number of Travelers</h5>
                         {% render_field form.travelers class+="form-control"%}
                     </div>
-
-                    <!-- One way/Two way-->
-                    <div class="form-group col-md-12">
-                        <h5 class="card-title">One Way or Round Trip</h5>
-                        {% render_field form.flight_type class+="form-control"%}
-                    </div>
                     
                 </div>
                 <!-- Search/Inspire Buttons -->
@@ -86,7 +80,6 @@
                     <figure class="center-block">
                         <!-- Should only be  one search button -->
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
-                        <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="without_destination" value="Inspire me!">
                     </figure>
                 </div>
         </div>
