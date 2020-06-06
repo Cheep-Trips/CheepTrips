@@ -68,7 +68,7 @@ class DestinationForm(forms.Form):
     activity = forms.ChoiceField(
         label='Activities',
         required=False,
-        choices=[('all', 'All Activites'), ('swimming', 'Swimming'), ('surfing', 'Surfing'), ('scenery', 'Scenery'), ('shopping', 'Shopping')]
+        choices=[('', 'All Activites'), ("Skiing/Snowboarding","Skiing/Snowboarding"), ('swimming', 'Swimming'), ('surfing', 'Surfing'), ('scenery', 'Scenery'), ('shopping', 'Shopping')]
     )
     travelers = forms.IntegerField(
         label='Travelers',

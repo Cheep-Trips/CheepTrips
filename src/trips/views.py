@@ -22,7 +22,7 @@ import datetime
 
 from .forms import *
 from . import views
-from .models import Trip, Flight, Location
+from .models import Trip, Flight, Location, Activity
 
 
 class WelcomeView(FormView):
@@ -41,7 +41,7 @@ class WelcomeView(FormView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
-def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
+def getSkyscannerCached(departure, departure_date, arrival, inbound_date, show_destination_name=False):
  
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + departure + "-sky/" + arrival + "/" + departure_date
 
@@ -66,7 +66,7 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date):
         carriers_dict[carrier['CarrierId']] = carrier['Name']
     res={}
     for quote in response_json['Quotes']:
-        if(arrival=="Everywhere") or len(arrival) == 2: 
+        if(arrival=="Everywhere") or show_destination_name: 
             res[places_dict[quote['OutboundLeg']['DestinationId']][0]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
         else:
             if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
@@ -86,9 +86,12 @@ class UpdateSearchView(FormView):
         return_date = form.cleaned_data['return_date']
         arrival = form.cleaned_data['arrival']
         region = form.cleaned_data['region']
+        activity = form.cleaned_data['activity']
         self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
         if region:
             self.success_url += "&region={}".format(region)
+        elif activity:
+            self.success_url += "&activity={}".format(activity)
         if arrival:
             self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.flights_url, departure.airport, departure_date, return_date, departure.id, arrival.airport)
         return super().form_valid(form)
@@ -111,19 +114,26 @@ class DestinationView(FormView):
         departure = self.request.GET.get('departure', '')
         arrival = self.request.GET.get('arrival', 'Everywhere')
         region = self.request.GET.get('region', '')
+        activity = self.request.GET.get('activity', '')
         departure_date = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')
-        if not region:
-            oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
-        else:
+        if region:
             oldDestinations = {}
             countries = []
             if region in world_regions:
                 countries = world_regions[region]
             for country in countries:
                 code = country_codes[country]
-                results = getSkyscannerCached(departure, departure_date, code, return_date)
+                results = getSkyscannerCached(departure, departure_date, code, return_date, True)
                 oldDestinations.update(results)
+        elif activity:
+            oldDestinations = {}
+            activity = Activity.objects.get(name=activity)
+            for location in activity.locations.all():
+                results = getSkyscannerCached(departure, departure_date, location.airport, return_date, True)
+                oldDestinations.update(results)
+        else:
+            oldDestinations = getSkyscannerCached(departure, departure_date, arrival, return_date)
     
         budget = self.request.GET.get('daily_budget', 'value_budget')
         travelers = self.request.GET.get('travelers', 1)
