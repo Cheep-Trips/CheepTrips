@@ -76,6 +76,7 @@ class UpdateSearchView(FormView):
     form_class=DestinationForm
     success_url=reverse_lazy('trips:destination')
     destination_url=reverse_lazy('trips:destination')
+    flights_url=reverse_lazy('trips:view_flight')
 
     def form_valid(self, form):
         departure = form.cleaned_data['departure']
@@ -84,7 +85,7 @@ class UpdateSearchView(FormView):
         arrival = form.cleaned_data['arrival']
         self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
         if arrival:
-            self.success_url += "&arrival_id={}".format(arrival.id)
+            self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.flights_url, departure.airport, departure_date, return_date, departure.id, arrival.airport)
         return super().form_valid(form)
 
     def form_invalid(self, form):
