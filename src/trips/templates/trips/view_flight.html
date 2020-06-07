@@ -91,7 +91,12 @@
         <div class="col-md-8">
             <!-- Individual Cards -->
             <div>
-                <p class="text-right">Total Cost = Travelers * (Flight Cost + Daily Budget * Days)</p>
+                <p style="text-align:left;">
+                    Flights to {{arrival.city}}
+                    <span style="float:right;">
+                        Total Cost = Travelers * (Flight Cost + Daily Budget * Days)
+                    </span>
+                </p>
                 {% for carrier, cost in destinations.items %} 
                 <div class="card mb-3" style="border-radius: 10px;">
                     <div class="card-body bg-custom">

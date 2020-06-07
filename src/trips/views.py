@@ -292,6 +292,7 @@ class ViewFlightView(FormView):
 
         context['destinations'] = destinations
         context['departure'] = departure
+        context['arrival'] = initial['arrival']
         return context
 
     def get_initial(self):
