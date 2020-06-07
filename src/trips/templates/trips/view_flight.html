@@ -26,12 +26,13 @@
 <section class="container">
     <div class="row" style="padding-top: 20px">
         <!-- Start of left side elements -->
+        <div class="col-md-4">
         {% if form.errors %}
         <p style="color:red">Error: Departure date is in the past.</p>
         {% endif %}
-        <form action="{% url 'trips:view_flight' %}" method="post" class='form'>
+            <form action="{% url 'trips:update_search' %}" method="post" class='form'>
             {% csrf_token %}
-        <div class="col-md-4">
+            
             
                 <!-- From Label -->
                 <div class="col-md-6">
@@ -58,13 +59,13 @@
 
                     <!-- Travelers Number Input -->
                     <div class="form-group col-md-12">
-                        <h5 class="card-title">Region Selection</h5>
+                        <h5 class="card-title">Prefered Region</h5>
                         {% render_field form.region class+="form-control"%}
                     </div>
 
                      <!-- Type of Flight Tab -->
                      <div class="form-group col-md-12">
-                        <h5 class="card-title">Activity Selection</h5>
+                        <h5 class="card-title">Prefered Activity</h5>
                         {% render_field form.activity class+="form-control"%}
                     </div>
 
@@ -82,6 +83,8 @@
                         <input type='submit' class="btn btn-medium btn-primary btn-rounded" name="with_destination" value="Update Search">
                     </figure>
                 </div>
+            
+            </form>
         </div>
 
 <!-- Start of Cards Section -->

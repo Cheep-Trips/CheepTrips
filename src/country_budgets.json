@@ -1,0 +1,772 @@
+{
+	"Botswana": {
+		"value_budget": "288.00863970588",
+		"value_midrange": "661.18006920953",
+		"value_luxury": "1281.6518234504",
+		"country_code": "BW",
+		"category_id": "0"
+	},
+	"Burkina Faso": {
+		"value_budget": "6629.7246824527",
+		"value_midrange": "14869.672931218",
+		"value_luxury": "27581.954287232",
+		"country_code": "BF",
+		"category_id": "0"
+	},
+	"Cape Verde": {
+		"value_budget": "5070.6437647059",
+		"value_midrange": "11514.382267406",
+		"value_luxury": "22156.637787079",
+		"country_code": "CV",
+		"category_id": "0"
+	},
+	"Egypt": {
+		"value_budget": "150.35918230385",
+		"value_midrange": "390.18849740693",
+		"value_luxury": "1042.0423220871",
+		"country_code": "EG",
+		"category_id": "0"
+	},
+	"Ethiopia": {
+		"value_budget": "423.76293989055",
+		"value_midrange": "1214.8538859949",
+		"value_luxury": "3891.1007884098",
+		"country_code": "ET",
+		"category_id": "0"
+	},
+	"Ghana": {
+		"value_budget": "17.298525505536",
+		"value_midrange": "40.865709610262",
+		"value_luxury": "86.537365118641",
+		"country_code": "GH",
+		"category_id": "0"
+	},
+	"Kenya": {
+		"value_budget": "5036.9756546206",
+		"value_midrange": "11885.014154204",
+		"value_luxury": "25079.900596073",
+		"country_code": "KE",
+		"category_id": "0"
+	},
+	"Lesotho": {
+		"value_budget": "403.375",
+		"value_midrange": "922.02400791611",
+		"value_luxury": "1761.877494162",
+		"country_code": "LS",
+		"category_id": "0"
+	},
+	"Libya": {
+		"value_budget": "218.875",
+		"value_midrange": "228.7625",
+		"value_luxury": "243.425",
+		"country_code": "LY",
+		"category_id": "0"
+	},
+	"Madagascar": {
+		"value_budget": "124778.44827586",
+		"value_midrange": "306685.36342446",
+		"value_luxury": "722907.0506401",
+		"country_code": "MG",
+		"category_id": "0"
+	},
+	"Malawi": {
+		"value_budget": "22808.742647059",
+		"value_midrange": "50662.282100615",
+		"value_luxury": "96203.801690809",
+		"country_code": "MW",
+		"category_id": "0"
+	},
+	"Mali": {
+		"value_budget": "9901.789837823",
+		"value_midrange": "16009.81504066",
+		"value_luxury": "29089.772825164",
+		"country_code": "ML",
+		"category_id": "0"
+	},
+	"Mauritania": {
+		"value_budget": "11748.065",
+		"value_midrange": "15277.819102974",
+		"value_luxury": "21442.911138923",
+		"country_code": "MR",
+		"category_id": "0"
+	},
+	"Morocco": {
+		"value_budget": "159.68459759844",
+		"value_midrange": "395.15149459692",
+		"value_luxury": "947.27967594006",
+		"country_code": "MA",
+		"category_id": "0"
+	},
+	"Namibia": {
+		"value_budget": "538.23854258242",
+		"value_midrange": "1114.4315135074",
+		"value_luxury": "2533.0652057176",
+		"country_code": "NA",
+		"category_id": "0"
+	},
+	"Nigeria": {
+		"value_budget": "8072.2288001131",
+		"value_midrange": "12115.259682321",
+		"value_luxury": "17138.943861306",
+		"country_code": "NG",
+		"category_id": "0"
+	},
+	"Rwanda": {
+		"value_budget": "19502.333333333",
+		"value_midrange": "24170.621042795",
+		"value_luxury": "36246.360068872",
+		"country_code": "RW",
+		"category_id": "0"
+	},
+	"Senegal": {
+		"value_budget": "14416.877689394",
+		"value_midrange": "43955.444954921",
+		"value_luxury": "154127.75472389",
+		"country_code": "SN",
+		"category_id": "0"
+	},
+	"Seychelles": {
+		"value_budget": "974.178125",
+		"value_midrange": "2222.8033813063",
+		"value_luxury": "4222.3467665382",
+		"country_code": "SC",
+		"category_id": "0"
+	},
+	"South Africa": {
+		"value_budget": "527.26170282923",
+		"value_midrange": "1346.5654395054",
+		"value_luxury": "3626.5410960038",
+		"country_code": "ZA",
+		"category_id": "0"
+	},
+	"Tanzania": {
+		"value_budget": "61135.076751653",
+		"value_midrange": "166097.78340734",
+		"value_luxury": "485996.22985107",
+		"country_code": "TZ",
+		"category_id": "0"
+	},
+	"Uganda": {
+		"value_budget": "76648.014069264",
+		"value_midrange": "178996.24572614",
+		"value_luxury": "393744.25957875",
+		"country_code": "UG",
+		"category_id": "0"
+	},
+	"Zambia": {
+		"value_budget": "2536284.8558345",
+		"value_midrange": "6811581.5493186",
+		"value_luxury": "19549886.657927",
+		"country_code": "ZM",
+		"category_id": "0"
+	},
+	"Armenia": {
+		"value_budget": "3892.5116898148",
+		"value_midrange": "9156.4905980382",
+		"value_luxury": "19148.608903586",
+		"country_code": "AM",
+		"category_id": "0"
+	},
+	"Azerbaijan": {
+		"value_budget": "65.55",
+		"value_midrange": "149.83247280793",
+		"value_luxury": "286.31191755146",
+		"country_code": "AZ",
+		"category_id": "0"
+	},
+	"Bangladesh": {
+		"value_budget": "1986.25",
+		"value_midrange": "4540.1182168537",
+		"value_luxury": "8675.6223682163",
+		"country_code": "BD",
+		"category_id": "0"
+	},
+	"Bhutan": {
+		"value_budget": "2660.5",
+		"value_midrange": "6081.3012037454",
+		"value_luxury": "11620.638545319",
+		"country_code": "BT",
+		"category_id": "0"
+	},
+	"Cambodia": {
+		"value_budget": "54645.374171676",
+		"value_midrange": "143673.08967464",
+		"value_luxury": "394173.00508836",
+		"country_code": "KH",
+		"category_id": "0"
+	},
+	"China": {
+		"value_budget": "179.40864103596",
+		"value_midrange": "464.62538547058",
+		"value_luxury": "1235.5129959465",
+		"country_code": "CN",
+		"category_id": "0"
+	},
+	"Georgia": {
+		"value_budget": "17.671480787768",
+		"value_midrange": "45.74236794443",
+		"value_luxury": "126.93566402864",
+		"country_code": "GE",
+		"category_id": "0"
+	},
+	"Hong Kong": {
+		"value_budget": "433.6021999631",
+		"value_midrange": "1084.9136683856",
+		"value_luxury": "2706.0526243038",
+		"country_code": "HK",
+		"category_id": "0"
+	},
+	"India": {
+		"value_budget": "744.08784450365",
+		"value_midrange": "2106.0349086673",
+		"value_luxury": "6607.5806519047",
+		"country_code": "IN",
+		"category_id": "0"
+	},
+	"Indonesia": {
+		"value_budget": "252536.4142123",
+		"value_midrange": "711815.7375024",
+		"value_luxury": "2218085.5036407",
+		"country_code": "ID",
+		"category_id": "0"
+	},
+	"Japan": {
+		"value_budget": "5149.301263527",
+		"value_midrange": "12936.217150571",
+		"value_luxury": "32153.123693338",
+		"country_code": "JP",
+		"category_id": "0"
+	},
+	"Kazakhstan": {
+		"value_budget": "3311.5286649759",
+		"value_midrange": "7986.1115212065",
+		"value_luxury": "19009.792057491",
+		"country_code": "KZ",
+		"category_id": "0"
+	},
+	"Kyrgyzstan": {
+		"value_budget": "788.24792401803",
+		"value_midrange": "1268.3639226511",
+		"value_luxury": "2307.2290701521",
+		"country_code": "KG",
+		"category_id": "0"
+	},
+	"Laos": {
+		"value_budget": "100185.02616972",
+		"value_midrange": "252192.95275407",
+		"value_luxury": "629759.79863216",
+		"country_code": "LA",
+		"category_id": "0"
+	},
+	"Macao": {
+		"value_budget": "813.78178659878",
+		"value_midrange": "936.11610493249",
+		"value_luxury": "1223.7746811553",
+		"country_code": "MO",
+		"category_id": "0"
+	},
+	"Malaysia": {
+		"value_budget": "105.09120650677",
+		"value_midrange": "297.98193141964",
+		"value_luxury": "937.66413694974",
+		"country_code": "MY",
+		"category_id": "0"
+	},
+	"Maldives": {
+		"value_budget": "684.53484363678",
+		"value_midrange": "922.13010746035",
+		"value_luxury": "1440.910580862",
+		"country_code": "MV",
+		"category_id": "0"
+	},
+	"Mongolia": {
+		"value_budget": "20218.845093074",
+		"value_midrange": "51042.725248735",
+		"value_luxury": "128307.98070473",
+		"country_code": "MN",
+		"category_id": "0"
+	},
+	"Myanmar": {
+		"value_budget": "70198.118663733",
+		"value_midrange": "92746.296181697",
+		"value_luxury": "136031.93767386",
+		"country_code": "MM",
+		"category_id": "0"
+	},
+	"Nepal": {
+		"value_budget": "1090.5455770536",
+		"value_midrange": "2900.7461383754",
+		"value_luxury": "8143.9467380432",
+		"country_code": "NP",
+		"category_id": "0"
+	},
+	"Pakistan": {
+		"value_budget": "4017.0519935345",
+		"value_midrange": "9834.6333376807",
+		"value_luxury": "22952.77574928",
+		"country_code": "PK",
+		"category_id": "0"
+	},
+	"Philippines": {
+		"value_budget": "1026.3408589476",
+		"value_midrange": "2643.5265263387",
+		"value_luxury": "6948.2529878553",
+		"country_code": "PH",
+		"category_id": "0"
+	},
+	"Singapore": {
+		"value_budget": "62.013169773983",
+		"value_midrange": "163.50059585673",
+		"value_luxury": "451.0987489634",
+		"country_code": "SG",
+		"category_id": "0"
+	},
+	"South Korea": {
+		"value_budget": "54197.232859066",
+		"value_midrange": "150306.17766106",
+		"value_luxury": "455662.93610243",
+		"country_code": "KR",
+		"category_id": "0"
+	},
+	"Sri Lanka": {
+		"value_budget": "2363.5633081068",
+		"value_midrange": "6698.2556489927",
+		"value_luxury": "21059.338602097",
+		"country_code": "LK",
+		"category_id": "0"
+	},
+	"Taiwan": {
+		"value_budget": "1008.9697209066",
+		"value_midrange": "2800.5262771797",
+		"value_luxury": "8606.5885015913",
+		"country_code": "TW",
+		"category_id": "0"
+	},
+	"Tajikistan": {
+		"value_budget": "791.04519173099",
+		"value_midrange": "1150.9105925771",
+		"value_luxury": "1854.0160642104",
+		"country_code": "TJ",
+		"category_id": "0"
+	},
+	"Thailand": {
+		"value_budget": "780.17788633565",
+		"value_midrange": "2122.4952418176",
+		"value_luxury": "6218.0828027409",
+		"country_code": "TH",
+		"category_id": "0"
+	},
+	"Uzbekistan": {
+		"value_budget": "29924.794012934",
+		"value_midrange": "66799.512469859",
+		"value_luxury": "118240.76251357",
+		"country_code": "UZ",
+		"category_id": "0"
+	},
+	"Viet Nam": {
+		"value_budget": "341952.40520611",
+		"value_midrange": "938910.30128883",
+		"value_luxury": "2796807.4491041",
+		"country_code": "VN",
+		"category_id": "0"
+	},
+	"Vietnam": {
+		"value_budget": "341952.40520611",
+		"value_midrange": "938910.30128883",
+		"value_luxury": "2796807.4491041",
+		"country_code": "VN",
+		"category_id": "0"
+	},
+	"Belize": {
+		"value_budget": "50.55874467628",
+		"value_midrange": "134.38890238747",
+		"value_luxury": "376.7949116418",
+		"country_code": "BZ",
+		"category_id": "0"
+	},
+	"Costa Rica": {
+		"value_budget": "16249.322598099",
+		"value_midrange": "41560.505308884",
+		"value_luxury": "107582.62898703",
+		"country_code": "CR",
+		"category_id": "0"
+	},
+	"El Salvador": {
+		"value_budget": "13.140423733737",
+		"value_midrange": "33.23839781306",
+		"value_luxury": "84.293407473757",
+		"country_code": "SV",
+		"category_id": "0"
+	},
+	"Guatemala": {
+		"value_budget": "108.11084935393",
+		"value_midrange": "274.29118672838",
+		"value_luxury": "697.36888516349",
+		"country_code": "GT",
+		"category_id": "0"
+	},
+	"Honduras": {
+		"value_budget": "283.09549280168",
+		"value_midrange": "705.40152417817",
+		"value_luxury": "1719.6497337947",
+		"country_code": "HN",
+		"category_id": "0"
+	},
+	"Mexico": {
+		"value_budget": "346.57878660052",
+		"value_midrange": "959.38035344764",
+		"value_luxury": "2899.0034666727",
+		"country_code": "MX",
+		"category_id": "0"
+	},
+	"Nicaragua": {
+		"value_budget": "413.61028013103",
+		"value_midrange": "1110.4245014816",
+		"value_luxury": "3173.7675017952",
+		"country_code": "NI",
+		"category_id": "0"
+	},
+	"Panama": {
+		"value_budget": "24.80364863636",
+		"value_midrange": "62.554175877241",
+		"value_luxury": "156.88143428161",
+		"country_code": "PA",
+		"category_id": "0"
+	},
+	"France": {
+		"value_budget": "61.313461486264",
+		"value_midrange": "182.18723730756",
+		"value_luxury": "616.12667031988",
+		"country_code": "FR",
+		"category_id": "0"
+	},
+	"Germany": {
+		"value_budget": "42.287059726979",
+		"value_midrange": "106.53422847501",
+		"value_luxury": "266.5293084855",
+		"country_code": "DE",
+		"category_id": "0"
+	},
+	"Italy": {
+		"value_budget": "48.920140114854",
+		"value_midrange": "124.13806494719",
+		"value_luxury": "315.73621074595",
+		"country_code": "IT",
+		"category_id": "0"
+	},
+	"Portugal": {
+		"value_budget": "40.435370143892",
+		"value_midrange": "99.616616919578",
+		"value_luxury": "236.19371809407",
+		"country_code": "PT",
+		"category_id": "0"
+	},
+	"Spain": {
+		"value_budget": "42.704688206254",
+		"value_midrange": "111.96713594926",
+		"value_luxury": "305.45938400274",
+		"country_code": "ES",
+		"category_id": "0"
+	},
+	"United Kingdom": {
+		"value_budget": "44.968628258825",
+		"value_midrange": "116.77924341946",
+		"value_luxury": "312.34229084689",
+		"country_code": "GB",
+		"category_id": "0"
+	},
+	"Israel": {
+		"value_budget": "141.70319273017",
+		"value_midrange": "347.27567593107",
+		"value_luxury": "812.60907793212",
+		"country_code": "IL",
+		"category_id": "0"
+	},
+	"Jordan": {
+		"value_budget": "24.025788350918",
+		"value_midrange": "58.047529593421",
+		"value_luxury": "130.87518637497",
+		"country_code": "JO",
+		"category_id": "0"
+	},
+	"Saudi Arabia": {
+		"value_budget": "92.75",
+		"value_midrange": "114.725",
+		"value_luxury": "149.15",
+		"country_code": "SA",
+		"category_id": "0"
+	},
+	"United Arab Emirates": {
+		"value_budget": "388.73690129233",
+		"value_midrange": "1013.6539400705",
+		"value_luxury": "2843.2737394176",
+		"country_code": "AE",
+		"category_id": "0"
+	},
+	"Canada": {
+		"value_budget": "64.369268727487",
+		"value_midrange": "181.16624855873",
+		"value_luxury": "563.13957231465",
+		"country_code": "CA",
+		"category_id": "0"
+	},
+	"United States (US)": {
+		"value_budget": "81.736037001661",
+		"value_midrange": "223.86665617288",
+		"value_luxury": "663.88432626531",
+		"country_code": "US",
+		"category_id": "0"
+	},
+	"Australia": {
+		"value_budget": "71.974995611099",
+		"value_midrange": "191.94038026923",
+		"value_luxury": "541.58464332621",
+		"country_code": "AU",
+		"category_id": "0"
+	},
+	"New Zealand": {
+		"value_budget": "65.466267146597",
+		"value_midrange": "182.67233633859",
+		"value_luxury": "559.63375124078",
+		"country_code": "NZ",
+		"category_id": "0"
+	},
+	"Argentina": {
+		"value_budget": "998.35779973685",
+		"value_midrange": "2664.5018362419",
+		"value_luxury": "7529.8015612672",
+		"country_code": "AR",
+		"category_id": "0"
+	},
+	"Bolivia": {
+		"value_budget": "75.81147985022",
+		"value_midrange": "189.60307379146",
+		"value_luxury": "466.31533359746",
+		"country_code": "BO",
+		"category_id": "0"
+	},
+	"Brazil": {
+		"value_budget": "106.20455134447",
+		"value_midrange": "291.09742756851",
+		"value_luxury": "864.39808026253",
+		"country_code": "BR",
+		"category_id": "0"
+	},
+	"Chile": {
+		"value_budget": "26640.400226362",
+		"value_midrange": "73317.605220452",
+		"value_luxury": "219300.03995677",
+		"country_code": "CL",
+		"category_id": "0"
+	},
+	"Colombia": {
+		"value_budget": "33686.205861135",
+		"value_midrange": "92667.504227621",
+		"value_luxury": "276960.32105233",
+		"country_code": "CO",
+		"category_id": "0"
+	},
+	"Ecuador": {
+		"value_budget": "16.258878739169",
+		"value_midrange": "42.305792504671",
+		"value_luxury": "113.61861912509",
+		"country_code": "EC",
+		"category_id": "0"
+	},
+	"Paraguay": {
+		"value_budget": "185479.75",
+		"value_midrange": "288815.31789656",
+		"value_luxury": "510416.27685718",
+		"country_code": "PY",
+		"category_id": "0"
+	},
+	"Peru": {
+		"value_budget": "53.945618777203",
+		"value_midrange": "153.7245437839",
+		"value_luxury": "487.65291774162",
+		"country_code": "PE",
+		"category_id": "0"
+	},
+	"Uruguay": {
+		"value_budget": "1064.4041750536",
+		"value_midrange": "2532.0199069995",
+		"value_luxury": "5469.7041072155",
+		"country_code": "UY",
+		"category_id": "0"
+	},
+	"Venezuela": {
+		"value_budget": "161.62916666667",
+		"value_midrange": "374.97110137271",
+		"value_luxury": "751.7355542311",
+		"country_code": "VE",
+		"category_id": "0"
+	},
+	"Anguilla": {
+		"value_budget": "332.06535888362",
+		"value_midrange": "781.44678221814",
+		"value_luxury": "1636.1781089319",
+		"country_code": "AI",
+		"category_id": "0"
+	},
+	"Antigua and Barbuda": {
+		"value_budget": "313.01630447256",
+		"value_midrange": "761.95850719349",
+		"value_luxury": "1752.2757658602",
+		"country_code": "AG",
+		"category_id": "0"
+	},
+	"Aruba": {
+		"value_budget": "199.55532401163",
+		"value_midrange": "468.41855357932",
+		"value_luxury": "985.04786548787",
+		"country_code": "AW",
+		"category_id": "0"
+	},
+	"Bahamas": {
+		"value_budget": "54.685816414627",
+		"value_midrange": "123.60227404524",
+		"value_luxury": "241.11289796296",
+		"country_code": "BS",
+		"category_id": "0"
+	},
+	"Barbados": {
+		"value_budget": "242.91864749871",
+		"value_midrange": "606.73114249933",
+		"value_luxury": "1487.5291742989",
+		"country_code": "BB",
+		"category_id": "0"
+	},
+	"Bonaire, Saint Eustatius and Saba": {
+		"value_budget": "88.225",
+		"value_midrange": "201.66239379832",
+		"value_luxury": "385.35269147181",
+		"country_code": "BQ",
+		"category_id": "0"
+	},
+	"British Virgin Islands": {
+		"value_budget": "113.33629887507",
+		"value_midrange": "264.31731965646",
+		"value_luxury": "538.58600783109",
+		"country_code": "VG",
+		"category_id": "0"
+	},
+	"Cayman Islands": {
+		"value_budget": "89.578313207369",
+		"value_midrange": "216.23973077634",
+		"value_luxury": "486.41663398234",
+		"country_code": "KY",
+		"category_id": "0"
+	},
+	"Cuba": {
+		"value_budget": "322.44936197782",
+		"value_midrange": "913.39494552819",
+		"value_luxury": "2869.5817026996",
+		"country_code": "CU",
+		"category_id": "0"
+	},
+	"Curaçao": {
+		"value_budget": "206.68928071121",
+		"value_midrange": "477.83406912953",
+		"value_luxury": "947.43848242418",
+		"country_code": "CW",
+		"category_id": "0"
+	},
+	"Dominica": {
+		"value_budget": "192.55328472222",
+		"value_midrange": "440.8155989508",
+		"value_luxury": "846.69567106848",
+		"country_code": "DM",
+		"category_id": "0"
+	},
+	"Dominican Republic": {
+		"value_budget": "2434.7081570543",
+		"value_midrange": "6206.893038965",
+		"value_luxury": "16089.79489149",
+		"country_code": "DO",
+		"category_id": "0"
+	},
+	"Grenada": {
+		"value_budget": "268.02627155172",
+		"value_midrange": "640.28621604476",
+		"value_luxury": "1417.91726176",
+		"country_code": "GD",
+		"category_id": "0"
+	},
+	"Guadeloupe": {
+		"value_budget": "79.272205882353",
+		"value_midrange": "198.60324049637",
+		"value_luxury": "490.46042125567",
+		"country_code": "GP",
+		"category_id": "0"
+	},
+	"Haiti": {
+		"value_budget": "2777.9702464906",
+		"value_midrange": "3783.0195042859",
+		"value_luxury": "5990.4324997976",
+		"country_code": "HT",
+		"category_id": "0"
+	},
+	"Jamaica": {
+		"value_budget": "6117.1523706881",
+		"value_midrange": "15330.46080652",
+		"value_luxury": "37888.169281134",
+		"country_code": "JM",
+		"category_id": "0"
+	},
+	"Martinique": {
+		"value_budget": "57.133411703239",
+		"value_midrange": "131.43826517026",
+		"value_luxury": "256.54448373496",
+		"country_code": "MQ",
+		"category_id": "0"
+	},
+	"Puerto Rico": {
+		"value_budget": "79.010736812166",
+		"value_midrange": "173.46675948004",
+		"value_luxury": "357.38859297089",
+		"country_code": "PR",
+		"category_id": "0"
+	},
+	"Saint Lucia": {
+		"value_budget": "192.17410623635",
+		"value_midrange": "457.0833024307",
+		"value_luxury": "987.0103864103",
+		"country_code": "LC",
+		"category_id": "0"
+	},
+	"Saint Vincent and the Grenadines": {
+		"value_budget": "156.96369485294",
+		"value_midrange": "357.91096982133",
+		"value_luxury": "678.3627678053",
+		"country_code": "VC",
+		"category_id": "0"
+	},
+	"Saint-Barthélemy": {
+		"value_budget": "91.578287684538",
+		"value_midrange": "225.24714863105",
+		"value_luxury": "531.9070395398",
+		"country_code": "BL",
+		"category_id": "0"
+	},
+	"St. Kitts and Nevis": {
+		"value_budget": "274.93061917702",
+		"value_midrange": "670.77307255804",
+		"value_luxury": "1551.7021503302",
+		"country_code": "KN",
+		"category_id": "0"
+	},
+	"Turks and Caicos Islands": {
+		"value_budget": "113.36852142111",
+		"value_midrange": "262.2108959604",
+		"value_luxury": "520.66325439294",
+		"country_code": "TC",
+		"category_id": "0"
+	},
+	"U.S. Virgin Islands": {
+		"value_budget": "68.964268891927",
+		"value_midrange": "161.68410211885",
+		"value_luxury": "334.76035655951",
+		"country_code": "VI",
+		"category_id": "0"
+	}
+}

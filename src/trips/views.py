@@ -81,19 +81,24 @@ class UpdateSearchView(FormView):
     flights_url=reverse_lazy('trips:view_flight')
 
     def form_valid(self, form):
+        print("DATA:")
+        print(form.cleaned_data)
+        print(form.data)
         departure = form.cleaned_data['departure']
         departure_date = form.cleaned_data['departure_date']
         return_date = form.cleaned_data['return_date']
         arrival = form.cleaned_data['arrival']
         region = form.cleaned_data['region']
         activity = form.cleaned_data['activity']
-        self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id)
+        daily_budget = form.cleaned_data['daily_budget']
+        travelers = form.cleaned_data['travelers']
+        self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&daily_budget={}&travelers={}".format(self.destination_url, departure.airport, departure_date, return_date, departure.id, daily_budget, travelers)
         if region:
             self.success_url += "&region={}".format(region)
         elif activity:
             self.success_url += "&activity={}".format(activity)
         if arrival:
-            self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.flights_url, departure.airport, departure_date, return_date, departure.id, arrival.airport)
+            self.success_url = "{}?departure={}&departure_date={}&return_date={}&departure_id={}&arrival={}&daily_budget={}&travelers={}".format(self.flights_url, departure.airport, departure_date, return_date, departure.id, arrival.airport, daily_budget, travelers)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -139,17 +144,39 @@ class DestinationView(FormView):
         travelers = self.request.GET.get('travelers', 1)
         flight_type = self.request.GET.get('flight_type', '1') #integer (1 or 2) that specifies whether one-way or round-trip
         
+        airport_locations = {}
+        locations = Location.objects.all()
+        for location in locations:
+            airport_locations[location.airport] = location
+
         destinations = {}
         for k, v in oldDestinations.items():
             destinations[k] = []
+            print("XXXXXXXX")
+            print(v)
+            airport = v[1]
+            if airport in airport_locations:
+                location = airport_locations[airport]
+            else:
+                location = None
             for x in v:
                 destinations[k].append(x)
-            if budget == 'value_budget':
-                destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
-            elif budget == 'value_midrange':
-                destinations[k].append((hash(v[1]) % 30) + 100)
+            if location:
+                if budget == 'value_budget':
+                    destinations[k].append(location.budget)
+                elif budget == 'value_midrange':
+                    destinations[k].append(location.midrange)
+                else:
+                    destinations[k].append(location.luxury)
             else:
-                destinations[k].append((hash(v[1]) % 30) + 200)
+                if budget == 'value_budget':
+                    destinations[k].append((hash(v[1]) % 30) + 30)#getBudget(departure.upper(), v[1], budget))
+                elif budget == 'value_midrange':
+                    destinations[k].append((hash(v[1]) % 30) + 100)
+                else:
+                    destinations[k].append((hash(v[1]) % 30) + 200)
+            if airport == 'YVR':
+                print(destinations)
             date_format = "%Y-%m-%d"
             a = datetime.datetime.strptime(return_date, date_format)
             b = datetime.datetime.strptime(departure_date, date_format)
@@ -215,11 +242,12 @@ class SelectDestinationView(RedirectView):
     url=reverse_lazy('trips:view_flight')
 
     def post(self, request, *args, **kwargs):
+        departure = request.POST.get('departure')
         departure_id = self.request.POST.get('departure_id')
         departure_date = self.request.POST.get('departure_date')
         return_date = self.request.POST.get('return_date')
         arrival = self.request.POST.get('arrival')
-        self.url = "{}?departure_date={}&return_date={}&departure_id={}&arrival={}".format(self.url, departure_date, return_date, departure_id, arrival)
+        self.url = "{}?departure_date={}&return_date={}&departure_id={}&arrival={}&departure={}".format(self.url, departure_date, return_date, departure_id, arrival, departure)
         return super().post(request, *args, **kwargs)
 
 class ViewFlightView(FormView):
@@ -230,9 +258,9 @@ class ViewFlightView(FormView):
     
 
     def get_context_data(self, **kwargs):
-        initial = super().get_initial()
+        initial = self.get_initial()
         context = super().get_context_data(**kwargs)
-        departure = self.request.GET.get('departure', 'lax')
+        departure = self.request.GET.get('departure', '')
         arrival = self.request.GET.get('arrival', '') if self.request.GET.get('arrival', '') != "" else "Everywhere"
         departure_date = self.request.GET.get('departure_date', '')
         return_date = initial['return_date'] = self.request.GET.get('return_date', '')

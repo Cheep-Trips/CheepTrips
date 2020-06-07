@@ -104,7 +104,7 @@
                                     {% csrf_token %}
                                     <input type='hidden' name='departure_id' value='{{departure.id}}'>
                                     <input type='hidden' name='arrival' value='{{info.1}}'>
-                                    <input type='hidden' name='departure' value='{{departure}}'>
+                                    <input type='hidden' name='departure' value='{{departure.airport}}'>
                                     <input type='hidden' name='destination' value='{{cost.1}}'>
                                     <input type='hidden' name='departure_date' value='{{form.departure_date.value}}'>
                                     <input type='hidden' name='return_date' value='{{form.return_date.value}}'>

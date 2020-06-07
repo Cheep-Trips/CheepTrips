@@ -15,6 +15,9 @@ class Location(models.Model):
     exchange_rate = models.IntegerField(default=1)
     cost_of_living = models.IntegerField(default=0)
     region =  models.ForeignKey(Region, on_delete=models.CASCADE)
+    budget = models.IntegerField(default=20)
+    midrange = models.IntegerField(default=50)
+    luxury = models.IntegerField(default=100)
 
     def __str__(self):
         return self.name()

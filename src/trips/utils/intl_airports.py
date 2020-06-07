@@ -87,7 +87,6 @@ intl_airports = [
 	('Oceania', 'Vanuatu', 'Aneityum', 'AUY'),
 	('Europe', 'Sweden', 'Angelholm/Helsingborg', 'JHE'),
 	('Europe', 'France - Marce', 'Angers', 'ANE'),
-	('Europe', 'France - Rail service', 'Angers', 'QXG'),
 	('Asia', 'Indonesia', 'Anggi', 'AGD'),
 	('Asia', 'China', 'Anging', 'AQG'),
 	('Europe', 'France', 'Angouleme', 'ANG'),
