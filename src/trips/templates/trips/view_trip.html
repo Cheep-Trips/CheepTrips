@@ -36,33 +36,48 @@
         <div class="card" style="border-radius: 10px;">
             <div class="card-body bg-custom" >
 
+                <h1>Trip: {% if trip.name %}{{trip.name}}{%else %}Current{% endif %}</h1>
+                {% for flight in trip.flights.all %}
                     <!-- Flight Cards -->
-                    <div class="card">
-                        
+                    <div class="card">                        
                         <div class="card-body">
                             <div class="col-md-2">
-                                <h3 class="card-title"><strong>Flight 1</strong></h3> <br>
+                                <h3 class="card-title"><strong>Flight {{forloop.counter}}</strong></h3> <br>
                             </div>
                             <div class="col-md-10">
                                 <div class="col-md-4">
-                                    <h5 class="card-title">Starting Airport</h5><br>
+                                    <h5 class="card-title">Starting Airport</h5>
+                                    {{flight.departure_location.airport}}
                                     <h5 class="card-title">Destination Airport</h5>
+                                    {{flight.destination.airport}}
                                 </div>
                                 <div class="col-md-4">
-                                    <h5 class="card-title">Starting Date</h5><br>
+                                    <h5 class="card-title">Starting Date</h5>
+                                    {{flight.departure_time}}
                                     <h5 class="card-title">Returning Date</h5>
+                                    {{flight.arrival_time}}
                                 </div>
                                 <div class="col-md-4">
-                                    <h5 class="card-title">Flight Cost Estimate</h5><br>
+                                    <h5 class="card-title">Flight Cost Estimate</h5>
+                                    {{flight.price}}
                                     <!-- on click save to profilfe -->
-                                    <a href="{% url 'trips:saved_trips' %}" class="btn btn-primary">Save Trip</a>
+                                    
                                 </div>
-                            </div>    
+                            </div>
+                            
                         </div> 
                     </div>
                         
                     <br>
                     <br>
+                {% endfor %}
+                {% if not trip.name %}
+                <form action="{% url 'trips:view_trip' %}?id={{trip.id}}" method="post" class="form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type='submit' value='Save Trip' class='btn btn-primary'>
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>

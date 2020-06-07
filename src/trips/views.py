@@ -6,9 +6,10 @@ from django.views.generic import FormView, RedirectView, TemplateView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 from django_registration.backends.one_step.views import RegistrationView as BaseRegistrationView
-from .forms import NewAccountForm
+from .forms import NewAccountForm, TripNameForm
 from .utils.country_codes import country_codes
 from .utils.curated_regions import world_regions
 
@@ -72,6 +73,8 @@ def getSkyscannerCached(departure, departure_date, arrival, inbound_date, show_d
             if(carriers_dict[quote['OutboundLeg']['CarrierIds'][0]] not in res or quote['MinPrice'] < res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]][0]):
                 res[carriers_dict[quote['OutboundLeg']['CarrierIds'][0]]] = [quote['MinPrice'], places_dict[quote['OutboundLeg']['DestinationId']][1]]
     # return res
+    print("RES:")
+    print(res)
     return OrderedDict(sorted(res.items(), key=lambda x: x[1]))
 
 class UpdateSearchView(FormView):
@@ -150,10 +153,9 @@ class DestinationView(FormView):
             airport_locations[location.airport] = location
 
         destinations = {}
+        dest_length = 0
         for k, v in oldDestinations.items():
             destinations[k] = []
-            print("XXXXXXXX")
-            print(v)
             airport = v[1]
             if airport in airport_locations:
                 location = airport_locations[airport]
@@ -185,7 +187,11 @@ class DestinationView(FormView):
             destinations[k].append(travelers)
             destinations[k][0] = destinations[k][0] * int(flight_type)
             destinations[k].append(int(travelers) * int((destinations[k][0]) + destinations[k][3] * destinations[k][2]))
-       
+            dest_length = len(destinations[k])
+
+        
+        
+        # sorted(destinations.items(), key=lambda e: e[1][dest_length-1])
         context['destinations'] = destinations
         return context
 
@@ -293,6 +299,8 @@ class ViewFlightView(FormView):
         context['destinations'] = destinations
         context['departure'] = departure
         context['arrival'] = initial['arrival']
+        context['departure_date'] = initial['departure_date']
+        context['return_date'] = initial['return_date']
         return context
 
     def get_initial(self):
@@ -385,7 +393,7 @@ class AddFlightView(LoginRequiredMixin, RedirectView):
         departure = Location.objects.filter(airport=departure_name).first()
         destination = Location.objects.filter(airport=destination_name).first()
 
-        trips = Trip.objects.filter(user=request.user)
+        trips = Trip.objects.filter(user=request.user).filter(name__exact='')
         if not trips.count() == 0:
             trip = trips.last()
         else:
@@ -411,6 +419,26 @@ class SavedTripsView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         trips = Trip.objects.filter(user=self.request.user).all()
         context['trips'] = trips
+        return context
+
+class TripView(LoginRequiredMixin, FormView):
+    form_class=TripNameForm
+    template_name='trips/view_trip.html'
+    success_url=reverse_lazy('trips:saved_trips')
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        trip_id = self.request.GET.get('id', '')
+        trip = get_object_or_404(Trip, pk=trip_id)
+        trip.name = name
+        trip.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        trip_id = self.request.GET.get('id', '')
+        trip = get_object_or_404(Trip, pk=trip_id)
+        context['trip'] = trip
         return context
 
 def saved_trips(request):

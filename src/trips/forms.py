@@ -119,6 +119,12 @@ class ProfileForm(forms.Form):
         widget=forms.PasswordInput)
 
 
+class TripNameForm(forms.Form):
+    name = forms.CharField(
+        max_length=256, 
+        label="Name")
+
+
 class NewAccountForm(RegistrationForm):
     class Meta(RegistrationForm.Meta):
         model = User
